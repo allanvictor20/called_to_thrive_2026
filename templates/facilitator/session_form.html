@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{% if session %}Edit session{% else %}Schedule a session{% endif %}{% endblock %}
+{% block content %}
+<div class="narrow">
+<p class="eyebrow">{{ cohort.name }}</p>
+<h1>{% if session %}Edit session{% else %}Schedule a session{% endif %}</h1>
+{% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+<form method="post" class="card" novalidate>{% csrf_token %}
+  {% include "partials/field.html" with name="title" label="Title" value=data.title required=True hint="For example: Week 3 — Called to a Image" %}
+  <div class="field{% if errors.lesson %} has-error{% endif %}" data-field="lesson"><label for="id_lesson">Lesson (optional)</label>
+    <select id="id_lesson" name="lesson"><option value="">Orientation / no lesson</option>{% for l in lessons %}<option value="{{ l.pk }}" {% if data.lesson == l.pk|stringformat:"s" %}selected{% endif %}>{{ l.lesson_number }}. {{ l.title }}</option>{% endfor %}</select>
+    {% if errors.lesson %}<p class="error-text">{{ errors.lesson }}</p>{% endif %}</div>
+  <div class="grid">
+    {% include "partials/field.html" with name="starts_at" label="Starts" type="datetime-local" value=data.starts_at required=True hint="Kampala time (EAT)" %}
+    {% include "partials/field.html" with name="ends_at" label="Ends (optional)" type="datetime-local" value=data.ends_at %}
+  </div>
+  <fieldset class="field{% if errors.meeting_type %} has-error{% endif %}" data-field="meeting_type"><legend>Meeting type</legend>
+    <label class="choice"><input type="radio" name="meeting_type" value="physical" {% if data.meeting_type == "physical" %}checked{% endif %}> <span>Physical — needs a venue</span></label>
+    <label class="choice"><input type="radio" name="meeting_type" value="online" {% if data.meeting_type == "online" %}checked{% endif %}> <span>Online — needs a Google Meet link</span></label>
+    <label class="choice"><input type="radio" name="meeting_type" value="hybrid" {% if data.meeting_type == "hybrid" %}checked{% endif %}> <span>Hybrid — needs both</span></label>
+    {% if errors.meeting_type %}<p class="error-text">{{ errors.meeting_type }}</p>{% endif %}
+  </fieldset>
+  {% include "partials/field.html" with name="venue" label="Venue" value=data.venue %}
+  {% include "partials/field.html" with name="meet_url" label="Google Meet link" type="url" value=data.meet_url hint="Create the meeting in Google Meet and paste its link. This app does not create meetings or record attendance automatically." %}
+  <button class="btn">Save session</button>
+</form>
+</div>
+{% endblock %}

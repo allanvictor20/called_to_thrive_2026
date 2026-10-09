@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ cohort.name }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.partner.name }} · {{ cohort.district.name }}, {{ cohort.district.region.name }}</p><h1>{{ cohort.name }}</h1>
+<p class="muted small">{{ cohort.get_status_display }} · {{ cohort.curriculum_version.code }} · starts {{ cohort.start_date|date:"j M Y" }} · Facilitators: {% for a in facilitators %}{{ a.facilitator_user.full_name }} ({{ a.assignment_role }}){% if not forloop.last %}, {% endif %}{% endfor %}</p></div></div>
+{% include "admin_console/_stats.html" %}
+<p class="alert alert-info small">Administrators see programme state only. Personal reflections and answers are not shown here.</p>
+<div class="table-wrap"><table class="data stack-mobile"><thead><tr><th>Participant</th><th>Status</th><th class="num-cell">Lessons</th><th class="num-cell">Present</th><th>Project</th></tr></thead><tbody>
+{% for r in rows %}<tr><td data-label="Participant">{{ r.participant_name }}</td><td data-label="Status">{{ r.enrollment_status|capfirst }}{% if r.programme_override %} (exception){% endif %}</td><td data-label="Lessons" class="num-cell">{{ r.lessons_completed }}/{{ r.lessons_total }}</td><td data-label="Present" class="num-cell">{{ r.attendance_present }}/{{ r.finalized_sessions_eligible }}</td><td data-label="Project">{% if r.project_completed %}Confirmed{% elif r.in_project %}In a team{% else %}—{% endif %}</td></tr>
+{% empty %}<tr><td colspan="5" class="empty">No enrollments.</td></tr>{% endfor %}
+</tbody></table></div>
+{% if transitions %}
+<form method="post" class="card">{% csrf_token %}
+  <h2>Authorized status correction</h2>
+  <div class="field"><label for="ts">Change to</label><select id="ts" name="to_status">{% for t in transitions %}<option value="{{ t }}">{{ t|capfirst }}</option>{% endfor %}</select></div>
+  <label class="choice"><input type="checkbox" name="reviewed" value="1"> <span>I reviewed participant eligibility</span></label>
+  {% include "partials/field.html" with name="reason" label="Reason (recorded in the history)" type="textarea" %}
+  <button class="btn btn-secondary">Apply</button>
+</form>
+{% endif %}
+<section class="card"><h2>Status history</h2><ul class="small">{% for ev in events %}<li>{{ ev.created_at|date:"j M Y H:i" }}: {{ ev.from_status|default:"—" }} → <b>{{ ev.to_status }}</b> by {{ ev.changed_by.full_name }}{% if ev.reason %} — {{ ev.reason }}{% endif %}</li>{% endfor %}</ul></section>
+{% endblock %}

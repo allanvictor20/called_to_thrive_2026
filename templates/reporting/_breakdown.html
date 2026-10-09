@@ -1,0 +1,3 @@
+<div class="table-wrap"><table class="data"><thead><tr><th>Name</th><th class="num-cell">People</th><th class="num-cell">Enrollments</th><th class="num-cell">Completed</th><th class="num-cell">Lessons</th></tr></thead><tbody>
+{% for r in data %}<tr><td>{{ r.name }}</td><td class="num-cell">{{ r.unique_participants }}</td><td class="num-cell">{{ r.enrollments }}</td><td class="num-cell">{{ r.completed }}</td><td class="num-cell">{{ r.lesson_completion_rate|default_if_none:"—" }}{% if r.lesson_completion_rate is not None %}%{% endif %}</td></tr>
+{% empty %}<tr><td colspan="5" class="empty">No data.</td></tr>{% endfor %}</tbody></table></div>

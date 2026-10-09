@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="narrow">
+  <h1>Your profile</h1>
+  <div class="card">
+    <p><b>Contact:</b> {{ user.contact_display }} {% if user.has_verified_contact %}<span class="badge badge-done">Verified</span>{% else %}<a href="{% url 'accounts:verify' %}" class="badge badge-progress">Verify</a>{% endif %}</p>
+    <p><b>Roles:</b> {% for r in user_roles %}<span class="badge badge-teal">{{ r|capfirst }}</span> {% endfor %}</p>
+    {% if user.facilitator_profile %}<p><b>Facilitator status:</b> {{ user.facilitator_profile.get_approval_status_display }}</p>{% endif %}
+  </div>
+  <form method="post" class="card" novalidate>
+    {% csrf_token %}
+    {% include "partials/field.html" with name="full_name" label="Full name" value=user.full_name required=True %}
+    {% include "partials/field.html" with name="date_of_birth" label="Date of birth (optional)" type="date" value=profile.date_of_birth|date:"Y-m-d" %}
+    <div class="field"><label for="id_gender">Gender (optional)</label>
+      <select id="id_gender" name="gender"><option value="">Prefer not to answer</option><option value="female" {% if profile.gender == "female" %}selected{% endif %}>Female</option><option value="male" {% if profile.gender == "male" %}selected{% endif %}>Male</option></select></div>
+    <div class="field"><label for="id_district">Home district (optional)</label>
+      <select id="id_district" name="district"><option value="">Prefer not to answer</option>{% for d in districts %}<option value="{{ d.pk }}" {% if profile.district_id == d.pk %}selected{% endif %}>{{ d.name }} ({{ d.region.name }})</option>{% endfor %}</select></div>
+    <button class="btn">Save profile</button>
+  </form>
+  {% if "facilitator" not in user_roles %}
+  <div class="card card-teal"><h2>Facilitate a cohort</h2><p>Facilitators lead groups through the workbook. An administrator approves each facilitator.</p><a class="btn btn-teal" href="{% url 'accounts:apply_facilitator' %}">Apply to facilitate</a></div>
+  {% endif %}
+</div>
+{% endblock %}

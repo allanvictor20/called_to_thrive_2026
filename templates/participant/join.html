@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Join a cohort{% endblock %}
+{% block content %}
+<div class="narrow">
+  <h1>Join a cohort</h1>
+  {% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+  {% if preview %}
+    <div class="card card-accent">
+      <p class="eyebrow">Check this is your group</p>
+      <h2>{{ preview.cohort_name }}</h2>
+      <p><b>Partner:</b> {{ preview.partner }}<br><b>District:</b> {{ preview.district }}<br><b>Lead facilitator:</b> {{ preview.lead_facilitator|default:"—" }}<br><b>Starts:</b> {{ preview.start_date }}<br><b>Meets:</b> {{ preview.delivery }}</p>
+      {% if preview.already_enrolled %}
+        <div class="alert alert-info">You are already in this cohort.</div>
+        <form method="post">{% csrf_token %}<input type="hidden" name="code" value="{{ code }}"><input type="hidden" name="confirm" value="1"><button class="btn">Open my journey</button></form>
+      {% elif preview.problem %}
+        <div class="alert alert-error">{{ preview.problem }}</div>
+      {% else %}
+        <form method="post" class="row">{% csrf_token %}<input type="hidden" name="code" value="{{ code }}"><input type="hidden" name="confirm" value="1">
+          <button class="btn">Yes, join this cohort</button>
+          <a class="btn btn-secondary" href="{% url 'cohorts:join' %}">Use a different code</a>
+        </form>
+      {% endif %}
+    </div>
+  {% else %}
+    <form method="post" class="card">{% csrf_token %}
+      {% include "partials/field.html" with name="code" label="Join code" value=code required=True hint="For example ABCD-EFGH-JKMN. Capital letters and dashes are optional." %}
+      <button class="btn">Preview cohort</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

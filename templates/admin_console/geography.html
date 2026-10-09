@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Regions & districts{% endblock %}
+{% block content %}
+<h1>Regions & districts</h1>
+<div class="grid">
+{% for r in regions %}<section class="card"><h2>{{ r.name }}</h2><p class="small">{% for d in r.districts.all %}{{ d.name }}{% if not forloop.last %}, {% endif %}{% empty %}<span class="muted">No districts.</span>{% endfor %}</p></section>{% endfor %}
+</div>
+<div class="grid">
+<form method="post" class="card">{% csrf_token %}<input type="hidden" name="action" value="region"><h2>Add region</h2>{% include "partials/field.html" with name="name" idp="r-" label="Region name" %}<button class="btn btn-secondary">Add region</button></form>
+<form method="post" class="card">{% csrf_token %}<input type="hidden" name="action" value="district"><h2>Add district</h2>
+  <div class="field"><label for="rg">Region</label><select id="rg" name="region">{% for r in regions %}<option value="{{ r.pk }}">{{ r.name }}</option>{% endfor %}</select></div>
+  {% include "partials/field.html" with name="name" idp="d-" label="District name" %}<button class="btn btn-secondary">Add district</button></form>
+</div>
+{% endblock %}

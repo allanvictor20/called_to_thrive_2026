@@ -1,0 +1,2929 @@
+{
+  "format": "ctt-curriculum-manifest/1",
+  "code": "UG-WORKBOOK-V1",
+  "title": "Called to Thrive — Uganda Workbook",
+  "language_code": "en",
+  "source_reference": "Called_to_Thrive.pdf (Uganda edition, InDesign export dated 14 Nov 2024; page footers 3–33). Transcribed verbatim for curriculum-owner review.",
+  "review_notes": [
+    "The workbook contains 16 lessons (Lesson 16: Putting it all Together); the documentation pack refers to 15. All 16 are imported as found in the source.",
+    "Lesson 3 title is transcribed as printed: 'Called to a Image'.",
+    "Lesson 1 case study prompt spells the name 'Mikalya' while the story uses 'Mikayla'; kept as printed.",
+    "Lessons 6, 8 and 11 contain fill-in-the-blank activities without an answer key in the source; marked optional.",
+    "Required components and visibility settings below are a proposal pending curriculum-owner approval."
+  ],
+  "completion_policy": {
+    "status": "proposed",
+    "lesson_required_components": "components flagged required in this manifest",
+    "pre_project_lessons": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "programme": {
+      "required_lessons": "all",
+      "require_confirmed_project": true,
+      "require_submitted_evaluation": true,
+      "attendance_threshold": null
+    },
+    "lesson_override_roles": [
+      "lead"
+    ],
+    "programme_override_roles": [
+      "lead",
+      "admin"
+    ]
+  },
+  "project_evaluation": {
+    "scale": {
+      "min": 0,
+      "max": 3,
+      "labels": {
+        "0": "not at all",
+        "3": "absolutely"
+      }
+    },
+    "instructions": "Rate the comments below on a scale from 0 (not at all) to 3 (absolutely).",
+    "sections": [
+      {
+        "key": "self",
+        "title": "Self Evaluation",
+        "items": [
+          {
+            "key": "self_role",
+            "label": "I worked hard to fulfil the role and responsibilities that I was given."
+          },
+          {
+            "key": "self_communication",
+            "label": "I communicated effectively with other team members."
+          },
+          {
+            "key": "self_ideas",
+            "label": "I contributed ideas and helped plan our next steps."
+          },
+          {
+            "key": "self_teammate",
+            "label": "I was a positive, honest, and collaborative teammate."
+          }
+        ]
+      },
+      {
+        "key": "team",
+        "title": "Team Evaluation",
+        "items": [
+          {
+            "key": "team_roles",
+            "label": "Each team member understood their role and responsibilities."
+          },
+          {
+            "key": "team_time",
+            "label": "Our team used all of our time wisely to complete the project."
+          },
+          {
+            "key": "team_communication",
+            "label": "Our team communicated to each other in a positive, honest, and effective manner."
+          },
+          {
+            "key": "team_help",
+            "label": "Our team did a good job of asking for help when needed."
+          }
+        ]
+      },
+      {
+        "key": "project",
+        "title": "Project Evaluation",
+        "items": [
+          {
+            "key": "project_relevant",
+            "label": "Our project topic was relevant to solving a problem in our community."
+          },
+          {
+            "key": "project_complete",
+            "label": "Our project is complete and ready to be presented."
+          }
+        ]
+      }
+    ],
+    "text_questions": [
+      {
+        "key": "do_differently",
+        "label": "If you could go back and change anything about your project, what would you do differently?",
+        "required": true
+      }
+    ]
+  },
+  "assessments": [
+    {
+      "lesson": 5,
+      "component": "career_quiz",
+      "code": "CTT-CAREER-24",
+      "scoring_version": "workbook-sum-v1",
+      "min_answer": 1,
+      "max_answer": 5,
+      "categories": [
+        {
+          "code": "investigative",
+          "label": "Investigative",
+          "questions": [
+            11,
+            17,
+            20,
+            23
+          ],
+          "description": "You can best be described as Investigative. You like to observe, learn, investigate, analyse, evaluate, or solve problems primarily of a scientific or mathematical nature. You prefer working with ideas as opposed to people. You do not like highly structured settings.",
+          "sample_careers": [
+            "Computer Programmer",
+            "Dentist",
+            "Veterinarian"
+          ]
+        },
+        {
+          "code": "social",
+          "label": "Social",
+          "questions": [
+            7,
+            12,
+            13,
+            24
+          ],
+          "description": "You can best be described as Social. You like to work with people - to inform, enlighten, help, train, or cure them, or to help them live up to their potential. You prefer solving problems through discussion. You usually do not prefer to work with things.",
+          "sample_careers": [
+            "Nurse/Midwife",
+            "Teacher",
+            "Police Officer"
+          ]
+        },
+        {
+          "code": "artistic",
+          "label": "Artistic",
+          "questions": [
+            4,
+            8,
+            18,
+            19
+          ],
+          "description": "You can best be described as Artistic. You have innovating, or intuitional abilities, and like to work in unstructured situations, using your creativity or imagination. You prefer working with self-expressive ideas.",
+          "sample_careers": [
+            "Architect",
+            "Writer",
+            "Fashion Designer"
+          ]
+        },
+        {
+          "code": "realistic",
+          "label": "Realistic",
+          "questions": [
+            3,
+            5,
+            6,
+            16
+          ],
+          "description": "You can best be described as Realistic. You have athletic or mechanical ability, prefer to work with objects, machines, tools, plants or animals, or to be outdoors. You prefer to work with things as opposed to ideas or people. You also prefer concrete problems over abstract ones.",
+          "sample_careers": [
+            "Car Mechanic",
+            "Farmer",
+            "Chef"
+          ]
+        },
+        {
+          "code": "conventional",
+          "label": "Conventional",
+          "questions": [
+            1,
+            2,
+            10,
+            22
+          ],
+          "description": "You can best be described as Conventional. You like to work with data, and have numerical or clerical ability. You carry things out in detail or following through on other’s instruction. You tend to prefer structured situations over ambiguous ones.",
+          "sample_careers": [
+            "Financial Analyst",
+            "Web Developer",
+            "Travel Agent"
+          ]
+        },
+        {
+          "code": "enterprising",
+          "label": "Enterprising",
+          "questions": [
+            9,
+            14,
+            15,
+            21
+          ],
+          "description": "You can best be described as Enterprising. You like to work with people - influencing, persuading, leading, or managing them for economic gain or for the goals of an organisation. You also enjoy leadership positions, and dislike details.",
+          "sample_careers": [
+            "Industrial Engineer",
+            "Lawyer",
+            "President/CEO (any industry)"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "number": 1,
+          "prompt": "Design a webpage"
+        },
+        {
+          "number": 2,
+          "prompt": "Use a spreadsheet to organise data"
+        },
+        {
+          "number": 3,
+          "prompt": "Operate machinery"
+        },
+        {
+          "number": 4,
+          "prompt": "Decorate a cake"
+        },
+        {
+          "number": 5,
+          "prompt": "Build a piece of furniture"
+        },
+        {
+          "number": 6,
+          "prompt": "Help keep your community safe"
+        },
+        {
+          "number": 7,
+          "prompt": "Teach children how to read"
+        },
+        {
+          "number": 8,
+          "prompt": "Write or compose a song"
+        },
+        {
+          "number": 9,
+          "prompt": "Be the president or CEO of a company"
+        },
+        {
+          "number": 10,
+          "prompt": "Help plan the details of someone’s travel"
+        },
+        {
+          "number": 11,
+          "prompt": "Study weather patterns"
+        },
+        {
+          "number": 12,
+          "prompt": "Help someone meet a fitness goal"
+        },
+        {
+          "number": 13,
+          "prompt": "Help deliver a baby"
+        },
+        {
+          "number": 14,
+          "prompt": "Sell someone a home"
+        },
+        {
+          "number": 15,
+          "prompt": "Coordinate a business meeting"
+        },
+        {
+          "number": 16,
+          "prompt": "Work on a car"
+        },
+        {
+          "number": 17,
+          "prompt": "Research new medicines"
+        },
+        {
+          "number": 18,
+          "prompt": "Write a book"
+        },
+        {
+          "number": 19,
+          "prompt": "Take photos for a magazine"
+        },
+        {
+          "number": 20,
+          "prompt": "Work in a laboratory"
+        },
+        {
+          "number": 21,
+          "prompt": "Hire and fire employees"
+        },
+        {
+          "number": 22,
+          "prompt": "Keep payroll records"
+        },
+        {
+          "number": 23,
+          "prompt": "Analyse water samples for contamination"
+        },
+        {
+          "number": 24,
+          "prompt": "Counsel a person about their mental health"
+        }
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "number": 1,
+      "title": "Being Who I Am Called to Be",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "I am called to thrive in my work as I serve others."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Called",
+                    "definition": "the act of being chosen for a purpose"
+                  },
+                  {
+                    "term": "Work",
+                    "definition": "the service we are called to in serving God and others"
+                  },
+                  {
+                    "term": "Thrive",
+                    "definition": "achieving a fulfilled life"
+                  },
+                  {
+                    "term": "Cultivate",
+                    "definition": "to carefully manage, maintain, or care for something"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "“God has given each of you a gift from his great variety of spiritual gifts. Use them well to serve one another. Do you have the gift of speaking? Then speak as though God himself were speaking through you. Do you have the gift of helping others? Do it with all the strength and energy that God supplies. Then everything you do will bring glory to God through Jesus Christ. All glory and power to him for ever and ever! Amen.”",
+                "reference": "1 Peter 4:10-11"
+              },
+              {
+                "type": "scripture",
+                "text": "For we are God’s masterpiece. He has created us anew in Christ Jesus, so we can do the good things he planned for us long ago.",
+                "reference": "Ephesians 2:10"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Discussion Questions",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "Question 1: How does God show us the importance of work?",
+                  "Question 2: What work has God placed in your life right now? What talents or gifts are needed to fulfil it?",
+                  "Question 3: How should we treat our work, knowing it is a gift from God?",
+                  "Question 4: How has your view of work changed through today’s discussion?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "case_study",
+          "type": "activity",
+          "title": "Case Study",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Mikayla Sullivan is the 19-year-old CEO of Kinosol. Mikayla’s desire to tackle the problem of food waste came from her first-hand experience of visiting rural villages in Mexico. Since that experience, she has been driven to turn her dream of providing sustainable solutions to people in need into a reality."
+              },
+              {
+                "type": "paragraph",
+                "text": "Along with her fellow college students, Clayton, Ella, and Elise, she invented a solar dehydrator that is now helping subsistence farmers around the world. Farmers in developing countries often have a difficult time keeping their crops fresh on their way to market. As a result, it is estimated that up to one-third of produce spoils before it can be eaten. Mikayla’s mission was and is to save that third for the sake of those who are hungry. She invented solar dehydrators to preserve produce."
+              },
+              {
+                "type": "paragraph",
+                "text": "Mikayla and her team can celebrate that their invention is making lives measurably better. They are now field-testing their solar dehydrators in Haiti, El Salvador, Thailand, and Uganda. The dehydrators are providing food for hundreds of people by dehydrating fruits, vegetables, grains, and even insects with solar energy, which in turn reduces food waste. It’s a creative and innovative mission that is driven by compassion and a calling to care for God’s children."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "inspiration",
+                "type": "textarea",
+                "label": "Write something that inspires you about Mikalya’s story.",
+                "required": true
+              },
+              {
+                "key": "positive_difference",
+                "type": "textarea",
+                "label": "In the space below, write about a time you made a positive difference.",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Before our next gathering, think about and answer this question in your own words:"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "what_is_success",
+                "type": "textarea",
+                "label": "What is success?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Called to a Kingdom",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "I am called to the Kingdom of God."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Success",
+                    "definition": "accomplishing a goal in a manner that maintains an individual’s integrity"
+                  },
+                  {
+                    "term": "Strength",
+                    "definition": "an area in our life where we are naturally strong"
+                  },
+                  {
+                    "term": "Weakness",
+                    "definition": "a quality that can be seen as a disadvantage"
+                  },
+                  {
+                    "term": "Kingdom",
+                    "definition": "God’s purpose being accomplished through obedient people on earth"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Discussion Questions",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "Question 1: How does loving God and loving your neighbour connect to your purpose and bring success to your work?",
+                  "Question 2: God’s vision for our success is centred on living in obedience to him and his Word. How is this different from how you have viewed success in the past?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "sad_mad_glad",
+          "type": "activity",
+          "title": "Activity: Sad, Mad, Glad",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Discovering the call that God has placed on your life may be something that feels clear to you now, or it may be something that you continue to discover over your lifetime. Let us take some time to answer these thoughts:"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "sad",
+                "type": "list",
+                "label": "List three things in the world that make you feel sad.",
+                "count": 3,
+                "required": true
+              },
+              {
+                "key": "mad",
+                "type": "list",
+                "label": "List three things in the world that make you feel mad.",
+                "count": 3,
+                "required": true
+              },
+              {
+                "key": "glad",
+                "type": "list",
+                "label": "List three things in the world that make you feel glad.",
+                "count": 3,
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "sad_mad_glad_note",
+          "type": "teaching",
+          "title": "Your Sad, Mad, Glad Lists",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "The intersection of these three lists—your Sad, Mad, Glad Lists—are where your passions, giftings, vocation, and calling may lie. We will continue building on these thoughts in the coming weeks."
+              }
+            ]
+          }
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "One way for us to become accountable workers is to set goals for our futures. List out four goals you will aim to accomplish as you meet the needs of your community with your unique set of strengths and weaknesses. Your strengths are areas in which you are naturally strong; your weaknesses are qualities that can be seen as disadvantages."
+              },
+              {
+                "type": "paragraph",
+                "text": "Here are a few questions to help guide your thinking:"
+              },
+              {
+                "type": "paragraph",
+                "text": "As you write out these goals, ensure that your intentions are in line with what we have learnt today. Each of your goals should be based on your love for God and your love for your communities."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "strengths",
+                "type": "textarea",
+                "label": "What strengths do I have?",
+                "required": true
+              },
+              {
+                "key": "weaknesses",
+                "type": "textarea",
+                "label": "What weaknesses do I have?",
+                "required": true
+              },
+              {
+                "key": "use_strengths",
+                "type": "textarea",
+                "label": "How can I use my strengths to accomplish my goals?",
+                "required": true
+              },
+              {
+                "key": "goals",
+                "type": "list",
+                "label": "My Goals",
+                "count": 4,
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Called to a Image",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "I am called to reflect God’s image to the world around me."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Character",
+                    "definition": "the traits and tendencies carried by an individual"
+                  },
+                  {
+                    "term": "Integrity",
+                    "definition": "the quality of being true to a set of principles"
+                  },
+                  {
+                    "term": "Image bearer",
+                    "definition": "one who reflects the character of another"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "ten_commandments",
+          "type": "teaching",
+          "title": "The Ten Commandments",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "We can see the character of God reflected in The Ten Commandments."
+              },
+              {
+                "type": "pairs",
+                "items": [
+                  {
+                    "heading": "You must not have any other god but me.",
+                    "text": "God knows we need him most."
+                  },
+                  {
+                    "heading": "Don’t make anything higher than God.",
+                    "text": "God is worthy of the first place."
+                  },
+                  {
+                    "heading": "You must not misuse the name of the Lord your God.",
+                    "text": "God keeps his promises, and we should keep ours."
+                  },
+                  {
+                    "heading": "Keep the Sabbath holy.",
+                    "text": "God knows we need times of rest, and it comes through trusting him."
+                  },
+                  {
+                    "heading": "Honour your father and mother.",
+                    "text": "God created authority in our lives, and it starts with family. We should honour authority."
+                  },
+                  {
+                    "heading": "Do not kill.",
+                    "text": "God brings life. He does not want us to harm our life or the lives of others."
+                  },
+                  {
+                    "heading": "Do not commit adultery.",
+                    "text": "God is faithful to us. He wants us to be faithful, dependable people."
+                  },
+                  {
+                    "heading": "Do not steal.",
+                    "text": "God gives and protects. We should be givers and not takers."
+                  },
+                  {
+                    "heading": "Do not lie.",
+                    "text": "God always speaks the truth, and so should we."
+                  },
+                  {
+                    "heading": "Do not covet what others have.",
+                    "text": "God wants our best, and we should want the best of others."
+                  }
+                ],
+                "reference": "Exodus 20:2-17"
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "So God created human beings in his own image. In the image of God he created them; male and female he created them.",
+                "reference": "Genesis 1:27"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Take time to ask yourself this question: “Who am I?” Set at least ten minutes aside to think about this question. Also, be thinking about your personal character."
+              },
+              {
+                "type": "paragraph",
+                "text": "Ask yourself the following questions and rank how well you feel about them: one, being this is not me at all, and 10 being this sounds just like me!"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "depend_on_word",
+                "type": "rating",
+                "label": "People can always depend on my word – If I say I will, I do!",
+                "min": 1,
+                "max": 10,
+                "required": true
+              },
+              {
+                "key": "hard_worker",
+                "type": "rating",
+                "label": "I am a hard worker. I always do my best.",
+                "min": 1,
+                "max": 10,
+                "required": true
+              },
+              {
+                "key": "rest",
+                "type": "rating",
+                "label": "I know when I need rest. I get enough sleep and wake up refreshed.",
+                "min": 1,
+                "max": 10,
+                "required": true
+              },
+              {
+                "key": "honour_family",
+                "type": "rating",
+                "label": "I honour my family by helping and speaking well of them.",
+                "min": 1,
+                "max": 10,
+                "required": true
+              },
+              {
+                "key": "trusted",
+                "type": "rating",
+                "label": "I am often trusted to care for things that belong to other people, and I take good care of them.",
+                "min": 1,
+                "max": 10,
+                "required": true
+              },
+              {
+                "key": "others_first",
+                "type": "rating",
+                "label": "I put other people’s needs before mine.",
+                "min": 1,
+                "max": 10,
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Called by Name",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "The righteous person produces good fruit in their life."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Skill",
+                    "definition": "a talent or capability held by an individual"
+                  },
+                  {
+                    "term": "Purpose",
+                    "definition": "the goal a creator wants to accomplish with their creation"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "But you are not like that, for you are a chosen people. You are royal priests, a holy nation, God’s very own possession. As a result, you can show others the goodness of God, for he called you out of the darkness into his wonderful light.",
+                "reference": "1 Peter 2:9"
+              },
+              {
+                "type": "scripture",
+                "text": "The Lord allowed King Eglon of Moab to conquer Israel after its people sinned against God. Eighteen years passed, and when the Israelites cried out to the Lord for deliverance, God called on a left-handed man named Ehud to rescue his people.\n\nEhud brought gifts to King Eglon, all the while hiding a short sword under his clothes on his right side. Because it was expected for warriors to carry their weapons on their left side, Ehud was able to enter the king’s chambers without his true intentions being revealed. Once he was alone with the king, Ehud drew his hidden blade and stabbed Eglon in the stomach. He then escaped the palace and led an assault against the leaderless Moabites, freeing Israel from its oppressors. For the next eighty years, the children of Israel lived in peace and freedom.",
+                "reference": "Judges 3:12-30"
+              },
+              {
+                "type": "scripture",
+                "text": "O LORD, you have examined my heart and know everything about me. You know when I sit down or stand up. You know my thoughts even when I’m far away. You see me when I travel and when I rest at home. You know everything I do. You know what I am going to say even before I say it, LORD. You go before me and follow me. You place your hand of blessing on my head. Such knowledge is too wonderful for me, too great for me to understand.",
+                "reference": "Psalm 139:1-6"
+              },
+              {
+                "type": "scripture",
+                "text": "Oh, the joys of those who do not follow the advice of the wicked, or stand around with sinners, or join in with mockers. But they delight in the law of the LORD, meditating on it day and night. They are like trees planted along the river-bank, bearing fruit each season. Their leaves never wither, and they prosper in all they do. But not the wicked! They are like worthless chaff, scattered by the wind. They will be condemned at the time of judgement. Sinners will have no place among the godly. For the LORD watches over the path of the godly, but the path of the wicked leads to destruction.",
+                "reference": "Psalm 1:1-3"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "community_needs",
+          "type": "activity",
+          "title": "Needs in My Community",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Take some time to make a list of the needs in your community in the space below:"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "needs",
+                "type": "textarea",
+                "label": "Needs in my community",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "This week, take some time to think about your skills, talents, and abilities. After you’ve completed this list, begin thinking of ways you can use your skill set to impact the lives of those around you. This will give you insight into possible career paths and future ministry opportunities. If you struggle with determining what your skills or talents are, feel free to ask another student in our group; you will be surprised by how much potential others see in you!"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "skills",
+                "type": "textarea",
+                "label": "Skills",
+                "required": true
+              },
+              {
+                "key": "talents",
+                "type": "textarea",
+                "label": "Talents",
+                "required": true
+              },
+              {
+                "key": "abilities",
+                "type": "textarea",
+                "label": "Abilities",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Called to Responsibility",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "God calls me to use my gifts in a fruitful way."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Responsibility",
+                    "definition": "an accountability to the work one is called to do"
+                  },
+                  {
+                    "term": "Sacrificial",
+                    "definition": "offering up something desired for a greater cause"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture_john",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "“When you produce much fruit, you are my true disciples. This brings great glory to my Father.”",
+                "reference": "John 15:8"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "fruitful_versions",
+          "type": "activity",
+          "title": "Fruitful Responsibilities",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Below is a list of individuals with differing responsibilities. Choose the options that best describe the most fruitful versions of each individual:"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "jodie",
+                "type": "choice",
+                "label": "Jodie is a teacher.",
+                "options": [
+                  {
+                    "value": "a",
+                    "label": "a. Jodie breaks down complex ideas into words her students can understand."
+                  },
+                  {
+                    "value": "b",
+                    "label": "b. Jodie hands out lessons and expects her students to teach themselves."
+                  },
+                  {
+                    "value": "c",
+                    "label": "c. Jodie reads straight from a textbook and then immediately quizzes her students."
+                  }
+                ],
+                "required": true
+              },
+              {
+                "key": "godwin",
+                "type": "choice",
+                "label": "Godwin is a medic.",
+                "options": [
+                  {
+                    "value": "a",
+                    "label": "a. Godwin treats each patient as quickly as possible."
+                  },
+                  {
+                    "value": "b",
+                    "label": "b. Godwin tends to his patients as if they were his own loved ones."
+                  },
+                  {
+                    "value": "c",
+                    "label": "c. Godwin scrolls through his phone between patients to pass the time."
+                  }
+                ],
+                "required": true
+              },
+              {
+                "key": "alison",
+                "type": "choice",
+                "label": "Alison is a cook.",
+                "options": [
+                  {
+                    "value": "a",
+                    "label": "a. Alison stands towards the back of the kitchen to hide from her coworkers."
+                  },
+                  {
+                    "value": "b",
+                    "label": "b. Alison taste tests every ingredient to make sure her dishes are perfect."
+                  },
+                  {
+                    "value": "c",
+                    "label": "c. Alison follows recipes when it is convenient for her."
+                  }
+                ],
+                "required": true
+              },
+              {
+                "key": "cameron",
+                "type": "choice",
+                "label": "Cameron is a repairman.",
+                "options": [
+                  {
+                    "value": "a",
+                    "label": "a. Cameron works late to make sure his customers are taken care of properly."
+                  },
+                  {
+                    "value": "b",
+                    "label": "b. Cameron arrives at his job whenever he’s ready to get out of bed."
+                  },
+                  {
+                    "value": "c",
+                    "label": "c. Cameron borrows tools from his friends and usually returns them in good condition."
+                  }
+                ],
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "scripture_matthew",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "Then Jesus said to his disciples, “If any of you wants to be my follower, you must give up your own way, take up your cross, and follow me. If you try to hang on to your life, you will lose it. But if you give up your life for my sake, you will save it.”",
+                "reference": "Matthew 16: 24-25"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Group Discussion",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "What are some tasks you are responsible for completing on a daily basis?",
+                  "What are some distractions that get in the way of your responsibilities?",
+                  "How can you eliminate those distractions?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "career_quiz",
+          "type": "assessment",
+          "title": "Called to Thrive Personality Quiz",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Rate each activity from 1 to 5. To find out your results, the totals for each group of four questions are added together. All six totals are shown, and ties are kept."
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "The results describe interests, not a diagnosis. Ties are shown as they are, with no tie-breaker.",
+              "The workbook mentions a QR code for an online version; this platform is that online version."
+            ]
+          },
+          "required": true,
+          "completion_method": "assessment",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "Called to Confidence",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "I must understand who I am and who God is and make good choices in my life."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Communication",
+                    "definition": "the process of exchanging information"
+                  },
+                  {
+                    "term": "Confidence",
+                    "definition": "believing in your own trustworthiness"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "“I have done this to both lions and bears, and I’ll do it to this pagan Philistine, too, for he has defied the armies of the living God! The LORD who rescued me from the claws of the lion and the bear will rescue me from this Philistine!”",
+                "reference": "1 Samuel 17:36-37"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "confident_communication",
+          "type": "activity",
+          "title": "Keys to Confident Communication",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Fill in the missing words. Write each sentence out in full."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "key_1",
+                "type": "text",
+                "label": "Maintain eye contact to show your listener that you are ____ on ____ them and their ____.",
+                "required": false
+              },
+              {
+                "key": "key_2",
+                "type": "text",
+                "label": "Enunciate your words ____ and ____ control the volume of your ____ so it can be heard well.",
+                "required": false
+              },
+              {
+                "key": "key_3",
+                "type": "text",
+                "label": "Ask ____ to clarify what your listener does and does not ____ about their needs.",
+                "required": false
+              },
+              {
+                "key": "key_4",
+                "type": "text",
+                "label": "Validate your listener’s ____ by expressing your awareness of their current ____.",
+                "required": false
+              },
+              {
+                "key": "key_5",
+                "type": "text",
+                "label": "Keep in mind how the listener’s needs are ____ how they ____.",
+                "required": false
+              },
+              {
+                "key": "key_6",
+                "type": "text",
+                "label": "Remember the ____ you form with your listener will develop more ____ ____.",
+                "required": false
+              },
+              {
+                "key": "key_7",
+                "type": "text",
+                "label": "Consider how your listener can help to ____ you in the path you are following toward your ____.",
+                "required": false
+              }
+            ]
+          },
+          "required": false,
+          "completion_method": "submission",
+          "visibility": "private",
+          "facilitator_content": {
+            "notes": [
+              "The source workbook does not include the missing words. Lead the group through each key together."
+            ]
+          }
+        },
+        {
+          "key": "resume",
+          "type": "life_work",
+          "title": "Resume Template",
+          "content": {
+            "blocks": [
+              {
+                "type": "heading",
+                "text": "Helpful Resume Tips"
+              },
+              {
+                "type": "list",
+                "items": [
+                  "Include your official name, not any nicknames you go by amongst your friends or family.",
+                  "Choose the method of communication you will respond to the most quickly. Suggestions: Email address and WhatsApp number.",
+                  "Use the Personality Quiz from Lesson five to help guide your thinking here. What abilities do you have that would make someone feel confident in hiring you? What do you have to offer that will help meet their needs?",
+                  "Include any academic achievements including schooling and any certification courses you have completed.",
+                  "Include any previous experience you have that relates to the work you are applying for.",
+                  "This is your opportunity to show a potential employer your ambitions. Include where you would like to be professionally in the one, three, and five years.",
+                  "What activities are you involved in outside of your work? Listing these will inform potential employers of your ability to multitask and offer insight into your specific perspective as a worker.",
+                  "List the names and contact information for individuals who would champion you as a dependable worker. This can include previous employers, teachers, and mentors."
+                ]
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "name",
+                "type": "textarea",
+                "label": "Name:",
+                "required": true
+              },
+              {
+                "key": "contact",
+                "type": "textarea",
+                "label": "Contact Information:",
+                "required": true
+              },
+              {
+                "key": "education",
+                "type": "textarea",
+                "label": "Education Background:",
+                "required": true
+              },
+              {
+                "key": "skills_talents",
+                "type": "textarea",
+                "label": "Skills and Talents:",
+                "required": true
+              },
+              {
+                "key": "experience",
+                "type": "textarea",
+                "label": "Previous Experience:",
+                "required": true
+              },
+              {
+                "key": "personal_goals",
+                "type": "textarea",
+                "label": "Personal Goals:",
+                "required": true
+              },
+              {
+                "key": "current_activities",
+                "type": "textarea",
+                "label": "Current Activities:",
+                "required": true
+              },
+              {
+                "key": "references",
+                "type": "textarea",
+                "label": "References:",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "Called to Grow",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "I am called to be an apprentice of Christ first and then of others."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Grow",
+                    "definition": "to develop in a way that increases one’s capacity for work"
+                  },
+                  {
+                    "term": "Mentor",
+                    "definition": "someone of greater experience whose words and actions positively influence one’s growth"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "And you should imitate me, just as I imitate Christ.",
+                "reference": "1 Corinthians 11:1"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "choose_mentor",
+          "type": "activity",
+          "title": "Choose Your Mentor Activity",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Circle each example that better exemplifies the qualities of a helpful mentor. In the space below each example, describe why you made your decision."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "pair_1_choice",
+                "type": "choice",
+                "label": "Example 1: which person better exemplifies a helpful mentor?",
+                "options": [
+                  {
+                    "value": "imani",
+                    "label": "Imani has been the owner of a painting company for 20 years. He is soft spoken, has a great reputation in the community, and always gets his work done on time."
+                  },
+                  {
+                    "value": "jabari",
+                    "label": "Jabari just recently began painting houses. He boasts about the large amount of money he spent on his new equipment and has been known to double book his clients."
+                  }
+                ],
+                "required": true
+              },
+              {
+                "key": "pair_1_reason",
+                "type": "textarea",
+                "label": "Example 1: describe why you made your decision.",
+                "required": true
+              },
+              {
+                "key": "pair_2_choice",
+                "type": "choice",
+                "label": "Example 2: which person better exemplifies a helpful mentor?",
+                "options": [
+                  {
+                    "value": "trisha",
+                    "label": "Trisha works as a freelance marketer. She kindly greets you every time she notices you and has spoken about career-building at your school."
+                  },
+                  {
+                    "value": "amari",
+                    "label": "Amari works as a marketer for a large corporation. His schedule is so busy that he rarely has the chance to spend the evenings with his family."
+                  }
+                ],
+                "required": true
+              },
+              {
+                "key": "pair_2_reason",
+                "type": "textarea",
+                "label": "Example 2: describe why you made your decision.",
+                "required": true
+              },
+              {
+                "key": "pair_3_choice",
+                "type": "choice",
+                "label": "Example 3: which person better exemplifies a helpful mentor?",
+                "options": [
+                  {
+                    "value": "kofi",
+                    "label": "Kofi works for your local government. When he learns about your desire to serve in leadership, he tells you to lower your ambitions because you probably do not have what it takes to lead others."
+                  },
+                  {
+                    "value": "zurri",
+                    "label": "Zurri is a town official. When she learns about your desire to serve in leadership, she shares her story of how she came from humble beginnings and the struggles she has faced in her journey."
+                  }
+                ],
+                "required": true
+              },
+              {
+                "key": "pair_3_reason",
+                "type": "textarea",
+                "label": "Example 3: describe why you made your decision.",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": []
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "areas",
+                "type": "multi_choice",
+                "label": "1. Circle the areas where you are looking for mentorship:",
+                "required": true,
+                "options": [
+                  {
+                    "value": "career",
+                    "label": "Career/work"
+                  },
+                  {
+                    "value": "spiritual",
+                    "label": "Spiritual"
+                  },
+                  {
+                    "value": "general",
+                    "label": "General (relationships, family, health, overall wellbeing)"
+                  }
+                ]
+              },
+              {
+                "key": "potential_mentor",
+                "type": "textarea",
+                "label": "2. Make a list of potential mentors: Even if you can’t identify someone who is working in the field you want to work in, who shares your values and can speak into your life in positive ways?",
+                "required": true
+              },
+              {
+                "key": "reason",
+                "type": "textarea",
+                "label": "3. Write a few sentences explaining why you would like them to mentor you. What are you hoping you will learn?",
+                "required": true
+              },
+              {
+                "key": "approach",
+                "type": "textarea",
+                "label": "4. How will you let them know you would like them to mentor you?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "Called to Overcome",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "I can do all things through Christ who strengthens me."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Overcome",
+                    "definition": "to prevail over an obstacle or an adversary"
+                  },
+                  {
+                    "term": "Obstacles",
+                    "definition": "things or thoughts that hinder one’s progress toward a goal"
+                  },
+                  {
+                    "term": "Resource",
+                    "definition": "something or someone that is readily available to support one’s efforts"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "For I can do everything through Christ, who gives me strength.",
+                "reference": "Philippians 4:13"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "fears_flaws",
+          "type": "activity",
+          "title": "Fears and Flaws",
+          "content": {
+            "blocks": []
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "fears",
+                "type": "textarea",
+                "label": "Fears",
+                "required": true
+              },
+              {
+                "key": "flaws",
+                "type": "textarea",
+                "label": "Flaws",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "fill_in_blank",
+          "type": "activity",
+          "title": "Fill in the Blank",
+          "content": {
+            "blocks": []
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "romans_8_37",
+                "type": "text",
+                "label": "No, despite all these things, overwhelming ____ is ours through ____, who loved ____. Romans 8:37",
+                "required": true
+              }
+            ]
+          },
+          "required": false,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "my_resources",
+          "type": "activity",
+          "title": "My Resources",
+          "content": {
+            "blocks": [
+              {
+                "type": "pairs",
+                "items": [
+                  {
+                    "heading": "Physical",
+                    "text": "Example: You need money to buy a tablet for university, so you weave and sell baskets using the crop that grows around your home."
+                  },
+                  {
+                    "heading": "Gifts and Talents",
+                    "text": "Example: You need a space to start a fashion business, so you use your organisational skills to edit the layout of your home to make room for your work stations."
+                  },
+                  {
+                    "heading": "Connections",
+                    "text": "Example: You receive an interview for a job you really want. However, you become very nervous when meeting new people, so you meet with your trusted mentor to practice."
+                  },
+                  {
+                    "heading": "Education",
+                    "text": "Example: You want to become a web designer, so you search for local internships/apprenticeships."
+                  }
+                ]
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "physical",
+                "type": "textarea",
+                "label": "Physical",
+                "required": true
+              },
+              {
+                "key": "gifts_talents",
+                "type": "textarea",
+                "label": "Gifts and Talents",
+                "required": true
+              },
+              {
+                "key": "connections",
+                "type": "textarea",
+                "label": "Connections",
+                "required": true
+              },
+              {
+                "key": "education",
+                "type": "textarea",
+                "label": "Education",
+                "required": true
+              },
+              {
+                "key": "opportunities",
+                "type": "textarea",
+                "label": "My Opportunities",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "bridge_the_gap",
+          "type": "activity",
+          "title": "Bridge the Gap",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Use the space below to make a plan of how you can use your resources to solve the problems you listed in the My Opportunities section. Consider the ways God has equipped you to overcome the fears and flaws that have previously held you back. If you have already reached out to a potential mentor, bring the list to them and ask for their advice."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "today",
+                "type": "textarea",
+                "label": "What can I do today?",
+                "required": true
+              },
+              {
+                "key": "week",
+                "type": "textarea",
+                "label": "What can I do in a week?",
+                "required": true
+              },
+              {
+                "key": "month",
+                "type": "textarea",
+                "label": "What can I do in a month?",
+                "required": true
+              },
+              {
+                "key": "year",
+                "type": "textarea",
+                "label": "What can I do in a year?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "Called to Serve",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "God has prepared good works for my life."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Serve",
+                    "definition": "to use one’s ability to work in an effort to meet the needs of others"
+                  },
+                  {
+                    "term": "Brainstorm",
+                    "definition": "using uninhibited thinking to generate potential solutions to a problem"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "On the Sabbath we went a little way outside the city to a riverbank, where we thought people would be meeting for prayer, and we sat down to speak with some women who had gathered there. One of them was Lydia from Thyatira, a merchant of expensive purple cloth, who worshipped God. As she listened to us, the Lord opened her heart, and she accepted what Paul was saying. She and her household were baptised, and she asked us to be her guests. “If you agree that I am a true believer in the Lord,” she said, “come and stay at my home.” And she urged us until we agreed.",
+                "reference": "Acts 16:13-15"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Group Discussion",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "What are some of the problems we see in our community, school, or church?",
+                  "Of all the problems stated above, which ONE could we solve together using the skills and talents God has given each of us?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "scripture_peter",
+          "type": "scripture",
+          "title": "Scripture",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "God has given each of you a gift from his great variety of spiritual gifts. Use them well to serve one another.\n\nDo you have the gift of speaking? Then speak as though God himself were speaking through you. Do you have the gift of helping others? Do it with all the strength and energy that God supplies. Then everything you do will bring glory to God through Jesus Christ. All glory and power to him for ever and ever! Amen.",
+                "reference": "1 Peter 4:10-11"
+              }
+            ]
+          },
+          "required": false,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "project_brainstorm",
+          "type": "activity",
+          "title": "Activity: Project Brainstorm",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Use the box below to make a list of potential project ideas that you have in mind. Your project idea should tie in with the problem that you have already identified. Consider sharing your ideas with a fellow classmate or your teacher for further brainstorming."
+              },
+              {
+                "type": "heading",
+                "text": "Need help with project ideas? Here are a few to get you thinking:"
+              },
+              {
+                "type": "list",
+                "items": [
+                  "Start a reading and tutoring program with younger students",
+                  "Pick up trash in the area your class is meeting",
+                  "Help organise a space that is cluttered where your class is meeting",
+                  "Paint a wall in the area where your class is meeting",
+                  "Create a recipe book"
+                ]
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "problem",
+                "type": "textarea",
+                "label": "The problem our group identified was:",
+                "required": true
+              },
+              {
+                "key": "idea",
+                "type": "textarea",
+                "label": "Our project idea is:",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "facilitator"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "You may already be thinking about an idea for a solution to a problem you have observed. How do you turn that idea into reality?"
+              },
+              {
+                "type": "paragraph",
+                "text": "There are two approaches to consider: First, solution-oriented, which starts with the problem you want to solve, and second, audience-oriented, which starts with the audience you want to serve. Your idea can start with either, but it needs to have both. For instance, you may know that local food reserves often struggle to provide fresh fruits and vegetables. This is the problem you are trying to solve. Your solution may be to create a community garden run by volunteers that provides fresh vegetables to local food banks. This is the audience you want to serve."
+              },
+              {
+                "type": "paragraph",
+                "text": "The other approach would be that you have a burden for single moms. This is your audience. By observing and listening, you find out that single moms want to attend weekly Bible studies but cannot find or afford childcare. This is the problem you want to solve and those you want to serve in your community."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "single_mothers",
+                "type": "textarea",
+                "label": "How might you find a solution to help and serve these single mothers well? Write your thoughts below.",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "Called to Believe",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "It is God that equips us to do good work for his glory."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Believe",
+                    "definition": "to have confidence or faith in what is true"
+                  },
+                  {
+                    "term": "Pitch",
+                    "definition": "to propose a solution to a problem"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "Now may the God of peace—who brought up from the dead our Lord Jesus, the great Shepherd of the sheep, and ratified an eternal covenant with his blood — may he equip you with all you need for doing his will. May he produce in you, through the power of Jesus Christ, every good thing that is pleasing to him. All glory to him for ever and ever! Amen.",
+                "reference": "Hebrews 13: 20-21"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Group Discussion",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "How has God equipped you to do good work?",
+                  "Why did you choose your project idea?",
+                  "What difference do you expect your project will make?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "pitch",
+          "type": "activity",
+          "title": "Application",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "A good pitch should have the following elements:"
+              },
+              {
+                "type": "ordered_list",
+                "items": [
+                  "Who you are",
+                  "Why you chose this project (Your Story)",
+                  "An enticing solution with a call to action, which is something you are asking the investor to do."
+                ]
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "pitch",
+                "type": "textarea",
+                "label": "Write your pitch below.",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "facilitator"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "The number of words you speak does not determine whether one is a good communicator or not. It’s about whether or not what you said made sense to the people in your audience. So to help you become better at communicating, brainstorm answers to the following questions:"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "best_communicator",
+                "type": "textarea",
+                "label": "1. Who is the best communicator you know?",
+                "required": true
+              },
+              {
+                "key": "what_makes_great",
+                "type": "textarea",
+                "label": "2. What makes them great?",
+                "required": true
+              },
+              {
+                "key": "one_thing",
+                "type": "textarea",
+                "label": "3. What is one thing you can do this week to work on your own communication?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "Called to Collaborate",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "We are called to work together, to honour others, and to spur one another on to good works."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Collaborate",
+                    "definition": "to offer open-handed ideas and perspectives in an effort to find the most optimal solution possible"
+                  },
+                  {
+                    "term": "Role",
+                    "definition": "the function one takes responsibility for in a system"
+                  },
+                  {
+                    "term": "Team",
+                    "definition": "a group of people working together achieve a common goal"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "Just as our bodies have many parts and each part has a special function, so it is with Christ’s body. We are many parts of one body, and we all belong to each other.",
+                "reference": "Romans 12:4-5"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "godly_leaders_workers",
+          "type": "activity",
+          "title": "Godly Leaders, Godly Qualities, Godly Workers",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Fill in the missing words for godly leaders and godly workers under each godly quality."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "humble_leader",
+                "type": "text",
+                "label": "Humble — Godly leaders: willing to admit when they are ____ or when they need ____",
+                "required": false
+              },
+              {
+                "key": "humble_worker",
+                "type": "text",
+                "label": "Humble — Godly workers: willing to ____ their leader even when they ____",
+                "required": false
+              },
+              {
+                "key": "selfless_leader",
+                "type": "text",
+                "label": "Selfless — Godly leaders: put the needs of their ____ before their own",
+                "required": false
+              },
+              {
+                "key": "selfless_worker",
+                "type": "text",
+                "label": "Selfless — Godly workers: give their ____ ____ even when they do not receive credit",
+                "required": false
+              },
+              {
+                "key": "diligent_leader",
+                "type": "text",
+                "label": "Diligent — Godly leaders: ensure their team has everything they need to ____",
+                "required": false
+              },
+              {
+                "key": "diligent_worker",
+                "type": "text",
+                "label": "Diligent — Godly workers: fulfil their ____ as if the entire team depends on them",
+                "required": false
+              },
+              {
+                "key": "listen_leader",
+                "type": "text",
+                "label": "Listen — Godly leaders: understanding that they do not already ____ everything.",
+                "required": false
+              },
+              {
+                "key": "listen_worker",
+                "type": "text",
+                "label": "Listen — Godly workers: gaining ____ in every conversation so they can one day become leaders too.",
+                "required": false
+              },
+              {
+                "key": "leader_to_follow",
+                "type": "textarea",
+                "label": "Use the space below to describe a leader you would want to follow.",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private",
+          "facilitator_content": {
+            "notes": [
+              "The source workbook does not include the missing words. Lead the group through the table together."
+            ]
+          }
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Group Discussion",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "Who is your team leader, and why did you choose him/her?",
+                  "Now that we know what it means to collaborate, how can we collaborate better as a team?",
+                  "What are some of the challenges we foresee when we do not collaborate on our project, and how can we overcome them?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "group_member_roles",
+          "type": "project_milestone",
+          "title": "Group Member Roles",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Write team members’ names next to the group role they will play. Depending on the size of your group, some people may need to fill more than one role, or some people may share roles."
+              },
+              {
+                "type": "list",
+                "items": [
+                  "Leader: ensures work is done and deadlines are met",
+                  "Secretary: takes notes on decisions made",
+                  "Spokesperson: presents to the class",
+                  "Resourcer: collects necessary resources"
+                ]
+              },
+              {
+                "type": "paragraph",
+                "text": "Your facilitator records team roles on the Project page. This part is complete once you have a role in a project team."
+              }
+            ],
+            "milestone": "team_role_assigned"
+          },
+          "required": true,
+          "completion_method": "project_milestone",
+          "visibility": "project_team"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Who is someone you’ve seen as a leader, and how have you seen that leader influence others in either a good way or a negative way? Keep in mind that we are called to collaborate as leaders and followers on a team. Be thinking about this and consider sharing your thoughts with someone you trust."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "leader_influence",
+                "type": "textarea",
+                "label": "A leader I have seen, and how they influenced others",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "Called to Plan",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "God will help bring order to our lives if we seek to honour him."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Plan",
+                    "definition": "a detailed proposal for achieving something we have set out to do as a team"
+                  },
+                  {
+                    "term": "Responsibility",
+                    "definition": "meeting my role in respect to others and willing to be accountable for the consequences of my actions and behaviour"
+                  },
+                  {
+                    "term": "Budget",
+                    "definition": "a financial plan for a specific period of time"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "The LORD directs the steps of the godly. He delights in every detail of their lives.",
+                "reference": "Psalm 37:23"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Group Discussion",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "How important was planning for Nehemiah in rebuilding the walls of Jerusalem?",
+                  "Why is it important to ask God when putting together a plan?",
+                  "Why is it important to define each other’s responsibilities as you plan?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "During the upcoming week, answer these questions on your own and make a plan for your week. Remember, each of us is capable of creating and carrying out great plans in our lives."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "responsible_for",
+                "type": "textarea",
+                "label": "What are the things for which you are responsible?",
+                "required": true
+              },
+              {
+                "key": "rest",
+                "type": "textarea",
+                "label": "What is one thing you can do to rest this week?",
+                "required": true
+              },
+              {
+                "key": "help_someone",
+                "type": "textarea",
+                "label": "What is one thing you can do to help someone else this week?",
+                "required": true
+              },
+              {
+                "key": "grow",
+                "type": "textarea",
+                "label": "What is one thing within your work in which you can grow this week?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "project_planning",
+          "type": "project_milestone",
+          "title": "Project Planning Activity",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Use this Project Planning Sheet to guide you as you plan for your Project Idea."
+              },
+              {
+                "type": "paragraph",
+                "text": "The Project Planning Sheet lives on your team’s Project page: Project Idea Summary, how the project blesses your community/school/church, Goals, and a table of Problem to solve, Action Required, Action Items, Resources Needed, Person Responsible, Others Involved and Time Frame."
+              },
+              {
+                "type": "table",
+                "columns": [
+                  "Problem to solve",
+                  "Action Required",
+                  "Action Items",
+                  "Resources Needed",
+                  "Person Responsible",
+                  "Others Involved",
+                  "Time Frame"
+                ],
+                "caption": "Example from the workbook",
+                "rows": [
+                  [
+                    "Meeting venue has changed.",
+                    "Find another venue for the baking training.",
+                    "Communicate to the teens about change of venue.",
+                    "Airtime",
+                    "Samuel",
+                    "Trainer",
+                    "05/08/24 to 06/08/24"
+                  ],
+                  [
+                    "",
+                    "",
+                    "Pay for new venue.",
+                    "Rent",
+                    "Jasmine",
+                    "Landlord",
+                    "06/08/24"
+                  ]
+                ]
+              },
+              {
+                "type": "paragraph",
+                "text": "This part is complete once your team has recorded at least one goal and one action with an action item."
+              }
+            ],
+            "milestone": "plan_recorded"
+          },
+          "required": true,
+          "completion_method": "project_milestone",
+          "visibility": "project_team"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "title": "Called to Implement: Project Work Part 1",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "God will enable me to implement all my goals as I seek to glorify him."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Implement",
+                    "definition": "to carry out a project idea/plan"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Complete the Plus/Delta diagram below. Be ready to share with your team next week how you might improve for next time."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "plus",
+                "type": "textarea",
+                "label": "1. What went well (plus or positive)?",
+                "required": true
+              },
+              {
+                "key": "delta",
+                "type": "textarea",
+                "label": "2. What did not go well that you would like to correct (delta or needs improvement)?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "title": "Called to Implement: Project Work Part 2",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "God will enable me to implement all my goals as I seek to glorify him."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Implement",
+                    "definition": "to execute a project idea/plan"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Create an action item list of things that need to be completed before your team presents on your project in two weeks. An action item list is a great way to make sure you are on task and prepared to accomplish the goal you are setting out to achieve."
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "myself",
+                "type": "list",
+                "label": "Action items for myself:",
+                "count": 3,
+                "required": true
+              },
+              {
+                "key": "group",
+                "type": "list",
+                "label": "Action items for my group:",
+                "count": 3,
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "title": "Called to Evaluate",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "God requires honesty and grace towards one another."
+              }
+            ]
+          }
+        },
+        {
+          "key": "vocabulary",
+          "type": "vocabulary",
+          "title": "Vocabulary",
+          "content": {
+            "blocks": [
+              {
+                "type": "terms",
+                "items": [
+                  {
+                    "term": "Evaluate",
+                    "definition": "to determine how important or valuable something is, and its impact on something or someone"
+                  },
+                  {
+                    "term": "Honest",
+                    "definition": "to be truthful; sincere"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "No, O people, the LORD has told you what is good, and this is what he requires of you: to do what is right, to love mercy, and to walk humbly with your God.",
+                "reference": "Micah 6:8"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "discussion",
+          "type": "discussion",
+          "title": "Group Discussion",
+          "content": {
+            "blocks": [
+              {
+                "type": "questions",
+                "items": [
+                  "Were we kind to one another as we implemented the project? Explain your answer.",
+                  "What challenges did you personally face while doing the project in the community/school/church?",
+                  "Did we exercise humility in response to our challenges with each other?"
+                ]
+              }
+            ]
+          },
+          "facilitator_content": {
+            "notes": [
+              "Discussion is spoken, not written. Confirm this component only for participants who took part.",
+              "Confirming a discussion never creates response text on the participant's behalf."
+            ]
+          },
+          "required": false,
+          "completion_method": "facilitator_confirmation"
+        },
+        {
+          "key": "life_work",
+          "type": "life_work",
+          "title": "Next Steps/Life Work",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "As we come to the end of the programme,"
+              }
+            ]
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "learned",
+                "type": "textarea",
+                "label": "What have I learned about God, about myself and about others?",
+                "required": true
+              },
+              {
+                "key": "next_steps",
+                "type": "textarea",
+                "label": "What are my next steps in becoming all God has called me to be?",
+                "required": true
+              },
+              {
+                "key": "future_goals",
+                "type": "textarea",
+                "label": "How will I work toward my future goals with confidence? What are my next steps? Do I have a plan to grow in every area I have been called to?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "private"
+        },
+        {
+          "key": "project_evaluation",
+          "type": "project_milestone",
+          "title": "Activity: Project Evaluation Form",
+          "content": {
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Let’s assess our projects using this simple tool. Be sure you are being honest, sincere and truthful, as you give and receive feedback positively."
+              },
+              {
+                "type": "paragraph",
+                "text": "Fill in the Project Evaluation Form on your team’s Project page. This part is complete once you submit your own evaluation."
+              }
+            ],
+            "milestone": "evaluation_submitted"
+          },
+          "required": true,
+          "completion_method": "project_milestone",
+          "visibility": "project_team"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "title": "Putting it all Together",
+      "components": [
+        {
+          "key": "gods_truth",
+          "type": "truth",
+          "title": "God’s Truth",
+          "content": {
+            "blocks": [
+              {
+                "type": "truth",
+                "text": "God sees me as valuable in his Kingdom here on earth and in heaven."
+              }
+            ]
+          }
+        },
+        {
+          "key": "scripture",
+          "type": "scripture",
+          "title": "Scripture Reading",
+          "content": {
+            "blocks": [
+              {
+                "type": "scripture",
+                "text": "O Lord, you have examined my heart and know everything about me.",
+                "reference": "Psalm 139:1"
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "acknowledgment"
+        },
+        {
+          "key": "presentation",
+          "type": "activity",
+          "title": "Project Presentation Template",
+          "content": {
+            "blocks": []
+          },
+          "response_schema": {
+            "fields": [
+              {
+                "key": "project_name",
+                "type": "text",
+                "label": "Project Name:",
+                "required": true
+              },
+              {
+                "key": "project_summary",
+                "type": "textarea",
+                "label": "Project Summary:",
+                "required": true
+              },
+              {
+                "key": "blessing",
+                "type": "textarea",
+                "label": "How did this project bless your community/school/church?",
+                "required": true
+              }
+            ]
+          },
+          "required": true,
+          "completion_method": "submission",
+          "visibility": "project_team"
+        }
+      ]
+    }
+  ]
+}

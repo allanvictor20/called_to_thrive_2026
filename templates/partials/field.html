@@ -1,0 +1,16 @@
+{% comment %}Generic labelled field. Params: name, label, type, value, errors, hint, required, options (list of (value,label)), autocomplete{% endcomment %}
+<div class="field{% if errors and name in errors %} has-error{% endif %}" data-field="{{ name }}">
+  <label for="id_{{ idp }}{{ name }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
+  {% if hint %}<p class="hint" id="hint_{{ idp }}{{ name }}">{{ hint }}</p>{% endif %}
+  {% if type == "textarea" %}
+    <textarea id="id_{{ idp }}{{ name }}" name="{{ name }}" {% if required %}required{% endif %} {% if errors and name in errors %}aria-invalid="true" aria-describedby="err_{{ idp }}{{ name }}"{% endif %}>{{ value|default_if_none:"" }}</textarea>
+  {% elif type == "select" %}
+    <select id="id_{{ idp }}{{ name }}" name="{{ name }}" {% if required %}required{% endif %} {% if errors and name in errors %}aria-invalid="true" aria-describedby="err_{{ idp }}{{ name }}"{% endif %}>
+      <option value="">— Choose —</option>
+      {% for v, l in options %}<option value="{{ v }}" {% if v|stringformat:"s" == value|stringformat:"s" %}selected{% endif %}>{{ l }}</option>{% endfor %}
+    </select>
+  {% else %}
+    <input id="id_{{ idp }}{{ name }}" name="{{ name }}" type="{{ type|default:'text' }}" value="{{ value|default_if_none:'' }}" {% if required %}required{% endif %} {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %} {% if errors and name in errors %}aria-invalid="true" aria-describedby="err_{{ idp }}{{ name }}"{% endif %}>
+  {% endif %}
+  {% if errors %}{% for k, msg in errors.items %}{% if k == name %}<p class="error-text" id="err_{{ idp }}{{ name }}">{{ msg }}</p>{% endif %}{% endfor %}{% endif %}
+</div>

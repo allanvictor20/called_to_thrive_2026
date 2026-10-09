@@ -1,0 +1,62 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Called to Thrive{% endblock %} · Called to Thrive</title>
+  <meta name="theme-color" content="#1f2328">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 28 16 4l12 24z' fill='%23e8701f'/%3E%3Cpath d='M16 4l12 24H16z' fill='%233fa6a0'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="{% url 'core:home' %}">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 28 16 4l12 24z" fill="#e8701f"/><path d="M16 4l12 24H16z" fill="#3fa6a0"/></svg>
+      <span>Called to Thrive<small>OneHope Uganda</small></span>
+    </a>
+    {% if user.is_authenticated %}
+    <nav class="nav" aria-label="Main">
+      {% if active_role == "participant" %}
+        <a href="{% url 'participant:home' %}">Home</a>
+        <a href="{% url 'cohorts:join' %}">Join a cohort</a>
+      {% elif active_role == "facilitator" %}
+        <a href="{% url 'facilitator:cohorts' %}">My cohorts</a>
+      {% elif active_role == "admin" %}
+        <a href="{% url 'admin_console:dashboard' %}">Programme</a>
+        <a href="{% url 'admin_console:facilitators' %}">Facilitators</a>
+        <a href="{% url 'admin_console:partners' %}">Partners</a>
+        <a href="{% url 'reporting:programme' %}">Reports</a>
+      {% endif %}
+      <a href="{% url 'accounts:profile' %}">Profile</a>
+      {% if user_roles|length > 1 %}
+      <form class="role-switch" method="post" action="{% url 'accounts:switch_role' %}">
+        {% csrf_token %}
+        <label for="role-select" class="visually-hidden" style="position:absolute;left:-999px">Switch role</label>
+        <select id="role-select" name="role" onchange="this.form.submit()">
+          {% for r in user_roles %}<option value="{{ r }}" {% if r == active_role %}selected{% endif %}>{{ r|capfirst }}</option>{% endfor %}
+        </select>
+        <noscript><button class="btn btn-small btn-secondary">Switch</button></noscript>
+      </form>
+      {% endif %}
+      <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="linklike" style="color:#e9eaec;padding:.4rem .6rem">Sign out</button></form>
+    </nav>
+    {% endif %}
+  </div>
+</header>
+<main id="main" tabindex="-1">
+  {% if messages %}
+  <ul class="messages" role="status">
+    {% for message in messages %}<li class="alert alert-{% if message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}info{% endif %}">{{ message }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  {% if user.is_authenticated and not user.has_verified_contact and request.resolver_match.url_name != 'verify' %}
+  <div class="alert alert-warning">Please <a href="{% url 'accounts:verify' %}">verify your {% if user.email %}email{% else %}phone{% endif %}</a> before joining a cohort.</div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer">Called to Thrive · Times shown in Africa/Kampala (EAT) · Online saves need a connection</footer>
+<script src="{% static 'js/save-state.js' %}" defer></script>
+</body>
+</html>

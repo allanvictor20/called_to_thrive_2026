@@ -1,0 +1,6 @@
+-r requirements.txt
+pytest==9.1.1
+pytest-django==4.14.0
+ruff==0.16.10
+# Optional: real-browser tests in tests/test_browser.py (skipped when absent)
+playwright==1.56.0

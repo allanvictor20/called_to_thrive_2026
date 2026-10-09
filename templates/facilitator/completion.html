@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Completion review{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.name }}</p><h1>Completion review</h1>
+<p class="muted small">{{ review.eligible }} of {{ review.total }} meet every requirement · {{ review.completed }} confirmed complete</p></div></div>
+{% include "facilitator/_cohort_nav.html" %}
+<p class="small">Programme completion needs all lessons complete, a facilitator-confirmed team project and the participant's own evaluation. Attendance alone is never enough.</p>
+{% for r in review.rows %}
+<div class="card">
+  <div class="row spread"><h2 style="margin:0;font-size:1.1rem">{{ r.enrollment.participant_user.full_name }}</h2>
+    {% if r.enrollment.status == "completed" %}<span class="badge badge-done">Completed {{ r.enrollment.completed_at|date:"j M Y" }}{% if r.checklist.override %} · by exception{% endif %}</span>{% elif r.checklist.eligible %}<span class="badge badge-teal">Ready</span>{% elif r.enrollment.status == "withdrawn" %}<span class="badge badge-red">Withdrawn</span>{% else %}<span class="badge badge-progress">Not yet</span>{% endif %}</div>
+  {% if r.checklist.unmet and r.enrollment.status != "completed" %}<ul class="small" style="margin:.4rem 0">{% for u in r.checklist.unmet %}<li>{{ u }}</li>{% endfor %}</ul>{% endif %}
+  {% if is_lead and r.enrollment.status == "active" %}
+    <form method="post" class="row" style="margin-top:.5rem">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="enrollment" value="{{ r.enrollment.pk }}">
+      {% if r.checklist.eligible %}<button class="btn btn-small btn-teal">Confirm completion</button>
+      {% else %}<label for="o-{{ r.enrollment.pk }}" style="position:absolute;left:-999px">Override reason</label><input id="o-{{ r.enrollment.pk }}" name="override_reason" placeholder="Reason to complete by exception" style="flex:1;min-width:12rem"><button class="btn btn-small btn-secondary">Complete by exception</button>{% endif %}
+    </form>
+  {% endif %}
+</div>
+{% empty %}<div class="card empty">No participants yet.</div>{% endfor %}
+{% if is_lead and transitions %}
+<form method="post" class="card card-accent">{% csrf_token %}<input type="hidden" name="action" value="status">
+  <h2>Cohort status: {{ cohort.get_status_display }}</h2>
+  <div class="field"><label for="to_status">Change to</label><select id="to_status" name="to_status">{% for t in transitions %}<option value="{{ t }}">{{ t|capfirst }}</option>{% endfor %}</select></div>
+  <label class="choice"><input type="checkbox" name="reviewed" value="1"> <span>I reviewed participant eligibility above (required to complete a cohort)</span></label>
+  {% include "partials/field.html" with name="reason" label="Reason (required to cancel)" type="textarea" %}
+  <button class="btn">Update status</button>
+</form>
+{% endif %}
+{% endblock %}

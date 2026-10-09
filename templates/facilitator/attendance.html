@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Attendance · {{ session.title }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.name }}</p><h1>{{ session.title }}</h1>
+  <p class="muted small">{{ session.starts_at|date:"l j F Y, g:i A" }}{% if session.lesson %} · Lesson {{ session.lesson.lesson_number }}{% endif %} · {{ session.get_meeting_type_display }} · <b>{{ session.get_status_display }}</b>{% if session.attendance_finalized_at %} (finalized {{ session.attendance_finalized_at|date:"j M, g:i A" }}){% endif %}</p></div>
+  <div class="row">{% if session.status == "scheduled" %}<a class="btn btn-secondary btn-small" href="{% url 'facilitator:session_edit' cohort.pk session.pk %}">Edit</a>{% endif %}
+  {% if session.meet_url %}<a class="btn btn-teal btn-small" href="{{ session.meet_url }}" target="_blank" rel="noopener noreferrer">Open Google Meet ↗</a>{% endif %}
+  {% if session.lesson %}<a class="btn btn-secondary btn-small" href="{% url 'facilitator:lesson_guide' cohort.pk session.lesson.lesson_number %}">Lesson guide</a>{% endif %}</div>
+</div>
+{% if session.venue %}<p>📍 {{ session.venue }}</p>{% endif %}
+
+{% if stage == "review" %}
+  <div class="card card-accent">
+    <h2>Review before saving</h2>
+    <p>{{ changes }} change(s). Present <b>{{ totals.present }}</b> · Absent <b>{{ totals.absent }}</b> · Excused <b>{{ totals.excused }}</b> · Not recorded <b>{{ totals.unrecorded }}</b></p>
+    <div class="table-wrap"><table class="data stack-mobile"><thead><tr><th>Participant</th><th>Before</th><th>After</th></tr></thead><tbody>
+      {% for r in rows %}<tr{% if r.status != r.before %} style="background:var(--orange-wash)"{% endif %}><td data-label="Participant">{{ r.e.participant_user.full_name }}</td><td data-label="Before">{{ r.before|default:"not recorded"|capfirst }}</td><td data-label="After"><b>{{ r.status|default:"not recorded"|capfirst }}</b></td></tr>{% endfor %}
+    </tbody></table></div>
+    <form method="post" class="row">{% csrf_token %}<input type="hidden" name="revision" value="{{ revision }}">
+      {% for r in rows %}<input type="hidden" name="att_{{ r.e.pk }}" value="{{ r.status|default:'' }}">{% endfor %}
+      <button class="btn" name="action" value="save">Save attendance</button>
+      <a class="btn btn-secondary" href="{% url 'facilitator:attendance' session.pk %}">Back to edit</a>
+    </form>
+  </div>
+{% else %}
+  {% if session.status == "cancelled" %}<div class="alert alert-info">This session was cancelled. Attendance cannot be recorded.</div>{% else %}
+  <form method="post" class="card" data-attendance>{% csrf_token %}<input type="hidden" name="revision" value="{{ session.revision }}">
+    <div class="row spread"><h2 style="margin:0">Attendance</h2><button type="button" class="btn btn-small btn-secondary" data-mark-all>Mark unrecorded as present</button></div>
+    <p class="small muted">Leave a participant as “Not recorded” if you do not know. Not recorded is never treated as absent.</p>
+    <div class="table-wrap"><table class="data stack-mobile"><thead><tr><th>Participant</th><th>Status</th></tr></thead><tbody>
+    {% for r in rows %}
+      <tr><td data-label="Participant"><label for="att_{{ r.e.pk }}">{{ r.e.participant_user.full_name }}</label>{% if r.e.status == "withdrawn" %} <span class="badge">withdrawn</span>{% endif %}</td>
+        <td data-label="Status"><select id="att_{{ r.e.pk }}" name="att_{{ r.e.pk }}" data-att>
+          <option value="" {% if not r.status %}selected{% endif %}>Not recorded</option>
+          <option value="present" {% if r.status == "present" %}selected{% endif %}>Present</option>
+          <option value="absent" {% if r.status == "absent" %}selected{% endif %}>Absent</option>
+          <option value="excused" {% if r.status == "excused" %}selected{% endif %}>Excused</option></select></td></tr>
+    {% empty %}<tr><td colspan="2" class="empty">No enrolled participants.</td></tr>{% endfor %}
+    </tbody></table></div>
+    <p class="small" aria-live="polite">Present <b data-count="present">{{ summary.present }}</b> · Absent <b data-count="absent">{{ summary.absent }}</b> · Excused <b data-count="excused">{{ summary.excused }}</b> · Not recorded <b data-count="unrecorded">{{ summary.unrecorded }}</b></p>
+    <button class="btn" name="action" value="review">Review changes</button>
+  </form>
+  <div class="card">
+    <h2>Finish the session</h2>
+    <p class="small">Finalizing marks the session completed for attendance reporting. It does not complete anyone's lesson or Life Work.</p>
+    <div class="row">
+      {% if session.status != "completed" %}
+      <form method="post">{% csrf_token %}<input type="hidden" name="revision" value="{{ session.revision }}"><button class="btn btn-teal" name="action" value="finalize">Finalize attendance</button></form>
+      <form method="post">{% csrf_token %}<button class="btn btn-danger" name="action" value="cancel">Cancel session</button></form>
+      {% else %}<span class="badge badge-done">Finalized</span>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+{% endif %}
+{% endblock %}

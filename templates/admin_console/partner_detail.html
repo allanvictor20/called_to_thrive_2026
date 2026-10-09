@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ partner.name }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow"><a href="{% url 'admin_console:partners' %}">Partners</a></p><h1>{{ partner.name }}</h1><p class="muted small">{{ partner.get_organisation_type_display }} · {{ partner.district.name|default:"No HQ district" }} · {{ partner.get_status_display }}</p></div>
+  <form method="post">{% csrf_token %}<button class="btn btn-small btn-secondary" name="action" value="archive">{% if partner.status == "active" %}Archive{% else %}Reactivate{% endif %}</button></form></div>
+<section class="card">
+  <h2>Affiliated facilitators</h2>
+  <ul class="stack" style="list-style:none;padding:0">
+  {% for a in affiliations %}<li class="row spread"><span><b>{{ a.facilitator_user.full_name }}</b> <span class="small muted">{{ a.facilitator_user.facilitator_profile.get_approval_status_display }} · affiliation {{ a.status }}</span></span>
+    <form method="post">{% csrf_token %}<input type="hidden" name="user" value="{{ a.facilitator_user.pk }}">{% if a.status == "active" %}<button class="btn btn-small btn-danger" name="action" value="deactivate">Remove</button>{% else %}<button class="btn btn-small btn-secondary" name="action" value="activate">Restore</button>{% endif %}</form></li>
+  {% empty %}<li class="muted">None yet.</li>{% endfor %}
+  </ul>
+  {% if candidates %}
+  <form method="post" class="row" style="margin-top:.8rem">{% csrf_token %}<input type="hidden" name="action" value="activate">
+    <label for="fu" style="position:absolute;left:-999px">Facilitator</label>
+    <select id="fu" name="user" style="flex:1;min-width:12rem">{% for c in candidates %}<option value="{{ c.pk }}">{{ c.full_name }} ({{ c.facilitator_profile.get_approval_status_display|default:"no profile" }})</option>{% endfor %}</select>
+    <button class="btn btn-small">Affiliate</button></form>
+  {% endif %}
+</section>
+<section class="card"><h2>Cohorts</h2><ul>{% for c in cohorts %}<li><a href="{% url 'admin_console:cohort' c.pk %}">{{ c.name }}</a> — {{ c.district.name }}, {{ c.start_date|date:"Y" }} <span class="badge">{{ c.get_status_display }}</span></li>{% empty %}<li class="muted">None.</li>{% endfor %}</ul></section>
+{% endblock %}

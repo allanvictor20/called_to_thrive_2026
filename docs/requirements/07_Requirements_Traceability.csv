@@ -1,0 +1,43 @@
+Requirement ID,Area,Requirement,Acceptance criterion,SDD module,Implementation phase,Acceptance test ID,Status
+FR01,Accounts,Register and authenticate a participant using a verified email or phone contact.,Duplicate normalized contacts are rejected; credentials never appear in responses; recovery uses verified channels.,Identity,P1,TC-FR01,Planned
+FR02,Accounts,Support participant facilitator and administrator roles on one account.,Public registration cannot grant admin; role switching preserves the same user identity.,Identity,P1,TC-FR02,Planned
+FR03,Accounts,Require administrator approval before a facilitator operates a cohort.,Pending or suspended facilitator cannot create or manage cohorts.,Identity,P1,TC-FR03,Planned
+FR04,Accounts,Collect a basic profile with optional demographics.,Name and contact suffice to register; optional demographic fields can be left blank.,Identity,P1,TC-FR04,Planned
+FR05,Partners,Manage partner records and facilitator affiliations.,An approved facilitator can serve several partners; affiliation is checked during assignment.,Programme,P1,TC-FR05,Planned
+FR06,Cohorts,Create a cohort with partner district curriculum dates and delivery mode.,Creation assigns an approved lead atomically; invalid date ranges are rejected.,Cohorts,P2,TC-FR06,Planned
+FR07,Cohorts,Allow a lead and assistant facilitators with scoped access.,One active lead exists; unrelated facilitators receive no cohort data.,Cohorts,P2,TC-FR07,Planned
+FR08,Cohorts,Join through a revocable expiring cohort code or link after preview.,Preview shows cohort partner and facilitator; expiry and capacity are checked on confirmed join.,Cohorts,P2,TC-FR08,Planned
+FR09,Cohorts,Retain a separate enrollment for each participant cohort pair.,Duplicate join returns the existing enrollment; a new cohort creates separate progress and answers.,Cohorts,P2,TC-FR09,Planned
+FR10,Cohorts,Manage planned active completed cancelled and archived cohort states.,Completed state requires reviewed eligibility or explicit authorized correction; cancelled cohorts do not silently count as completed.,Cohorts,P2,TC-FR10,Planned
+FR11,Sessions,Schedule physical online or hybrid sessions using local time.,Physical needs venue; online needs valid Google Meet link; hybrid needs both; invalid end time is rejected.,Sessions,P3,TC-FR11,Planned
+FR12,Sessions,Open Google Meet through an external link.,Join opens the configured Meet URL; application creates no video room and claims no automatic attendance.,Sessions,P3,TC-FR12,Planned
+FR13,Sessions,Record present absent or excused attendance for eligible enrolled participants.,Missing is unrecorded; cross-cohort attendance is rejected; bulk changes are reviewed before save.,Sessions,P3,TC-FR13,Planned
+FR14,Sessions,Finalize or cancel a session independently of lesson work.,Finalizing attendance does not complete outstanding participant Life Work.,Sessions,P3,TC-FR14,Planned
+FR15,Learning,Deliver the approved 15-lesson workbook with its original component structure.,Curriculum owner checks every lesson against the source including scripture vocabulary activities and Life Work.,Learning,P3,TC-FR15,Planned
+FR16,Learning,Provide separate participant and facilitator lesson views.,Participant payloads never contain facilitator-only guidance.,Learning,P3,TC-FR16,Planned
+FR17,Learning,Save drafts and submit typed workbook responses.,Validation errors preserve typed input; success confirms server save; reloading retrieves the saved draft.,Learning,P3,TC-FR17,Planned
+FR18,Learning,Record discussions without forcing written answers.,Facilitator confirmation can complete a discussion component for selected participants without creating invented response text.,Learning,P3,TC-FR18,Planned
+FR19,Learning,Complete a lesson only when its defined requirements are satisfied.,Opening the lesson is insufficient; submission updates response and progress atomically.,Learning,P3,TC-FR19,Planned
+FR20,Learning,Allow authorized exceptional completion with a reason.,Override stores approver time and reason; override counts are distinguishable in reporting.,Learning,P3,TC-FR20,Planned
+FR21,Learning,Freeze published curriculum and bind each cohort to one version.,Editing published content is rejected; a new version leaves existing cohort responses intact.,Learning,P1,TC-FR21,Planned
+FR22,Assessment,Provide the 24-question career quiz with ratings from 1 to 5.,Missing answers or values outside 1 to 5 cannot be submitted as complete.,Assessment,P4,TC-FR22,Planned
+FR23,Assessment,Calculate and display all six category sums with ties preserved.,Known fixtures match workbook mapping; four answers per category yield a score from 4 to 20.,Assessment,P4,TC-FR23,Planned
+FR24,Assessment,Preserve assessment attempts and scoring version.,Retake creates a new attempt without changing earlier submitted answers; latest submitted attempt is the displayed default.,Assessment,P4,TC-FR24,Planned
+FR25,Projects,Create one or several projects within a cohort.,Each project captures problem idea and community benefit; membership belongs to the same cohort.,Projects,P5,TC-FR25,Planned
+FR26,Projects,Assign team members and curriculum roles.,Leader secretary spokesperson resourcer and member are supported; another cohort enrollment is rejected.,Projects,P5,TC-FR26,Planned
+FR27,Projects,Capture goals actions tasks resources responsible people others involved and timeframes.,Task assignee and linked goal belong to the same project; contradictory dates are rejected.,Projects,P5,TC-FR27,Planned
+FR28,Projects,Track project stages and task status with conflict protection.,A stale update receives a conflict and does not overwrite a newer edit.,Projects,P5,TC-FR28,Planned
+FR29,Projects,Capture individual project evaluation using approved workbook fields.,Ratings use the workbook 0 to 3 range; final personal reflection remains separate.,Projects,P5,TC-FR29,Planned
+FR30,Projects,Confirm project and participant programme completion.,Facilitator sees unmet conditions before confirmation; attendance alone is insufficient.,Projects,P5,TC-FR30,Planned
+FR31,Reporting,Provide facilitator dashboards for assigned cohorts only.,Roster attendance current cohort lesson and individual completion agree with source records.,Reporting,P6,TC-FR31,Planned
+FR32,Reporting,Provide admin filters and programme summaries.,Year region district partner facilitator and cohort filters share documented denominator definitions.,Reporting,P6,TC-FR32,Planned
+FR33,Reporting,Export authorized programme records to CSV.,Export matches filters excludes private payloads and neutralizes spreadsheet formula cells.,Reporting,P6,TC-FR33,Planned
+FR34,Privacy,Restrict personal response contents by fixed component visibility.,Private means participant only; facilitator sees completion metadata; admin report never includes private text.,Authorization,P1,TC-FR34,Planned
+NFR01,Security,Authorize every request by identity role and resource membership.,Negative API tests cover foreign cohort enrollment project and private response identifiers.,Authorization,P1,TC-NFR01,Planned
+NFR02,Integrity,Enforce cross-cohort version and assessment consistency in the database.,Invalid direct writes fail constraints or triggers and leave no partial completion state.,Persistence,P2,TC-NFR02,Planned
+NFR03,Usability,Support mobile screens keyboard navigation labels and clear save states.,At 360 CSS pixels no horizontal overflow; key workflows work without a mouse; errors identify the field.,Presentation,P3,TC-NFR03,Planned
+NFR04,Performance,Meet provisional low-bandwidth and response targets.,Compressed initial participant route <=500 KB excluding optional media; p95 ordinary API <=1 second at 50 concurrent authenticated test users on agreed staging hardware.,Operations,P6,TC-NFR04,Planned
+NFR05,Recovery,Back up database and prove a restore before pilot.,Proposed pilot RPO <=24 hours and RTO <=4 hours demonstrated using an isolated restore and recorded run.,Operations,P7,TC-NFR05,Planned
+NFR06,Reliability,Preserve submitted records and prevent silent overwrites or duplicate effects.,Retries of join attendance save and quiz submission create no duplicate enrollment or scores; stale revisions return conflict.,Persistence,P3,TC-NFR06,Planned
+NFR07,Maintainability,Keep domain services migrations and automated regression tests modular.,Fresh database can migrate and seed approved content; CI checks complete before release.,Architecture,P1,TC-NFR07,Planned
+NFR08,Privacy,Minimize demographic data and keep personal content out of logs.,Logs contain record IDs outcome and timing but no passwords tokens contact values or reflection payloads.,Operations,P1,TC-NFR08,Planned

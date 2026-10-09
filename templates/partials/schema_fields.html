@@ -1,0 +1,46 @@
+{% load ctt %}
+{% comment %}Renders fields for a fixed response schema. Params: schema, payload, errors, prefix, disabled{% endcomment %}
+{% for f in schema.fields %}
+  {% with val=payload|get:f.key err=errors|get:f.key fid=prefix|add:"-"|add:f.key %}
+  {% if f.type == "text" or f.type == "textarea" %}
+    <div class="field{% if err %} has-error{% endif %}" data-field="{{ f.key }}">
+      <label for="{{ fid }}">{{ f.label }}{% if f.required %} <span class="muted small">(required)</span>{% endif %}</label>
+      {% if f.type == "textarea" %}<textarea id="{{ fid }}" name="f__{{ f.key }}" {% if disabled %}readonly{% endif %} {% if err %}aria-invalid="true" aria-describedby="{{ fid }}-err"{% endif %}>{{ val|str_ }}</textarea>
+      {% else %}<input type="text" id="{{ fid }}" name="f__{{ f.key }}" value="{{ val|str_ }}" {% if disabled %}readonly{% endif %} {% if err %}aria-invalid="true" aria-describedby="{{ fid }}-err"{% endif %}>{% endif %}
+      {% if err %}<p class="error-text" id="{{ fid }}-err">{{ err }}</p>{% endif %}
+    </div>
+  {% elif f.type == "list" %}
+    <fieldset class="field{% if err %} has-error{% endif %}" data-field="{{ f.key }}">
+      <legend>{{ f.label }}{% if f.required %} <span class="muted small">(required)</span>{% endif %}</legend>
+      <div class="list-inputs">
+      {% range_list f.count as idxs %}{% for i in idxs %}
+        <div class="list-row"><span class="num" aria-hidden="true">{{ forloop.counter }}</span>
+          <label for="{{ fid }}-{{ i }}" style="position:absolute;left:-999px">{{ f.label }} — item {{ forloop.counter }}</label>
+          <input type="text" id="{{ fid }}-{{ i }}" name="f__{{ f.key }}__{{ i }}" value="{{ val|index:i|str_ }}" {% if disabled %}readonly{% endif %}></div>
+      {% endfor %}
+      </div>
+      {% if err %}<p class="error-text">{{ err }}</p>{% endif %}
+    </fieldset>
+  {% elif f.type == "rating" %}
+    <fieldset class="field{% if err %} has-error{% endif %}" data-field="{{ f.key }}">
+      <legend>{{ f.label }}</legend>
+      {% range_list f.max as rs %}
+      <div class="scale">{% for i in rs %}{% with v=forloop.counter %}{% if v >= f.min %}<label><input type="radio" name="f__{{ f.key }}" value="{{ v }}" {% if val|str_ == v|stringformat:"s" %}checked{% endif %} {% if disabled %}disabled{% endif %}><span>{{ v }}</span></label>{% endif %}{% endwith %}{% endfor %}</div>
+      <div class="scale-ends"><span>{{ f.min }} = not me at all</span><span>{{ f.max }} = just like me</span></div>
+      {% if err %}<p class="error-text">{{ err }}</p>{% endif %}
+    </fieldset>
+  {% elif f.type == "choice" %}
+    <fieldset class="field{% if err %} has-error{% endif %}" data-field="{{ f.key }}">
+      <legend>{{ f.label }}</legend>
+      {% for o in f.options %}<label class="choice"><input type="radio" name="f__{{ f.key }}" value="{{ o.value }}" {% if val == o.value %}checked{% endif %} {% if disabled %}disabled{% endif %}><span>{{ o.label }}</span></label>{% endfor %}
+      {% if err %}<p class="error-text">{{ err }}</p>{% endif %}
+    </fieldset>
+  {% elif f.type == "multi_choice" %}
+    <fieldset class="field{% if err %} has-error{% endif %}" data-field="{{ f.key }}">
+      <legend>{{ f.label }}</legend>
+      {% for o in f.options %}<label class="choice"><input type="checkbox" name="f__{{ f.key }}" value="{{ o.value }}" {% if o.value in val %}checked{% endif %} {% if disabled %}disabled{% endif %}><span>{{ o.label }}</span></label>{% endfor %}
+      {% if err %}<p class="error-text">{{ err }}</p>{% endif %}
+    </fieldset>
+  {% endif %}
+  {% endwith %}
+{% endfor %}

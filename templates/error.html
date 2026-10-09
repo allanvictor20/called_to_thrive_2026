@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Something needs attention{% endblock %}
+{% block content %}
+<div class="narrow">
+  <h1>{% if error.status == 404 %}Not found{% elif error.status == 403 %}Not available{% elif error.status == 409 %}Changed elsewhere{% elif error.status == 429 %}Please wait{% else %}Something needs attention{% endif %}</h1>
+  <div class="alert alert-error">{{ error.message }}</div>
+  <p><a class="btn btn-secondary" href="javascript:history.back()">Go back</a> <a class="btn" href="{% url 'core:home' %}">Home</a></p>
+</div>
+{% endblock %}

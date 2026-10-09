@@ -1,0 +1,9 @@
+<nav class="row small" aria-label="Cohort sections" style="margin:-.5rem 0 1.25rem;gap:.35rem">
+  <a class="btn btn-small btn-secondary" href="{% url 'facilitator:cohort' cohort.pk %}">Overview</a>
+  <a class="btn btn-small btn-secondary" href="{% url 'facilitator:lesson_guide' cohort.pk cohort.current_lesson.lesson_number|default:1 %}">Lesson guide</a>
+  <a class="btn btn-small btn-secondary" href="{% url 'facilitator:session_create' cohort.pk %}">+ Session</a>
+  <a class="btn btn-small btn-secondary" href="{% url 'facilitator:projects' cohort.pk %}">Projects</a>
+  <a class="btn btn-small btn-secondary" href="{% url 'facilitator:invites' cohort.pk %}">Join codes</a>
+  <a class="btn btn-small btn-secondary" href="{% url 'facilitator:completion' cohort.pk %}">Completion</a>
+  <a class="btn btn-small btn-secondary" href="{% url 'facilitator:facilitators' cohort.pk %}">Facilitators</a>
+</nav>

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% load ctt %}
+{% block title %}{{ project.name }}{% endblock %}
+{% block content %}
+<nav class="small" style="margin-bottom:.6rem">
+  {% if is_facilitator %}<a href="{% url 'facilitator:projects' project.cohort.pk %}">← {{ project.cohort.name }} projects</a>
+  {% elif member %}<a href="{% url 'participant:journey' member.enrollment_id %}">← {{ project.cohort.name }}</a>{% endif %}
+</nav>
+<div class="page-head"><div><p class="eyebrow">Community project · {{ project.get_stage_display }}</p><h1>{{ project.name }}</h1>
+  {% if member %}<p class="muted small">Your role: <b>{{ member.get_team_role_display }}</b></p>{% endif %}</div></div>
+{% if project.stage == "completed" %}<div class="alert alert-success">Completion confirmed {{ project.completed_at|date:"j M Y" }}.</div>{% endif %}
+{% if project.stage == "cancelled" %}<div class="alert alert-warning">This project was cancelled.</div>{% endif %}
+
+<section class="card card-teal">
+  <h2>Project Planning Sheet</h2>
+  <p><b>Problem to solve:</b> {{ project.problem_statement }}</p>
+  <p><b>Project Idea Summary:</b> {{ project.idea_summary }}</p>
+  <p><b>How does this project bless our community/school/church?</b> {{ project.community_benefit|default:"—" }}</p>
+  {% if project.target_start_date or project.target_end_date %}<p class="small">Timeframe: {{ project.target_start_date|date:"j M Y"|default:"?" }} – {{ project.target_end_date|date:"j M Y"|default:"?" }}</p>{% endif %}
+  {% if project.stage != "completed" and project.stage != "cancelled" %}
+  <details><summary>Edit project details</summary>
+    <form method="post" novalidate style="margin-top:.7rem">{% csrf_token %}<input type="hidden" name="action" value="update_project"><input type="hidden" name="revision" value="{{ project.revision }}">
+      {% include "partials/field.html" with name="name" label="Project name" value=project.name required=True %}
+      {% include "partials/field.html" with name="problem_statement" label="Problem to solve" type="textarea" value=project.problem_statement required=True %}
+      {% include "partials/field.html" with name="idea_summary" label="Project Idea Summary" type="textarea" value=project.idea_summary required=True %}
+      {% include "partials/field.html" with name="community_benefit" label="How does this project bless our community/school/church?" type="textarea" value=project.community_benefit %}
+      <div class="grid">
+        {% include "partials/field.html" with name="target_start_date" label="Start" type="date" value=project.target_start_date|date:"Y-m-d" %}
+        {% include "partials/field.html" with name="target_end_date" label="End" type="date" value=project.target_end_date|date:"Y-m-d" %}
+      </div>
+      <div class="field"><label for="stage">Stage</label><select id="stage" name="stage">{% for s in stages %}<option value="{{ s }}" {% if s == project.stage %}selected{% endif %}>{{ s|capfirst }}</option>{% endfor %}</select></div>
+      <button class="btn btn-secondary">Save changes</button>
+    </form>
+  </details>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Group Member Roles</h2>
+  <ul class="stack" style="list-style:none;padding:0">
+  {% for m in members %}
+    <li class="row spread"><span><b>{{ m.enrollment.participant_user.full_name }}</b> — {{ m.get_team_role_display }}</span>
+      {% if is_facilitator and project.stage != "completed" %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="remove_member"><input type="hidden" name="member" value="{{ m.pk }}"><button class="btn btn-small btn-danger">Remove</button></form>{% endif %}</li>
+  {% empty %}<li class="muted">No members yet.</li>{% endfor %}
+  </ul>
+  {% if is_facilitator and available and project.stage != "completed" %}
+  <form method="post" class="row" style="margin-top:.8rem">{% csrf_token %}<input type="hidden" name="action" value="add_member">
+    <label for="enr" style="position:absolute;left:-999px">Participant</label>
+    <select id="enr" name="enrollment" style="flex:1;min-width:10rem">{% for e in available %}<option value="{{ e.pk }}">{{ e.participant_user.full_name }}</option>{% endfor %}</select>
+    <label for="tr" style="position:absolute;left:-999px">Role</label>
+    <select id="tr" name="team_role" style="flex:1;min-width:10rem">{% for v, l in team_roles %}<option value="{{ v }}">{{ l }}</option>{% endfor %}</select>
+    <button class="btn btn-small">Add</button>
+  </form>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Goals</h2>
+  <ol>{% for g in goals %}<li>{{ g.description }}</li>{% empty %}<li class="muted" style="list-style:none;margin-left:-1.2rem">No goals yet.</li>{% endfor %}</ol>
+  {% if project.stage != "completed" and project.stage != "cancelled" %}
+  <form method="post" class="row">{% csrf_token %}<input type="hidden" name="action" value="add_goal"><input type="hidden" name="revision" value="{{ project.revision }}">
+    <label for="goal_d" style="position:absolute;left:-999px">New goal</label><input id="goal_d" name="description" placeholder="Add a goal" style="flex:1;min-width:12rem"><button class="btn btn-small btn-secondary">Add goal</button></form>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Actions and action items</h2>
+  {% for a in actions %}
+  <div style="border-top:1px solid var(--line);padding-top:.8rem;margin-top:.8rem">
+    <p style="margin:0"><b>Problem to solve:</b> {{ a.problem_to_solve }}</p>
+    <p><b>Action required:</b> {{ a.action_required }}{% if a.goal %} <span class="badge badge-teal">Goal {{ a.goal.display_order }}</span>{% endif %}</p>
+    <div class="table-wrap"><table class="data stack-mobile">
+      <thead><tr><th>Action item</th><th>Resources needed</th><th>Person responsible</th><th>Others involved</th><th>Time frame</th><th>Status</th></tr></thead>
+      <tbody>
+      {% for t in a.tasks.all %}
+        <tr>
+          <td data-label="Action item">{{ t.description }}</td><td data-label="Resources">{{ t.resources_needed|default:"—" }}</td>
+          <td data-label="Responsible">{{ t.responsible_member.enrollment.participant_user.full_name|default:"—" }}</td>
+          <td data-label="Others">{{ t.others_involved|default:"—" }}</td>
+          <td data-label="Time frame">{{ t.start_date|date:"d/m/y"|default:"" }}{% if t.due_date %} to {{ t.due_date|date:"d/m/y" }}{% endif %}</td>
+          <td data-label="Status">
+            {% if project.stage != "completed" and project.stage != "cancelled" %}
+            <form method="post" class="row" style="gap:.3rem">{% csrf_token %}<input type="hidden" name="action" value="update_task"><input type="hidden" name="task" value="{{ t.pk }}"><input type="hidden" name="revision" value="{{ t.revision }}">
+              <input type="hidden" name="description" value="{{ t.description }}"><input type="hidden" name="responsible_member" value="{{ t.responsible_member_id|default:'' }}">
+              <input type="hidden" name="resources_needed" value="{{ t.resources_needed|default:'' }}"><input type="hidden" name="others_involved" value="{{ t.others_involved|default:'' }}">
+              <input type="hidden" name="start_date" value="{{ t.start_date|date:'Y-m-d' }}"><input type="hidden" name="due_date" value="{{ t.due_date|date:'Y-m-d' }}">
+              <label for="st-{{ t.pk }}" style="position:absolute;left:-999px">Status</label>
+              <select id="st-{{ t.pk }}" name="status"><option value="todo" {% if t.status == "todo" %}selected{% endif %}>To do</option><option value="doing" {% if t.status == "doing" %}selected{% endif %}>Doing</option><option value="done" {% if t.status == "done" %}selected{% endif %}>Done</option></select>
+              <button class="btn btn-small btn-secondary">Update</button></form>
+            {% else %}{{ t.get_status_display }}{% endif %}
+          </td>
+        </tr>
+      {% empty %}<tr><td colspan="6" class="muted">No action items yet.</td></tr>{% endfor %}
+      </tbody></table></div>
+    {% if project.stage != "completed" and project.stage != "cancelled" %}
+    <details><summary class="small">Add an action item</summary>
+      <form method="post" novalidate style="margin-top:.6rem">{% csrf_token %}<input type="hidden" name="action" value="add_task"><input type="hidden" name="action_id" value="{{ a.pk }}">
+        {% include "partials/field.html" with idp=a.pk|stringformat:"s" name="description" label="Action item" required=True %}
+        <div class="grid">
+          {% include "partials/field.html" with idp=a.pk|stringformat:"s" name="resources_needed" label="Resources needed" %}
+          <div class="field"><label for="rm-{{ a.pk }}">Person responsible</label><select id="rm-{{ a.pk }}" name="responsible_member"><option value="">—</option>{% for m in members %}<option value="{{ m.pk }}">{{ m.enrollment.participant_user.full_name }}</option>{% endfor %}</select></div>
+          {% include "partials/field.html" with idp=a.pk|stringformat:"s" name="others_involved" label="Others involved" %}
+          {% include "partials/field.html" with idp=a.pk|stringformat:"s" name="start_date" label="From" type="date" %}
+          {% include "partials/field.html" with idp=a.pk|stringformat:"s" name="due_date" label="To" type="date" %}
+        </div>
+        <button class="btn btn-small">Add action item</button>
+      </form>
+    </details>
+    {% endif %}
+  </div>
+  {% empty %}<p class="muted">No actions yet.</p>{% endfor %}
+  {% if project.stage != "completed" and project.stage != "cancelled" %}
+  <details style="margin-top:1rem"><summary>Add an action</summary>
+    <form method="post" novalidate style="margin-top:.6rem">{% csrf_token %}<input type="hidden" name="action" value="add_action"><input type="hidden" name="revision" value="{{ project.revision }}">
+      {% include "partials/field.html" with name="problem_to_solve" label="Problem to solve" type="textarea" required=True %}
+      {% include "partials/field.html" with name="action_required" label="Action required" type="textarea" required=True %}
+      <div class="field"><label for="goal">Linked goal (optional)</label><select id="goal" name="goal"><option value="">—</option>{% for g in goals %}<option value="{{ g.pk }}">Goal {{ g.display_order }}: {{ g.description|truncatechars:60 }}</option>{% endfor %}</select></div>
+      <button class="btn btn-small">Add action</button>
+    </form>
+  </details>
+  {% endif %}
+</section>
+
+{% if team_items %}
+<section class="card">
+  <h2>Shared with the team</h2>
+  {% for r in team_items %}
+    <div style="margin-bottom:.8rem"><p class="small muted" style="margin:0">{{ r.enrollment.participant_user.full_name }} · {{ r.component.title }}</p>
+      {% for f in r.component.response_schema.fields %}{% with v=r.payload|get:f.key|display %}{% if v %}<p style="margin:0 0 .3rem"><b>{{ f.label }}</b> {{ v }}</p>{% endif %}{% endwith %}{% endfor %}</div>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if member %}
+<section class="card card-accent" id="evaluation">
+  <h2>Project Evaluation Form</h2>
+  <p class="small">{{ definition.instructions }}</p>
+  {% if my_eval.status == "submitted" %}
+    <div class="alert alert-success small">You submitted your evaluation on {{ my_eval.submitted_at|date:"j M Y" }}.</div>
+  {% endif %}
+  <form method="post" novalidate>{% csrf_token %}<input type="hidden" name="revision" value="{{ my_eval.revision|default:0 }}">
+    {% for section in definition.sections %}
+      <h3 style="margin-top:1rem">{{ section.title }}</h3>
+      {% for item in section.items %}
+        <fieldset class="field{% if eval_errors|get:item.key %} has-error{% endif %}" data-field="{{ item.key }}" style="border:0;padding:0">
+          <legend style="font-weight:500">{{ item.label }}</legend>
+          <div class="scale">{% for v in "0123" %}<label><input type="radio" name="{{ item.key }}" value="{{ v }}" {% if eval_payload|get:item.key|str_ == v %}checked{% endif %} {% if my_eval.status == "submitted" %}disabled{% endif %}><span>{{ v }}</span></label>{% endfor %}</div>
+          {% if eval_errors|get:item.key %}<p class="error-text">{{ eval_errors|get:item.key }}</p>{% endif %}
+        </fieldset>
+      {% endfor %}
+    {% endfor %}
+    <div class="scale-ends" style="margin-bottom:1rem"><span>0 = not at all</span><span>3 = absolutely</span></div>
+    {% for q in definition.text_questions %}
+      <div class="field{% if eval_errors|get:q.key %} has-error{% endif %}" data-field="{{ q.key }}"><label for="eq-{{ q.key }}">{{ q.label }}</label>
+        <textarea id="eq-{{ q.key }}" name="{{ q.key }}" {% if my_eval.status == "submitted" %}readonly{% endif %}>{{ eval_payload|get:q.key|str_ }}</textarea>
+        {% if eval_errors|get:q.key %}<p class="error-text">{{ eval_errors|get:q.key }}</p>{% endif %}</div>
+    {% endfor %}
+    {% if my_eval.status != "submitted" %}<div class="save-bar"><button class="btn btn-secondary" name="action" value="save_evaluation">Save draft</button><button class="btn" name="action" value="submit_evaluation">Submit evaluation</button></div>{% endif %}
+  </form>
+  <p class="small muted">Your final personal reflection is separate — it is the Lesson 15 Life Work and stays private.</p>
+</section>
+{% endif %}
+
+{% if is_facilitator %}
+<section class="card">
+  <h2>Completion</h2>
+  <p class="small">{{ evaluations_submitted }} of {{ members|length }} member evaluation(s) submitted.</p>
+  {% if conditions.unmet %}<div class="alert alert-warning small"><b>Not yet ready:</b><ul style="margin:.3rem 0 0">{% for u in conditions.unmet %}<li>{{ u }}</li>{% endfor %}</ul></div>{% endif %}
+  {% if conditions.members_without_evaluation %}<p class="small">Still to evaluate: {% for m in conditions.members_without_evaluation %}{{ m.enrollment.participant_user.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+  {% if is_lead and project.stage != "completed" and project.stage != "cancelled" %}
+  <div class="row">
+    <form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm_completion"><input type="hidden" name="revision" value="{{ project.revision }}"><button class="btn btn-teal" {% if not conditions.ready %}disabled aria-disabled="true"{% endif %}>Confirm project completion</button></form>
+    <form method="post">{% csrf_token %}<input type="hidden" name="action" value="cancel_project"><input type="hidden" name="revision" value="{{ project.revision }}"><button class="btn btn-danger">Cancel project</button></form>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

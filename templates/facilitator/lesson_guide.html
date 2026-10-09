@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Lesson {{ lesson.lesson_number }} guide{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.name }} · Facilitator view</p><h1>Lesson {{ lesson.lesson_number }}: {{ lesson.title }}</h1></div>
+  <nav class="row small" aria-label="Lessons" style="gap:.25rem">{% for l in lessons %}<a class="btn btn-small {% if l.pk == lesson.pk %}btn-teal{% else %}btn-secondary{% endif %}" href="{% url 'facilitator:lesson_guide' cohort.pk l.lesson_number %}" {% if l.pk == lesson.pk %}aria-current="page"{% endif %}>{{ l.lesson_number }}</a>{% endfor %}</nav>
+</div>
+{% include "facilitator/_cohort_nav.html" %}
+{% for it in items %}
+<section class="card component">
+  <div class="component-head"><h2 style="font-size:1.1rem;margin:0">{{ it.obj.title }}</h2>
+    <span class="small">{% if it.obj.required %}<span class="badge">Required</span>{% endif %} {% if it.obj.completion_method %}<span class="badge badge-teal">{{ it.obj.get_completion_method_display }}</span> <b>{{ it.done_count }}/{{ enrollments|length }}</b> done{% endif %}</span></div>
+  {% include "partials/blocks.html" with blocks=it.c.content.blocks %}
+  {% if it.obj.response_schema %}<details><summary class="small">Questions participants answer ({{ it.obj.visibility }})</summary><ul class="small">{% for f in it.obj.response_schema.fields %}<li>{{ f.label }}</li>{% endfor %}</ul></details>{% endif %}
+  {% if it.c.facilitator_content.notes %}<div class="facilitator-note small"><b>Facilitator note</b><ul style="margin:.3rem 0 0">{% for n in it.c.facilitator_content.notes %}<li>{{ n }}</li>{% endfor %}</ul></div>{% endif %}
+  {% if it.obj.completion_method == "facilitator_confirmation" %}
+    <form method="post" style="margin-top:.8rem">{% csrf_token %}<input type="hidden" name="component" value="{{ it.obj.pk }}">
+      <fieldset><legend>Confirm who took part</legend>
+        {% for e in enrollments %}<label class="choice"><input type="checkbox" name="enrollments" value="{{ e.pk }}" {% if e.pk in it.done_ids %}checked disabled{% endif %}> <span>{{ e.participant_user.full_name }}{% if e.pk in it.done_ids %} <span class="badge badge-done">confirmed</span>{% endif %}</span></label>{% empty %}<p class="muted">No participants.</p>{% endfor %}
+      </fieldset>
+      <button class="btn btn-teal btn-small">Confirm participation</button>
+    </form>
+  {% endif %}
+</section>
+{% endfor %}
+{% endblock %}

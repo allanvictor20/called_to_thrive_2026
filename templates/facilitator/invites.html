@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Join codes · {{ cohort.name }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.name }}</p><h1>Join codes</h1></div></div>
+{% include "facilitator/_cohort_nav.html" %}
+{% if new_code %}
+<div class="card card-accent" role="status">
+  <h2>New join code</h2>
+  <p>Share this through your usual channels (WhatsApp, SMS, in person). <b>It is shown only once</b> — we store a fingerprint, not the code.</p>
+  <p class="code-box">{{ new_code }}</p>
+  <p class="small">Link: <a href="{{ new_link }}">{{ new_link }}</a></p>
+</div>
+{% endif %}
+{% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+<form method="post" class="card" novalidate>{% csrf_token %}<input type="hidden" name="action" value="create">
+  <h2>Create a join code</h2>
+  <div class="grid">
+    {% include "partials/field.html" with name="expires_on" label="Expires after (optional)" type="date" value=data.expires_on %}
+    {% include "partials/field.html" with name="max_uses" label="Number of seats (optional)" type="number" value=data.max_uses hint="Leave blank for no limit." %}
+  </div>
+  <button class="btn">Create code</button>
+</form>
+<h2>Existing codes</h2>
+<div class="table-wrap"><table class="data stack-mobile">
+  <thead><tr><th>Code ends</th><th>Created</th><th>Expires</th><th class="num-cell">Used</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+  {% for i in invites %}
+  <tr>
+    <td data-label="Code ends">…{{ i.code_hint }}</td>
+    <td data-label="Created">{{ i.created_at|date:"j M Y" }}</td>
+    <td data-label="Expires">{{ i.expires_at|date:"j M Y"|default:"Never" }}</td>
+    <td data-label="Used" class="num-cell">{{ i.use_count }}{% if i.max_uses %} / {{ i.max_uses }}{% endif %}</td>
+    <td data-label="Status">{% if i.revoked_at %}<span class="badge badge-red">Withdrawn</span>{% elif i.expires_at and i.expires_at <= now %}<span class="badge">Expired</span>{% elif i.max_uses and i.use_count >= i.max_uses %}<span class="badge">Full</span>{% else %}<span class="badge badge-done">Active</span>{% endif %}</td>
+    <td>{% if not i.revoked_at %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="revoke"><input type="hidden" name="invite" value="{{ i.pk }}"><button class="btn btn-small btn-danger">Withdraw</button></form>{% endif %}</td>
+  </tr>
+  {% empty %}<tr><td colspan="6" class="empty">No join codes yet.</td></tr>{% endfor %}
+  </tbody>
+</table></div>
+{% endblock %}

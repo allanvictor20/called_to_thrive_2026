@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><p class="eyebrow">Hello, {{ user.full_name }}</p><h1>Your journey</h1></div>
+  <a class="btn" href="{% url 'cohorts:join' %}">Join a cohort</a>
+</div>
+{% for card in cards %}
+  <article class="card card-accent">
+    <div class="row spread">
+      <h2 style="margin:0"><a href="{% url 'participant:journey' card.enrollment.pk %}">{{ card.enrollment.cohort.name }}</a></h2>
+      <span class="badge {% if card.enrollment.status == 'completed' %}badge-done{% elif card.enrollment.status == 'withdrawn' %}badge-red{% else %}badge-teal{% endif %}">{{ card.enrollment.get_status_display }}</span>
+    </div>
+    <p class="muted small">{{ card.enrollment.cohort.partner.name }} · joined {{ card.enrollment.joined_at|date:"j M Y" }}</p>
+    <div class="progress" role="progressbar" aria-valuenow="{{ card.pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Lessons complete"><span style="width:{{ card.pct }}%"></span></div>
+    <p class="small" style="margin-top:.35rem">{{ card.done }} of {{ card.total }} lessons complete</p>
+    {% if card.next_session %}
+      <p><b>Next:</b> {{ card.next_session.title }} — {{ card.next_session.starts_at|date:"D j M, g:i A" }}
+        {% if card.next_session.meet_url %} · <a href="{{ card.next_session.meet_url }}" target="_blank" rel="noopener noreferrer">Join Google Meet ↗</a>{% endif %}
+        {% if card.next_session.venue %} · {{ card.next_session.venue }}{% endif %}</p>
+    {% endif %}
+    <a class="btn btn-secondary btn-small" href="{% url 'participant:journey' card.enrollment.pk %}">Open journey</a>
+  </article>
+{% empty %}
+  <div class="card empty">
+    <h2>You haven't joined a cohort yet</h2>
+    <p>Your facilitator will give you a join code or link.</p>
+    <a class="btn" href="{% url 'cohorts:join' %}">Enter a join code</a>
+  </div>
+{% endfor %}
+{% endblock %}

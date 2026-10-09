@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Apply to facilitate{% endblock %}
+{% block content %}
+<div class="narrow">
+  <h1>Apply to facilitate</h1>
+  {% if profile %}
+    <div class="alert alert-info">Your application status: <b>{{ profile.get_approval_status_display }}</b>.</div>
+  {% else %}
+  <p class="lede">You keep the same account. After an administrator approves you and links you to a partner, you can create cohorts.</p>
+  <form method="post" class="card">{% csrf_token %}
+    {% include "partials/field.html" with name="note" label="Which church, school or ministry will you serve with?" type="textarea" %}
+    <button class="btn btn-teal">Send application</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

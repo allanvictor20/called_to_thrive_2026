@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Create a cohort{% endblock %}
+{% block content %}
+<div class="narrow">
+<h1>Create a cohort</h1>
+<p class="lede">You will be the lead facilitator. The curriculum version is fixed for the life of the cohort.</p>
+{% if not partners %}<div class="alert alert-warning">You are not affiliated with any partner yet. Ask an administrator to link you to your church, school or ministry.</div>{% endif %}
+{% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+<form method="post" class="card" novalidate>{% csrf_token %}
+  {% include "partials/field.html" with name="name" label="Cohort name" value=data.name required=True hint="For example: Kampala Youth — Term 1 2027" %}
+  <div class="field{% if errors.partner %} has-error{% endif %}" data-field="partner"><label for="id_partner">Partner *</label>
+    <select id="id_partner" name="partner" required><option value="">— Choose —</option>{% for p in partners %}<option value="{{ p.pk }}" {% if data.partner == p.pk|stringformat:"s" %}selected{% endif %}>{{ p.name }}</option>{% endfor %}</select>
+    {% if errors.partner %}<p class="error-text">{{ errors.partner }}</p>{% endif %}{% if errors.facilitator %}<p class="error-text">{{ errors.facilitator }}</p>{% endif %}</div>
+  <div class="field{% if errors.district %} has-error{% endif %}" data-field="district"><label for="id_district">Delivery district *</label>
+    <p class="hint">Where the group meets. This can differ from the partner's headquarters.</p>
+    <select id="id_district" name="district" required><option value="">— Choose —</option>{% for d in districts %}<option value="{{ d.pk }}" {% if data.district == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.name }} ({{ d.region.name }})</option>{% endfor %}</select>
+    {% if errors.district %}<p class="error-text">{{ errors.district }}</p>{% endif %}</div>
+  <div class="field{% if errors.curriculum_version %} has-error{% endif %}" data-field="curriculum_version"><label for="id_cv">Curriculum version *</label>
+    <select id="id_cv" name="curriculum_version" required>{% for v in versions %}<option value="{{ v.pk }}" {% if data.curriculum_version == v.pk|stringformat:"s" %}selected{% endif %}>{{ v.title }} ({{ v.code }})</option>{% endfor %}</select>
+    {% if errors.curriculum_version %}<p class="error-text">{{ errors.curriculum_version }}</p>{% endif %}</div>
+  <div class="grid">
+    {% include "partials/field.html" with name="start_date" label="Start date" type="date" value=data.start_date required=True %}
+    {% include "partials/field.html" with name="end_date" label="End date (optional)" type="date" value=data.end_date %}
+  </div>
+  <div class="field{% if errors.default_meeting_type %} has-error{% endif %}" data-field="default_meeting_type"><label for="id_mt">Usual meeting type *</label>
+    <select id="id_mt" name="default_meeting_type" required>
+      <option value="physical" {% if data.default_meeting_type == "physical" %}selected{% endif %}>Physical</option>
+      <option value="online" {% if data.default_meeting_type == "online" %}selected{% endif %}>Online (Google Meet)</option>
+      <option value="hybrid" {% if data.default_meeting_type == "hybrid" %}selected{% endif %}>Hybrid</option></select>
+    {% if errors.default_meeting_type %}<p class="error-text">{{ errors.default_meeting_type }}</p>{% endif %}</div>
+  {% include "partials/field.html" with name="default_meet_url" label="Default Google Meet link (optional)" type="url" value=data.default_meet_url hint="https://meet.google.com/abc-defg-hij" %}
+  <button class="btn">Create cohort</button>
+</form>
+</div>
+{% endblock %}

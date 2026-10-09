@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Projects · {{ cohort.name }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.name }}</p><h1>Community projects</h1></div></div>
+{% include "facilitator/_cohort_nav.html" %}
+<div class="grid">
+{% for p in projects %}
+  <a class="card card-teal" href="{% url 'projects:detail' p.pk %}" style="text-decoration:none;color:inherit">
+    <div class="row spread"><h2 style="margin:0">{{ p.name }}</h2><span class="badge">{{ p.get_stage_display }}</span></div>
+    <p class="small muted" style="margin:.3rem 0 0">{{ p.members.all|length }} member(s)</p>
+  </a>
+{% empty %}<p class="muted">No projects yet. A cohort can run one project for everyone or several team projects.</p>{% endfor %}
+</div>
+{% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+<form method="post" class="card" novalidate>{% csrf_token %}
+  <h2>Start a project</h2>
+  {% include "partials/field.html" with name="name" label="Project name" value=data.name required=True %}
+  {% include "partials/field.html" with name="problem_statement" label="The problem our group identified" type="textarea" value=data.problem_statement required=True %}
+  {% include "partials/field.html" with name="idea_summary" label="Project idea summary" type="textarea" value=data.idea_summary required=True %}
+  {% include "partials/field.html" with name="community_benefit" label="How does this project bless our community/school/church?" type="textarea" value=data.community_benefit %}
+  <div class="grid">
+    {% include "partials/field.html" with name="target_start_date" label="Target start (optional)" type="date" value=data.target_start_date %}
+    {% include "partials/field.html" with name="target_end_date" label="Target end (optional)" type="date" value=data.target_end_date %}
+  </div>
+  <button class="btn">Create project</button>
+</form>
+{% endblock %}

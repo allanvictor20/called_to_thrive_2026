@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load ctt %}
+{% block title %}Career quiz{% endblock %}
+{% block content %}
+<nav class="small" style="margin-bottom:.6rem"><a href="{% url 'participant:journey' enrollment.pk %}">← {{ enrollment.cohort.name }}</a></nav>
+<div class="page-head"><div><p class="eyebrow">Lesson {{ assessment.component.lesson.lesson_number }}</p><h1>Called to Thrive Personality Quiz</h1></div></div>
+{% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+{% if latest %}
+  <div class="alert alert-success">You submitted attempt {{ latest.attempt_number }} on {{ latest.submitted_at|date:"j M Y" }}. <a href="{% url 'participant:quiz_results' enrollment.pk latest.pk %}">See your results</a>.</div>
+{% endif %}
+{% if draft %}
+  <p class="lede">Rate how much you would enjoy each activity, from <b>1</b> (not at all) to <b>5</b> (very much). Answer all 24 to see your six totals.</p>
+  <form method="post" class="card" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="expected_revision" value="{{ draft.revision }}">
+    {% for q in questions %}
+      <fieldset class="quiz-q field{% for k, v in errors.items %}{% if k == q.question_number|stringformat:'s' %} has-error{% endif %}{% endfor %}" style="border:0;padding-left:0;padding-right:0" data-field="{{ q.question_number }}">
+        <legend><span class="muted">{{ q.question_number }}.</span> {{ q.prompt }}</legend>
+        <div class="scale">
+          {% for v in scale %}<label><input type="radio" name="q_{{ q.question_number }}" value="{{ v }}" {% if answers|get:q.question_number|str_ == v|stringformat:"s" %}checked{% endif %}><span>{{ v }}</span></label>{% endfor %}
+        </div>
+        {% for k, v in errors.items %}{% if k == q.question_number|stringformat:'s' %}<p class="error-text">{{ v }}</p>{% endif %}{% endfor %}
+      </fieldset>
+    {% endfor %}
+    <div class="save-bar"><button class="btn btn-secondary" name="action" value="save">Save answers</button><button class="btn" name="action" value="submit">Submit quiz</button></div>
+  </form>
+{% else %}
+  <div class="card">
+    <p>24 short questions. Your answers are private; your facilitator sees only that you finished.</p>
+    <form method="post">{% csrf_token %}
+      {% if latest %}<button class="btn btn-secondary" name="action" value="retake">Take it again</button> <span class="small muted">Earlier results are kept.</span>
+      {% else %}<button class="btn" name="action" value="start">Start the quiz</button>{% endif %}
+    </form>
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Programme checklist{% endblock %}
+{% block content %}
+<nav class="small" style="margin-bottom:.6rem"><a href="{% url 'participant:journey' enrollment.pk %}">← {{ enrollment.cohort.name }}</a></nav>
+<h1>Programme checklist</h1>
+{% if enrollment.status == "completed" %}
+  <div class="alert alert-success">🎉 Your facilitator confirmed you completed Called to Thrive on {{ enrollment.completed_at|date:"j F Y" }}.</div>
+{% endif %}
+<div class="card">
+  <ul class="stack" style="list-style:none;padding:0">
+    <li>{% if checklist.lessons_completed == checklist.lessons_total %}✅{% else %}⬜{% endif %} Lessons complete: <b>{{ checklist.lessons_completed }} of {{ checklist.lessons_total }}</b>
+      {% if checklist.missing_lessons %}<div class="small muted">Still to finish: {% for l in checklist.missing_lessons %}<a href="{% url 'participant:lesson' enrollment.pk l.lesson_number %}">Lesson {{ l.lesson_number }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</div>{% endif %}</li>
+    <li>{% if checklist.confirmed_projects %}✅{% else %}⬜{% endif %} Team project confirmed complete by your facilitator</li>
+    <li>{% if checklist.evaluation_submitted %}✅{% else %}⬜{% endif %} Your individual project evaluation submitted</li>
+  </ul>
+  <p class="small muted">Attendance is recorded separately. It is not part of this checklist unless OneHope approves an attendance rule.</p>
+</div>
+{% endblock %}

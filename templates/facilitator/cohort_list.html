@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}My cohorts{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Facilitator</p><h1>My cohorts</h1></div>
+  {% if user.is_approved_facilitator %}<a class="btn" href="{% url 'facilitator:cohort_create' %}">Create a cohort</a>{% endif %}</div>
+{% if not user.is_approved_facilitator %}
+  <div class="alert alert-warning">{% if profile %}Your facilitator account is <b>{{ profile.get_approval_status_display|lower }}</b>. An administrator must approve you before you can create or manage cohorts.{% else %}You have not applied to facilitate. <a href="{% url 'accounts:apply_facilitator' %}">Apply now</a>.{% endif %}</div>
+{% endif %}
+<div class="grid">
+{% for c in cohorts %}
+  <a class="card card-accent" href="{% url 'facilitator:cohort' c.pk %}" style="text-decoration:none;color:inherit">
+    <div class="row spread"><h2 style="margin:0">{{ c.name }}</h2><span class="badge badge-teal">{{ c.get_status_display }}</span></div>
+    <p class="small muted" style="margin:.3rem 0 0">{{ c.partner.name }} · {{ c.district.name }} · starts {{ c.start_date|date:"j M Y" }}</p>
+  </a>
+{% empty %}
+  {% if user.is_approved_facilitator %}<div class="card empty">No cohorts yet. Create one to get started.</div>{% endif %}
+{% endfor %}
+</div>
+{% endblock %}

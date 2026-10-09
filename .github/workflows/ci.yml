@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ctt
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: called_to_thrive
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U ctt" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://ctt:secret@localhost:5432/called_to_thrive
+      DJANGO_SECRET_KEY: ci-only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Lint
+        run: ruff check .
+      - name: Migrations are complete
+        run: DJANGO_DEBUG=1 python manage.py makemigrations --check --dry-run
+      - name: Fresh database migrates and imports the approved content (NFR07)
+        run: |
+          DJANGO_DEBUG=1 python manage.py migrate --noinput
+          DJANGO_DEBUG=1 python manage.py import_curriculum content/uganda-workbook-v1.json --publish
+      - name: Deployment checks
+        run: DJANGO_ALLOWED_HOSTS=example.org DJANGO_SECURE_SSL_REDIRECT=1 python manage.py check --deploy --fail-level WARNING
+      - name: Tests
+        run: python -m pytest --create-db

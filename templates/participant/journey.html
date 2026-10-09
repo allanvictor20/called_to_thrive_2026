@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load ctt %}
+{% block title %}{{ enrollment.cohort.name }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><p class="eyebrow">{{ enrollment.cohort.partner.name }}</p><h1>{{ enrollment.cohort.name }}</h1>
+    <p class="muted">{{ done }} of {{ rows|length }} lessons complete · <a href="{% url 'participant:completion' enrollment.pk %}">Programme checklist</a></p></div>
+  <div class="row"><a class="btn btn-secondary" href="{% url 'participant:quiz' enrollment.pk %}">Career quiz</a>{% for m in memberships %}<a class="btn btn-teal" href="{% url 'projects:detail' m.project.pk %}">Team: {{ m.project.name }}</a>{% endfor %}</div>
+</div>
+{% if enrollment.status == "withdrawn" %}<div class="alert alert-warning">You left this cohort. Your earlier work is kept. Rejoin with a join code to continue.</div>{% endif %}
+<div class="progress" style="margin-bottom:1.25rem" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Lessons complete"><span style="width:{{ pct }}%"></span></div>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));align-items:start">
+  <section aria-labelledby="lessons-h">
+    <h2 id="lessons-h">Lessons</h2>
+    <ol class="journey">
+      {% for r in rows %}
+      <li class="{% if r.state == 'complete' %}done{% endif %}"><a href="{% url 'participant:lesson' enrollment.pk r.lesson.lesson_number %}">
+        <span class="n" aria-hidden="true">{% if r.state == 'complete' %}✓{% else %}{{ r.lesson.lesson_number }}{% endif %}</span>
+        <span class="t"><span class="small muted">Lesson {{ r.lesson.lesson_number }}</span><br><b>{{ r.lesson.title }}</b></span>
+        {% if r.state == 'complete' %}<span class="badge badge-done">Complete</span>{% elif r.state == 'in_progress' %}<span class="badge badge-progress">In progress</span>{% endif %}
+        {% if enrollment.cohort.current_lesson_id == r.lesson.pk %}<span class="badge badge-teal">This week</span>{% endif %}
+      </a></li>
+      {% endfor %}
+    </ol>
+  </section>
+  <section aria-labelledby="sessions-h">
+    <h2 id="sessions-h">Sessions</h2>
+    {% for s in upcoming %}
+      <div class="card">
+        <b>{{ s.title }}</b>{% if s.lesson %} <span class="muted small">· Lesson {{ s.lesson.lesson_number }}</span>{% endif %}
+        <p class="small" style="margin:.2rem 0 .5rem">{{ s.starts_at|date:"l j F, g:i A" }}{% if s.ends_at %} – {{ s.ends_at|date:"g:i A" }}{% endif %}</p>
+        {% if s.venue %}<p class="small">📍 {{ s.venue }}</p>{% endif %}
+        {% if s.meet_url %}<a class="btn btn-small btn-teal" href="{{ s.meet_url }}" target="_blank" rel="noopener noreferrer">Join Google Meet ↗</a> <span class="small muted">Opens Google Meet</span>{% endif %}
+      </div>
+    {% empty %}<p class="muted">No upcoming sessions scheduled.</p>{% endfor %}
+    {% if past_sessions %}
+    <details class="card"><summary>Attendance record</summary>
+      <ul>{% for s in past_sessions %}<li>{{ s.starts_at|date:"j M" }} — {{ s.title }}: {% with st=attendance|get:s.pk %}{% if st %}<b>{{ st|capfirst }}</b>{% else %}<span class="muted">not recorded</span>{% endif %}{% endwith %}</li>{% endfor %}</ul>
+      <p class="small muted">Attendance is recorded separately and never completes a lesson on its own.</p>
+    </details>
+    {% endif %}
+  </section>
+</div>
+{% if enrollment.status == "active" %}
+<details style="margin-top:2rem"><summary class="small muted">Leave this cohort</summary>
+  <form method="post" action="{% url 'participant:withdraw' enrollment.pk %}" class="card" style="margin-top:.5rem">{% csrf_token %}<p class="small">Leaving keeps all your work. You can rejoin later with a join code.</p><button class="btn btn-danger btn-small">Leave cohort</button></form>
+</details>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block title %}Link not valid{% endblock %}
+{% block content %}<div class="narrow"><h1>That link is not valid</h1><p>It may have expired or already been used.</p><a class="btn" href="{% url 'accounts:verify' %}">Get a new link</a></div>{% endblock %}

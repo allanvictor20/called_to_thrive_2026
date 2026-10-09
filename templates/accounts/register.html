@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Create your account{% endblock %}
+{% block content %}
+<div class="narrow">
+  <p class="eyebrow">Welcome</p>
+  <h1>Create your account</h1>
+  <p class="lede">Your name and one contact are enough to start. Everything else is optional.</p>
+  {% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+  <form method="post" novalidate class="card">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% include "partials/field.html" with name="full_name" label="Full name" value=data.full_name required=True autocomplete="name" %}
+    {% include "partials/field.html" with name="email" label="Email address" type="email" value=data.email hint="Use an email or a phone number. Email is verified by a link." autocomplete="email" %}
+    {% include "partials/field.html" with name="phone" label="Phone number (optional if you gave an email)" type="tel" value=data.phone hint="For example 0772 123456." autocomplete="tel" %}
+    {% include "partials/field.html" with name="password" label="Password" type="password" required=True hint="At least 8 characters. Avoid common words." autocomplete="new-password" %}
+    <details>
+      <summary>Optional details</summary>
+      <p class="hint">You can leave these blank. They help OneHope understand who the programme reaches.</p>
+      {% include "partials/field.html" with name="date_of_birth" label="Date of birth" type="date" value=data.date_of_birth %}
+      <div class="field">
+        <label for="id_gender">Gender</label>
+        <select id="id_gender" name="gender"><option value="">Prefer not to answer</option><option value="female" {% if data.gender == "female" %}selected{% endif %}>Female</option><option value="male" {% if data.gender == "male" %}selected{% endif %}>Male</option></select>
+      </div>
+      <div class="field">
+        <label for="id_district">Home district</label>
+        <select id="id_district" name="district"><option value="">Prefer not to answer</option>{% for d in districts %}<option value="{{ d.pk }}" {% if data.district == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.name }} ({{ d.region.name }})</option>{% endfor %}</select>
+      </div>
+    </details>
+    <p style="margin-top:1rem"><button class="btn" type="submit">Create account</button></p>
+  </form>
+  <p>Already registered? <a href="{% url 'accounts:login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Sign in</a></p>
+</div>
+{% endblock %}

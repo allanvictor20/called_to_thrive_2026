@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Facilitators{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Administrator</p><h1>Facilitators</h1></div>
+<nav class="row small">
+  <a class="btn btn-small {% if status == 'pending' %}btn-teal{% else %}btn-secondary{% endif %}" href="?status=pending">Pending</a>
+  <a class="btn btn-small {% if status == 'approved' %}btn-teal{% else %}btn-secondary{% endif %}" href="?status=approved">Approved</a>
+  <a class="btn btn-small {% if status == 'suspended' %}btn-teal{% else %}btn-secondary{% endif %}" href="?status=suspended">Suspended</a>
+  <a class="btn btn-small {% if status == 'rejected' %}btn-teal{% else %}btn-secondary{% endif %}" href="?status=rejected">Rejected</a>
+  <a class="btn btn-small {% if status == 'all' %}btn-teal{% else %}btn-secondary{% endif %}" href="?status=all">All</a></nav></div>
+<p class="small muted">Approve only legitimate facilitators. Approval alone does not grant cohort access: link each facilitator to a partner on the partner's page.</p>
+{% for p in profiles %}
+<div class="card">
+  <div class="row spread"><div><b>{{ p.user.full_name }}</b> <span class="muted small">{{ p.user.contact_display }}{% if not p.user.has_verified_contact %} · unverified contact{% endif %}</span></div><span class="badge">{{ p.get_approval_status_display }}</span></div>
+  {% if p.application_note %}<p class="small" style="margin:.4rem 0">“{{ p.application_note }}”</p>{% endif %}
+  <p class="small muted" style="margin:.2rem 0 .5rem">Applied {{ p.created_at|date:"j M Y" }}{% if p.approved_by %} · approved by {{ p.approved_by.full_name }} {{ p.approved_at|date:"j M Y" }}{% endif %}
+    · Partners: {% for a in p.user.affiliations.all %}{% if a.status == "active" %}{{ a.partner.name }}{% if not forloop.last %}, {% endif %}{% endif %}{% empty %}none{% endfor %}</p>
+  <form method="post" class="row">{% csrf_token %}<input type="hidden" name="profile" value="{{ p.pk }}">
+    {% if p.approval_status != "approved" %}<button class="btn btn-small btn-teal" name="status" value="approved">Approve</button>{% endif %}
+    {% if p.approval_status == "pending" %}<button class="btn btn-small btn-danger" name="status" value="rejected">Reject</button>{% endif %}
+    {% if p.approval_status == "approved" %}<button class="btn btn-small btn-danger" name="status" value="suspended">Suspend</button>{% endif %}
+  </form>
+</div>
+{% empty %}<div class="card empty">Nothing here.</div>{% endfor %}
+{% endblock %}

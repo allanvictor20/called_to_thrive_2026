@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Verify your contact{% endblock %}
+{% block content %}
+<div class="narrow">
+  <h1>Verify your contact</h1>
+  {% if user.has_verified_contact %}
+    <div class="alert alert-success">Your {% if user.email_verified_at %}email{% else %}phone{% endif %} is verified. You can join a cohort.</div>
+    <a class="btn" href="{% if next %}{{ next }}{% else %}{% url 'core:home' %}{% endif %}">Continue</a>
+  {% else %}
+    <p class="lede">We verify your contact so that only you can recover this account.</p>
+    {% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+    {% if user.email %}
+    <div class="card">
+      <h2>Email</h2>
+      <p>Open the link we sent to <b>{{ user.email }}</b>. It works for 24 hours.</p>
+      <form method="post">{% csrf_token %}<input type="hidden" name="action" value="resend_email"><button class="btn btn-secondary">Send a new link</button></form>
+    </div>
+    {% endif %}
+    {% if user.phone_e164 %}
+    <div class="card">
+      <h2>Phone</h2>
+      <form method="post" class="row" style="margin-bottom:1rem">{% csrf_token %}<input type="hidden" name="action" value="send_phone"><button class="btn btn-secondary">Send a code to {{ user.phone_e164 }}</button></form>
+      <form method="post">{% csrf_token %}<input type="hidden" name="action" value="check_phone"><input type="hidden" name="next" value="{{ next }}">
+        {% include "partials/field.html" with name="code" label="6-digit code" autocomplete="one-time-code" %}
+        <button class="btn">Verify phone</button>
+      </form>
+    </div>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

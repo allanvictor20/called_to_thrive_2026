@@ -1,0 +1,12 @@
+<div class="stats">
+  <div class="stat"><b>{{ summary.unique_participants }}</b><span>Unique participants</span></div>
+  <div class="stat"><b>{{ summary.enrollments }}</b><span>Enrollments</span></div>
+  <div class="stat"><b>{{ summary.started }}</b><span>Started a lesson</span></div>
+  <div class="stat"><b>{{ summary.lesson_completion_rate|default_if_none:"—" }}{% if summary.lesson_completion_rate is not None %}%{% endif %}</b><span>Lesson completion</span></div>
+  <div class="stat"><b>{{ summary.reached_project_stage }}</b><span>Reached project stage</span></div>
+  <div class="stat"><b>{{ summary.programme_completed }}</b><span>Programme completed{% if summary.programme_completed_by_override %} ({{ summary.programme_completed_by_override }} by exception){% endif %}</span></div>
+  <div class="stat"><b>{{ summary.completion_rate|default_if_none:"—" }}{% if summary.completion_rate is not None %}%{% endif %}</b><span>Completion rate (of {{ summary.completion_denominator }})</span></div>
+  <div class="stat"><b>{{ summary.attendance_rate|default_if_none:"—" }}{% if summary.attendance_rate is not None %}%{% endif %}</b><span>Attendance (excl. excused; {{ summary.attendance_unrecorded }} unrecorded)</span></div>
+  <div class="stat"><b>{{ summary.active_facilitators }}</b><span>Active facilitators</span></div>
+  <div class="stat"><b>{{ summary.projects_completed }}/{{ summary.projects }}</b><span>Projects confirmed complete</span></div>
+</div>

@@ -1,0 +1,23 @@
+# Local development stack: PostgreSQL 16 + the app. Not a production deployment.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ctt
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: called_to_thrive
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+  web:
+    build: .
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      DJANGO_DEBUG: "1"
+      DJANGO_SECRET_KEY: dev-only
+      DATABASE_URL: postgres://ctt:secret@db:5432/called_to_thrive
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+    ports: ["8000:8000"]
+    volumes: [".:/app"]
+    depends_on: [db]
+volumes:
+  pgdata:

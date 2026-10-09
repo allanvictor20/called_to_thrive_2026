@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load ctt %}
+{% block title %}{{ enrollment.participant_user.full_name }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.name }}</p><h1>{{ enrollment.participant_user.full_name }}</h1>
+<p class="muted small">{{ enrollment.get_status_display }} · joined {{ enrollment.joined_at|date:"j M Y" }} · {{ checklist.lessons_completed }}/{{ checklist.lessons_total }} lessons</p></div></div>
+{% include "facilitator/_cohort_nav.html" %}
+<p class="alert alert-info small">You see completion for every activity. Written answers appear only for activities shared with facilitators; private reflections stay private.</p>
+{% for row in rows %}
+<details class="card" {% if not row.progress.completed_at and row.progress.started_at %}open{% endif %}>
+  <summary>Lesson {{ row.lesson.lesson_number }}: {{ row.lesson.title }} —
+    {% if row.progress.completed_at %}<span class="badge badge-done">Complete{% if row.progress.completion_method == "override" %} (exception){% endif %}</span>{% elif row.progress.started_at %}<span class="badge badge-progress">In progress</span>{% else %}<span class="badge">Not started</span>{% endif %}</summary>
+  <ul style="list-style:none;padding:0;margin-top:.6rem" class="stack">
+  {% for item in row.components %}
+    <li>{% if item.r.status == "completed" %}✅{% elif item.r %}✏️{% else %}⬜{% endif %} <b>{{ item.c.title }}</b> <span class="small muted">{% if item.c.required %}required · {% endif %}{{ item.c.visibility }}</span>
+      {% if item.view.payload %}<div class="small" style="background:var(--paper);border-radius:8px;padding:.5rem .7rem;margin-top:.3rem">
+        {% for f in item.c.response_schema.fields %}{% with v=item.view.payload|get:f.key|display %}{% if v %}<p style="margin:0 0 .3rem"><b>{{ f.label }}</b><br>{{ v }}</p>{% endif %}{% endwith %}{% endfor %}</div>{% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+  {% if row.progress.completion_method == "override" %}<p class="small"><b>Exception:</b> {{ row.progress.override_reason }} — {{ row.progress.confirmed_by.full_name }}, {{ row.progress.completed_at|date:"j M Y" }}</p>{% endif %}
+  {% if is_lead and not row.progress.completed_at %}
+    <form method="post" class="row" style="margin-top:.6rem">{% csrf_token %}<input type="hidden" name="lesson" value="{{ row.lesson.pk }}">
+      <label for="r-{{ row.lesson.pk }}" style="position:absolute;left:-999px">Reason for exception</label>
+      <input id="r-{{ row.lesson.pk }}" name="reason" placeholder="Reason for completing by exception" style="flex:1;min-width:12rem" required>
+      <button class="btn btn-small btn-secondary">Complete by exception</button></form>
+  {% endif %}
+</details>
+{% endfor %}
+<section class="card"><h2>Attendance</h2>
+  <ul class="small">{% for a in attendance %}<li>{{ a.session.starts_at|date:"j M" }} — {{ a.session.title }}: <b>{{ a.get_status_display }}</b></li>{% empty %}<li class="muted">No attendance recorded.</li>{% endfor %}</ul>
+</section>
+{% endblock %}

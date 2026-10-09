@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Programme reports{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Administrator</p><h1>Programme reports</h1></div>
+  <a class="btn btn-teal" href="{% url 'reporting:export' %}?{{ query }}">Download CSV</a></div>
+<form method="get" class="card">
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))">
+    <div class="field"><label for="year">Intake year</label><select id="year" name="year"><option value="">All</option>{% for y in years %}<option value="{{ y }}" {% if filters.year == y %}selected{% endif %}>{{ y }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="region">Region</label><select id="region" name="region"><option value="">All</option>{% for r in regions %}<option value="{{ r.pk }}" {% if filters.region == r.pk|stringformat:"s" %}selected{% endif %}>{{ r.name }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="district">District</label><select id="district" name="district"><option value="">All</option>{% for d in districts %}<option value="{{ d.pk }}" {% if filters.district == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.name }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="partner">Partner</label><select id="partner" name="partner"><option value="">All</option>{% for p in partners %}<option value="{{ p.pk }}" {% if filters.partner == p.pk|stringformat:"s" %}selected{% endif %}>{{ p.name }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="facilitator">Facilitator</label><select id="facilitator" name="facilitator"><option value="">All</option>{% for f in facilitators %}<option value="{{ f.pk }}" {% if filters.facilitator == f.pk|stringformat:"s" %}selected{% endif %}>{{ f.full_name }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="cohort">Cohort</label><select id="cohort" name="cohort"><option value="">All</option>{% for c in cohorts %}<option value="{{ c.pk }}" {% if filters.cohort == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="cf">Completed from</label><input id="cf" type="date" name="completed_from" value="{{ filters.completed_from|date:'Y-m-d' }}"></div>
+    <div class="field"><label for="ct">Completed to</label><input id="ct" type="date" name="completed_to" value="{{ filters.completed_to|date:'Y-m-d' }}"></div>
+  </div>
+  <div class="row"><button class="btn">Apply filters</button><a class="btn btn-secondary" href="{% url 'reporting:programme' %}">Clear</a></div>
+</form>
+{% include "admin_console/_stats.html" %}
+{% if summary.completed_in_period is not None %}<p class="alert alert-info">Completed within the selected completion period: <b>{{ summary.completed_in_period }}</b> (cohorts still filtered by intake year if one is set).</p>{% endif %}
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))">
+<section><h2>By region</h2>{% include "reporting/_breakdown.html" with data=by_region %}</section>
+<section><h2>By district</h2>{% include "reporting/_breakdown.html" with data=by_district %}</section>
+<section><h2>By partner</h2>{% include "reporting/_breakdown.html" with data=by_partner %}</section>
+<section><h2>By cohort</h2>{% include "reporting/_breakdown.html" with data=by_cohort %}</section>
+</div>
+<details class="card"><summary>How each figure is calculated</summary><dl>{% for k, v in definitions.items %}<dt style="font-weight:700;margin-top:.5rem">{{ k|cut:"_"|capfirst }}</dt><dd style="margin:0">{{ v }}</dd>{% endfor %}</dl>
+<p class="small muted">CSV export contains programme state only — never reflections, answers or quiz scores. Cells that start with = + - @ are prefixed so spreadsheets do not run them as formulas.</p></details>
+{% endblock %}

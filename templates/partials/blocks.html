@@ -1,0 +1,13 @@
+{% for b in blocks %}
+  {% if b.type == "truth" %}<p class="truth">{{ b.text }}</p>
+  {% elif b.type == "paragraph" %}<p>{{ b.text }}</p>
+  {% elif b.type == "heading" %}<h3>{{ b.text }}</h3>
+  {% elif b.type == "terms" %}<dl class="terms">{% for t in b.items %}<div><dt>{{ t.term }}:</dt> <dd>{{ t.definition }}</dd></div>{% endfor %}</dl>
+  {% elif b.type == "scripture" %}<blockquote class="scripture">{{ b.text }}<cite>{{ b.reference }}</cite></blockquote>
+  {% elif b.type == "questions" %}<ul>{% for q in b.items %}<li>{{ q }}</li>{% endfor %}</ul>
+  {% elif b.type == "list" %}<ul>{% for q in b.items %}<li>{{ q }}</li>{% endfor %}</ul>
+  {% elif b.type == "ordered_list" %}<ol>{% for q in b.items %}<li>{{ q }}</li>{% endfor %}</ol>
+  {% elif b.type == "pairs" %}<div class="pairs">{% for p in b.items %}<div><b>{{ p.heading }}</b>{{ p.text }}</div>{% endfor %}</div>{% if b.reference %}<p class="small" style="margin-top:.5rem"><cite style="color:var(--teal-deep);font-weight:700;font-style:normal">{{ b.reference }}</cite></p>{% endif %}
+  {% elif b.type == "table" %}<div class="table-wrap"><table class="data">{% if b.caption %}<caption class="small muted" style="text-align:left;padding:.4rem .6rem">{{ b.caption }}</caption>{% endif %}<thead><tr>{% for c in b.columns %}<th scope="col">{{ c }}</th>{% endfor %}</tr></thead><tbody>{% for row in b.rows %}<tr>{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+  {% endif %}
+{% endfor %}

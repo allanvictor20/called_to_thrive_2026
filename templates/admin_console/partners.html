@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Partners{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Administrator</p><h1>Partners</h1></div></div>
+<div class="table-wrap"><table class="data stack-mobile"><thead><tr><th>Partner</th><th>Type</th><th>District</th><th class="num-cell">Facilitators</th><th class="num-cell">Cohorts</th><th>Status</th></tr></thead><tbody>
+{% for p in partners %}<tr><td data-label="Partner"><a href="{% url 'admin_console:partner' p.pk %}">{{ p.name }}</a></td><td data-label="Type">{{ p.get_organisation_type_display }}</td><td data-label="District">{{ p.district.name|default:"—" }}</td><td data-label="Facilitators" class="num-cell">{{ p.n_facilitators }}</td><td data-label="Cohorts" class="num-cell">{{ p.n_cohorts }}</td><td data-label="Status">{{ p.get_status_display }}</td></tr>
+{% empty %}<tr><td colspan="6" class="empty">No partners yet.</td></tr>{% endfor %}
+</tbody></table></div>
+{% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
+<form method="post" class="card" novalidate>{% csrf_token %}
+  <h2>Add a partner</h2>
+  {% include "partials/field.html" with name="name" label="Name" value=data.name required=True %}
+  <div class="field{% if errors.organisation_type %} has-error{% endif %}"><label for="ot">Type *</label><select id="ot" name="organisation_type"><option value="">— Choose —</option><option value="church">Church</option><option value="school">School</option><option value="ministry">Ministry</option><option value="other">Other</option></select>{% if errors.organisation_type %}<p class="error-text">{{ errors.organisation_type }}</p>{% endif %}</div>
+  <div class="field"><label for="pd">Headquarters district (optional)</label><select id="pd" name="district"><option value="">—</option>{% for d in districts %}<option value="{{ d.pk }}">{{ d.name }} ({{ d.region.name }})</option>{% endfor %}</select></div>
+  <button class="btn">Add partner</button>
+</form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Facilitators · {{ cohort.name }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ cohort.name }}</p><h1>Facilitators</h1></div></div>
+{% include "facilitator/_cohort_nav.html" %}
+<div class="card"><ul class="stack" style="list-style:none;padding:0">
+{% for a in assigned %}<li class="row spread"><span><b>{{ a.facilitator_user.full_name }}</b> — {{ a.assignment_role|capfirst }}</span>
+  {% if a.assignment_role != "lead" %}<form method="post">{% csrf_token %}<input type="hidden" name="user" value="{{ a.facilitator_user.pk }}"><input type="hidden" name="action" value="end"><button class="btn btn-small btn-danger">Remove</button></form>{% endif %}</li>{% endfor %}
+</ul></div>
+<form method="post" class="card">{% csrf_token %}
+  <h2>Add a facilitator</h2>
+  {% if candidates %}
+  <div class="field"><label for="user">Approved facilitator affiliated with {{ cohort.partner.name }}</label><select id="user" name="user">{% for c in candidates %}<option value="{{ c.pk }}">{{ c.full_name }}</option>{% endfor %}</select></div>
+  <div class="field"><label for="role">Role</label><select id="role" name="role"><option value="assistant">Assistant</option><option value="lead">Lead (replaces current lead, who becomes assistant)</option></select></div>
+  <button class="btn">Assign</button>
+  {% else %}<p class="muted">No other approved facilitators are affiliated with this partner.</p>{% endif %}
+</form>
+{% endblock %}
