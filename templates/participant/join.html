@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Join a cohort{% endblock %}
 {% block content %}
-<div class="narrow">
+<div class="narrow" style="margin:0 auto">
+  <p class="eyebrow">Join your group</p>
   <h1>Join a cohort</h1>
+  <p class="lede">Your facilitator gives each group a join code. Enter it below and we'll show you the group so you can check it before joining.</p>
   {% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
   {% if preview %}
     <div class="card card-accent">
       <p class="eyebrow">Check this is your group</p>
       <h2>{{ preview.cohort_name }}</h2>
-      <p><b>Partner:</b> {{ preview.partner }}<br><b>District:</b> {{ preview.district }}<br><b>Lead facilitator:</b> {{ preview.lead_facilitator|default:"—" }}<br><b>Starts:</b> {{ preview.start_date }}<br><b>Meets:</b> {{ preview.delivery }}</p>
+      <dl class="terms" style="margin:.75rem 0 1rem">
+        <div><dt>Partner:</dt> <dd>{{ preview.partner }}</dd></div>
+        <div><dt>District:</dt> <dd>{{ preview.district }}</dd></div>
+        <div><dt>Lead facilitator:</dt> <dd>{{ preview.lead_facilitator|default:"—" }}</dd></div>
+        <div><dt>Starts:</dt> <dd>{{ preview.start_date }}</dd></div>
+        <div><dt>Meets:</dt> <dd>{{ preview.delivery }}</dd></div>
+      </dl>
       {% if preview.already_enrolled %}
         <div class="alert alert-info">You are already in this cohort.</div>
         <form method="post">{% csrf_token %}<input type="hidden" name="code" value="{{ code }}"><input type="hidden" name="confirm" value="1"><button class="btn">Open my journey</button></form>
@@ -24,7 +32,7 @@
   {% else %}
     <form method="post" class="card">{% csrf_token %}
       {% include "partials/field.html" with name="code" label="Join code" value=code required=True hint="For example ABCD-EFGH-JKMN. Capital letters and dashes are optional." %}
-      <button class="btn">Preview cohort</button>
+      <button class="btn btn-block">Preview cohort <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></button>
     </form>
   {% endif %}
 </div>

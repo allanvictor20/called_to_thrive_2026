@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Create your account{% endblock %}
 {% block content %}
-<div class="narrow">
+<div class="auth">
+  {% include "partials/auth_side.html" %}
+  <div class="auth-main">
   <p class="eyebrow">Welcome</p>
   <h1>Create your account</h1>
   <p class="lede">Your name and one contact are enough to start. Everything else is optional.</p>
   {% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }}</div>{% endif %}
-  <form method="post" novalidate class="card">
+  <form method="post" novalidate>
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">
     {% include "partials/field.html" with name="full_name" label="Full name" value=data.full_name required=True autocomplete="name" %}
@@ -26,8 +28,9 @@
         <select id="id_district" name="district"><option value="">Prefer not to answer</option>{% for d in districts %}<option value="{{ d.pk }}" {% if data.district == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.name }} ({{ d.region.name }})</option>{% endfor %}</select>
       </div>
     </details>
-    <p style="margin-top:1rem"><button class="btn" type="submit">Create account</button></p>
+    <button class="btn btn-block" type="submit" style="margin-top:.5rem">Create account</button>
   </form>
-  <p>Already registered? <a href="{% url 'accounts:login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Sign in</a></p>
+  <p class="auth-alt">Already registered? <a href="{% url 'accounts:login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Sign in</a></p>
+  </div>
 </div>
 {% endblock %}

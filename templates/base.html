@@ -4,48 +4,74 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Called to Thrive{% endblock %} · Called to Thrive</title>
-  <meta name="theme-color" content="#1f2328">
+  <meta name="theme-color" content="#ffffff">
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 28 16 4l12 24z' fill='%23e8701f'/%3E%3Cpath d='M16 4l12 24H16z' fill='%233fa6a0'/%3E%3C/svg%3E">
+  <link rel="icon" href="{% static 'img/logo.svg' %}" type="image/svg+xml">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
-<body>
+<body class="{% block body_class %}{% if user.is_authenticated %}role-{{ active_role|default:'none' }}{% else %}signed-out{% endif %}{% endblock %}">
+{# Icon set: <svg class="i"><use href="#i-name"/></svg> #}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.3" fill="currentColor"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6.5" width="12.5" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 10.5l5-3v9l-5-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C9.8 5 7 4.6 3.5 5.2v13.3c3.5-.6 6.3-.2 8.5 1.3 2.2-1.5 5-1.9 8.5-1.3V5.2C17 4.6 14.2 5 12 6.5zM12 6.5v13.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.3M12 19.2v2.3M2.5 12h2.3M19.2 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10H10l-4.5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4.5L16 4.5l3.5 3.5L8.5 19z M13.5 7l3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 19.5c.6-3.3 3-5.2 6-5.2s5.4 1.9 6 5.2M15.5 5.6a3.2 3.2 0 0 1 0 6M17.5 14.5c1.8.6 3 2.4 3.4 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4.5h11l-2 4 2 4H5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+</svg>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="{% url 'core:home' %}">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 28 16 4l12 24z" fill="#e8701f"/><path d="M16 4l12 24H16z" fill="#3fa6a0"/></svg>
-      <span>Called to Thrive<small>OneHope Uganda</small></span>
+      <img class="brand-mark" src="{% static 'img/logo.svg' %}" alt="" width="40" height="40">
+      <span class="brand-text">Called to Thrive<small>OneHope Uganda</small></span>
     </a>
     {% if user.is_authenticated %}
-    <nav class="nav" aria-label="Main">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+      <svg class="i i-open" aria-hidden="true"><use href="#i-menu"/></svg><svg class="i i-shut" aria-hidden="true"><use href="#i-close"/></svg><span>Menu</span>
+    </button>
+    {% with ns=request.resolver_match.namespace url_name=request.resolver_match.url_name %}
+    <nav class="nav" id="main-nav" aria-label="Main">
       {% if active_role == "participant" %}
-        <a href="{% url 'participant:home' %}">Home</a>
-        <a href="{% url 'cohorts:join' %}">Join a cohort</a>
+        <a href="{% url 'participant:home' %}" {% if ns == "participant" or ns == "projects" %}aria-current="page"{% endif %}>My journey</a>
+        <a href="{% url 'cohorts:join' %}" {% if ns == "cohorts" %}aria-current="page"{% endif %}>Join a cohort</a>
       {% elif active_role == "facilitator" %}
-        <a href="{% url 'facilitator:cohorts' %}">My cohorts</a>
+        <a href="{% url 'facilitator:cohorts' %}" {% if ns == "facilitator" or ns == "projects" %}aria-current="page"{% endif %}>My cohorts</a>
       {% elif active_role == "admin" %}
-        <a href="{% url 'admin_console:dashboard' %}">Programme</a>
-        <a href="{% url 'admin_console:facilitators' %}">Facilitators</a>
-        <a href="{% url 'admin_console:partners' %}">Partners</a>
-        <a href="{% url 'reporting:programme' %}">Reports</a>
+        <a href="{% url 'admin_console:dashboard' %}" {% if ns == "admin_console" and url_name == "dashboard" or url_name == "cohort" and ns == "admin_console" %}aria-current="page"{% endif %}>Programme</a>
+        <a href="{% url 'admin_console:facilitators' %}" {% if url_name == "facilitators" and ns == "admin_console" %}aria-current="page"{% endif %}>Facilitators</a>
+        <a href="{% url 'admin_console:partners' %}" {% if url_name == "partners" or url_name == "partner" %}aria-current="page"{% endif %}>Partners</a>
+        <a href="{% url 'reporting:programme' %}" {% if ns == "reporting" %}aria-current="page"{% endif %}>Reports</a>
       {% endif %}
-      <a href="{% url 'accounts:profile' %}">Profile</a>
+      <a href="{% url 'accounts:profile' %}" {% if ns == "accounts" %}aria-current="page"{% endif %}>Profile</a>
       {% if user_roles|length > 1 %}
       <form class="role-switch" method="post" action="{% url 'accounts:switch_role' %}">
         {% csrf_token %}
-        <label for="role-select" class="visually-hidden" style="position:absolute;left:-999px">Switch role</label>
+        <label for="role-select">Viewing as</label>
         <select id="role-select" name="role" onchange="this.form.submit()">
           {% for r in user_roles %}<option value="{{ r }}" {% if r == active_role %}selected{% endif %}>{{ r|capfirst }}</option>{% endfor %}
         </select>
         <noscript><button class="btn btn-small btn-secondary">Switch</button></noscript>
       </form>
       {% endif %}
-      <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="linklike" style="color:#e9eaec;padding:.4rem .6rem">Sign out</button></form>
+      <form method="post" action="{% url 'accounts:logout' %}" class="signout">{% csrf_token %}<button class="nav-btn" type="submit">Sign out</button></form>
     </nav>
+    {% endwith %}
     {% endif %}
   </div>
 </header>
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="{% block main_class %}{% endblock %}">
   {% if messages %}
   <ul class="messages" role="status">
     {% for message in messages %}<li class="alert alert-{% if message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}info{% endif %}">{{ message }}</li>{% endfor %}
@@ -56,7 +82,39 @@
   {% endif %}
   {% block content %}{% endblock %}
 </main>
-<footer class="footer">Called to Thrive · Times shown in Africa/Kampala (EAT) · Online saves need a connection</footer>
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-brand"><img src="{% static 'img/logo.svg' %}" alt="" width="22" height="22"> Called to Thrive · OneHope Uganda</span>
+    <span>Times shown in Kampala time (EAT) · Saving needs an internet connection</span>
+  </div>
+</footer>
+<script>
+(function () {
+  var b = document.querySelector(".menu-toggle"), n = document.getElementById("main-nav");
+  if (!b || !n) return;
+  b.addEventListener("click", function () {
+    var open = b.getAttribute("aria-expanded") !== "true";
+    b.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("menu-open", open);
+  });
+})();
+(function () {
+  // Show / hide password buttons.
+  document.querySelectorAll("input[type=password]").forEach(function (input) {
+    var wrap = document.createElement("div"); wrap.className = "pw-wrap";
+    input.parentNode.insertBefore(wrap, input); wrap.appendChild(input);
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "pw-toggle"; btn.textContent = "Show";
+    btn.setAttribute("aria-label", "Show password"); btn.setAttribute("aria-controls", input.id || "");
+    btn.addEventListener("click", function () {
+      var show = input.type === "password"; input.type = show ? "text" : "password";
+      btn.textContent = show ? "Hide" : "Show"; btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    });
+    wrap.appendChild(btn);
+  });
+})();
+</script>
 <script src="{% static 'js/save-state.js' %}" defer></script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

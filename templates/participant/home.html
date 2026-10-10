@@ -1,30 +1,72 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<div class="page-head">
-  <div><p class="eyebrow">Hello, {{ user.full_name }}</p><h1>Your journey</h1></div>
-  <a class="btn" href="{% url 'cohorts:join' %}">Join a cohort</a>
-</div>
-{% for card in cards %}
-  <article class="card card-accent">
-    <div class="row spread">
-      <h2 style="margin:0"><a href="{% url 'participant:journey' card.enrollment.pk %}">{{ card.enrollment.cohort.name }}</a></h2>
-      <span class="badge {% if card.enrollment.status == 'completed' %}badge-done{% elif card.enrollment.status == 'withdrawn' %}badge-red{% else %}badge-teal{% endif %}">{{ card.enrollment.get_status_display }}</span>
+{% with first=cards.0 %}
+<section class="hero" aria-labelledby="hello-h">
+  <div class="hero-grid">
+    <div class="hero-body">
+      <p class="eyebrow">Welcome back</p>
+      <h1 id="hello-h">Hello, {{ user.full_name }}</h1>
+      {% if first and first.resume %}
+        <p>You are on <b>Lesson {{ first.resume.lesson.lesson_number }}: {{ first.resume.lesson.title }}</b>. Pick up where you left off.</p>
+        <div class="row"><a class="btn" href="{% url 'participant:lesson' first.enrollment.pk first.resume.lesson.lesson_number %}">Continue lesson {{ first.resume.lesson.lesson_number }} <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-secondary" href="{% url 'participant:journey' first.enrollment.pk %}">See all lessons</a></div>
+      {% elif first %}
+        <p>You have worked through every lesson. Well done! Check your programme checklist for anything left.</p>
+        <a class="btn" href="{% url 'participant:completion' first.enrollment.pk %}">Open my checklist</a>
+      {% else %}
+        <p>Discover who God has called you to be, and plan a project that serves your community.</p>
+      {% endif %}
     </div>
-    <p class="muted small">{{ card.enrollment.cohort.partner.name }} · joined {{ card.enrollment.joined_at|date:"j M Y" }}</p>
-    <div class="progress" role="progressbar" aria-valuenow="{{ card.pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Lessons complete"><span style="width:{{ card.pct }}%"></span></div>
-    <p class="small" style="margin-top:.35rem">{{ card.done }} of {{ card.total }} lessons complete</p>
+    {% if first %}<div class="ring" style="--p:{{ first.pct }}" role="img" aria-label="{{ first.done }} of {{ first.total }} lessons complete"><span>{{ first.done }}/{{ first.total }}<small>lessons</small></span></div>{% endif %}
+  </div>
+</section>
+{% endwith %}
+
+{% if cards %}
+<div class="row spread" style="margin-bottom:.85rem">
+  <h2 style="margin:0">Your cohorts</h2>
+  <a class="btn btn-ghost btn-small" href="{% url 'cohorts:join' %}">+ Join another cohort</a>
+</div>
+{% endif %}
+
+{% for card in cards %}
+  <article class="card cohort-card">
+    <div class="cc-body">
+      <div>
+        <div class="row" style="gap:.4rem .6rem;margin-bottom:.2rem">
+          <span class="badge {% if card.enrollment.status == 'completed' %}badge-done{% elif card.enrollment.status == 'withdrawn' %}badge-red{% else %}badge-teal{% endif %}">{{ card.enrollment.get_status_display }}</span>
+          <span class="small muted">{{ card.enrollment.cohort.partner.name }} · joined {{ card.enrollment.joined_at|date:"j M Y" }}</span>
+        </div>
+        <h2><a href="{% url 'participant:journey' card.enrollment.pk %}">{{ card.enrollment.cohort.name }}</a></h2>
+        <div class="progress" style="margin-top:.6rem" role="progressbar" aria-valuenow="{{ card.pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Lessons complete"><span style="width:{{ card.pct }}%"></span></div>
+        <p class="small muted" style="margin:.4rem 0 0">{{ card.done }} of {{ card.total }} lessons complete</p>
+        <div class="cc-actions">
+          {% if card.resume and card.enrollment.status == "active" %}<a class="btn btn-small" href="{% url 'participant:lesson' card.enrollment.pk card.resume.lesson.lesson_number %}">Continue lesson {{ card.resume.lesson.lesson_number }}</a>{% endif %}
+          <a class="btn btn-secondary btn-small" href="{% url 'participant:journey' card.enrollment.pk %}">Open journey</a>
+        </div>
+      </div>
+      <div class="ring light" style="--p:{{ card.pct }};--size:92px" aria-hidden="true"><span>{{ card.pct }}%<small>done</small></span></div>
+    </div>
     {% if card.next_session %}
-      <p><b>Next:</b> {{ card.next_session.title }} — {{ card.next_session.starts_at|date:"D j M, g:i A" }}
-        {% if card.next_session.meet_url %} · <a href="{{ card.next_session.meet_url }}" target="_blank" rel="noopener noreferrer">Join Google Meet ↗</a>{% endif %}
-        {% if card.next_session.venue %} · {{ card.next_session.venue }}{% endif %}</p>
+    <div class="cc-next">
+      <span class="row" style="gap:.45rem"><svg class="i" aria-hidden="true"><use href="#i-cal"/></svg><b>Next session:</b> {{ card.next_session.title }}</span>
+      <span class="muted">{{ card.next_session.starts_at|date:"D j M, g:i A" }}</span>
+      {% if card.next_session.venue %}<span class="row muted" style="gap:.3rem"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg>{{ card.next_session.venue }}</span>{% endif %}
+      {% if card.next_session.meet_url %}<a class="btn btn-teal btn-small" href="{{ card.next_session.meet_url }}" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg> Join Google Meet</a>{% endif %}
+    </div>
     {% endif %}
-    <a class="btn btn-secondary btn-small" href="{% url 'participant:journey' card.enrollment.pk %}">Open journey</a>
   </article>
 {% empty %}
-  <div class="card empty">
+  <div class="card empty-state">
+    <div class="empty-icon"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></div>
     <h2>You haven't joined a cohort yet</h2>
-    <p>Your facilitator will give you a join code or link.</p>
+    <p>Called to Thrive happens in a small group led by a facilitator. Here is how to get started:</p>
+    <ol class="steps">
+      <li>Ask your facilitator for your group's join code or link.</li>
+      <li>Enter the code and check the group details.</li>
+      <li>Start Lesson 1 and work through the workbook with your group.</li>
+    </ol>
     <a class="btn" href="{% url 'cohorts:join' %}">Enter a join code</a>
   </div>
 {% endfor %}

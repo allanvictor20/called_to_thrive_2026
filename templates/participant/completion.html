@@ -1,18 +1,27 @@
 {% extends "base.html" %}
 {% block title %}Programme checklist{% endblock %}
 {% block content %}
-<nav class="small" style="margin-bottom:.6rem"><a href="{% url 'participant:journey' enrollment.pk %}">← {{ enrollment.cohort.name }}</a></nav>
-<h1>Programme checklist</h1>
+<div class="reading">
+<a class="crumb" href="{% url 'participant:journey' enrollment.pk %}"><svg class="i" aria-hidden="true"><use href="#i-back"/></svg> {{ enrollment.cohort.name }}</a>
 {% if enrollment.status == "completed" %}
-  <div class="alert alert-success">🎉 Your facilitator confirmed you completed Called to Thrive on {{ enrollment.completed_at|date:"j F Y" }}.</div>
+  <section class="hero celebrate">
+    <div class="ring" style="--p:100" aria-hidden="true"><span><svg class="i" style="width:2.2rem;height:2.2rem"><use href="#i-check"/></svg></span></div>
+    <p class="eyebrow">Congratulations</p>
+    <h1>You completed Called to Thrive!</h1>
+    <p>Your facilitator confirmed your completion on {{ enrollment.completed_at|date:"j F Y" }}.</p>
+  </section>
+{% else %}
+  <div class="page-head"><div><p class="eyebrow">Your progress</p><h1>Programme checklist</h1><p class="lede">Finish these three things to complete Called to Thrive.</p></div></div>
 {% endif %}
-<div class="card">
-  <ul class="stack" style="list-style:none;padding:0">
-    <li>{% if checklist.lessons_completed == checklist.lessons_total %}✅{% else %}⬜{% endif %} Lessons complete: <b>{{ checklist.lessons_completed }} of {{ checklist.lessons_total }}</b>
-      {% if checklist.missing_lessons %}<div class="small muted">Still to finish: {% for l in checklist.missing_lessons %}<a href="{% url 'participant:lesson' enrollment.pk l.lesson_number %}">Lesson {{ l.lesson_number }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</div>{% endif %}</li>
-    <li>{% if checklist.confirmed_projects %}✅{% else %}⬜{% endif %} Team project confirmed complete by your facilitator</li>
-    <li>{% if checklist.evaluation_submitted %}✅{% else %}⬜{% endif %} Your individual project evaluation submitted</li>
-  </ul>
-  <p class="small muted">Attendance is recorded separately. It is not part of this checklist unless OneHope approves an attendance rule.</p>
+<ul class="checklist">
+  <li class="{% if checklist.lessons_completed == checklist.lessons_total %}is-done{% endif %}"><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+    <div><b>Lessons complete: {{ checklist.lessons_completed }} of {{ checklist.lessons_total }}</b><span class="visually-hidden">{% if checklist.lessons_completed == checklist.lessons_total %} (done){% else %} (not done yet){% endif %}</span>
+      {% if checklist.missing_lessons %}<div class="small muted" style="margin-top:.25rem">Still to finish: {% for l in checklist.missing_lessons %}<a href="{% url 'participant:lesson' enrollment.pk l.lesson_number %}">Lesson {{ l.lesson_number }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</div>{% endif %}</div></li>
+  <li class="{% if checklist.confirmed_projects %}is-done{% endif %}"><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+    <div><b>Team project confirmed complete</b><span class="visually-hidden">{% if checklist.confirmed_projects %} (done){% else %} (not done yet){% endif %}</span><div class="small muted">Your facilitator confirms this on your team's project page.</div></div></li>
+  <li class="{% if checklist.evaluation_submitted %}is-done{% endif %}"><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span>
+    <div><b>Your individual project evaluation submitted</b><span class="visually-hidden">{% if checklist.evaluation_submitted %} (done){% else %} (not done yet){% endif %}</span></div></li>
+</ul>
+<p class="small muted" style="margin-top:1rem">Attendance is recorded separately. It is not part of this checklist unless OneHope approves an attendance rule.</p>
 </div>
 {% endblock %}

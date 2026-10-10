@@ -19,6 +19,11 @@ from . import services
 from .models import ComponentResponse, LessonProgress
 
 
+def _resume_row(rows):
+    """The lesson a participant should open next: one already started, else the first not yet complete."""
+    return next((r for r in rows if r["state"] == "in_progress"), None) or next((r for r in rows if r["state"] != "complete"), None)
+
+
 @login_required
 def home(request):
     enrollments = (
@@ -36,7 +41,13 @@ def home(request):
             .order_by("starts_at")
             .first()
         )
-        cards.append({"enrollment": e, "total": total, "done": done, "pct": int(100 * done / total) if total else 0, "next_session": next_session})
+        lessons = Lesson.objects.filter(curriculum_version_id=e.cohort.curriculum_version_id).order_by("lesson_number")
+        states = services.lesson_states(e)
+        resume = _resume_row([{"lesson": lesson, "state": states.get(lesson.pk, "not_started")} for lesson in lessons])
+        cards.append({
+            "enrollment": e, "total": total, "done": done, "pct": int(100 * done / total) if total else 0,
+            "next_session": next_session, "resume": resume,
+        })
     return render(request, "participant/home.html", {"cards": cards})
 
 
@@ -59,6 +70,7 @@ def journey(request, enrollment_id):
         "memberships": memberships,
         "attendance": {a.session_id: a.status for a in enrollment.attendance.all()},
         "past_sessions": [s for s in sessions if s.status == Session.COMPLETED],
+        "resume": _resume_row(rows),
     })
 
 

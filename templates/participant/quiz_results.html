@@ -2,7 +2,8 @@
 {% load ctt %}
 {% block title %}Quiz results{% endblock %}
 {% block content %}
-<nav class="small" style="margin-bottom:.6rem"><a href="{% url 'participant:journey' enrollment.pk %}">← {{ enrollment.cohort.name }}</a></nav>
+<div class="reading">
+<a class="crumb" href="{% url 'participant:journey' enrollment.pk %}"><svg class="i" aria-hidden="true"><use href="#i-back"/></svg> {{ enrollment.cohort.name }}</a>
 <p class="eyebrow">Attempt {{ attempt.attempt_number }} · {{ attempt.submitted_at|date:"j M Y" }}</p>
 <h1>Your results</h1>
 <p class="lede">{% if top|length > 1 %}You have a tie between {% for t in top %}<b>{{ t.label }}</b>{% if not forloop.last %}{% if forloop.revcounter == 2 %} and {% else %}, {% endif %}{% endif %}{% endfor %}. Both are shown — there is no tie-breaker.{% else %}Your highest total is <b>{{ top.0.label }}</b>.{% endif %} These totals describe interests; they are not a diagnosis.</p>
@@ -17,6 +18,7 @@
 </div>
 {% for r in rows %}{% if r.is_top %}
 <div class="card card-accent">
+  <p class="eyebrow">Your top interest</p>
   <h2>{{ r.label }}</h2>
   <p>{{ r.description }}</p>
   <p class="small"><b>Here is a small sample of careers you might choose:</b></p>
@@ -27,5 +29,6 @@
   {% for r in rows %}{% if not r.is_top %}<h3 style="margin-top:.8rem">{{ r.label }} ({{ r.score }})</h3><p>{{ r.description }}</p><p class="small">Sample careers: {{ r.sample_careers|join:", " }}</p>{% endif %}{% endfor %}
 </details>
 {% if others|length > 1 %}<p class="small">Other attempts: {% for o in others %}{% if o.pk != attempt.pk %}<a href="{% url 'participant:quiz_results' enrollment.pk o.pk %}">Attempt {{ o.attempt_number }}</a> {% endif %}{% endfor %}</p>{% endif %}
-<a class="btn btn-secondary" href="{% url 'participant:quiz' enrollment.pk %}">Back to quiz</a>
+<div class="row"><a class="btn btn-secondary" href="{% url 'participant:quiz' enrollment.pk %}">Back to quiz</a><a class="btn" href="{% url 'participant:journey' enrollment.pk %}">Back to my lessons</a></div>
+</div>
 {% endblock %}

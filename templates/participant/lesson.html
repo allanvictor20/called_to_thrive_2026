@@ -2,43 +2,56 @@
 {% load ctt %}
 {% block title %}Lesson {{ lesson.lesson_number }}: {{ lesson.title }}{% endblock %}
 {% block content %}
-<nav class="small" aria-label="Breadcrumb" style="margin-bottom:.6rem"><a href="{% url 'participant:journey' enrollment.pk %}">← {{ enrollment.cohort.name }}</a></nav>
+<div class="reading">
+<a class="crumb" href="{% url 'participant:journey' enrollment.pk %}"><svg class="i" aria-hidden="true"><use href="#i-back"/></svg> {{ enrollment.cohort.name }}</a>
 <header class="lesson-head">
   <p class="eyebrow">Lesson {{ lesson.lesson_number }}</p>
   <h1>{{ lesson.title }}</h1>
-  <p style="margin:.4rem 0 0;color:#d9dcdf">{% if progress.completed_at %}✓ Lesson complete{% if progress.completion_method == "override" %} (completed by facilitator exception){% endif %}{% else %}{{ required_done }} of {{ required_total }} required parts done{% endif %}</p>
+  <p class="lesson-status">{% if progress.completed_at %}<span class="done-pill"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Lesson complete</span>{% if progress.completion_method == "override" %} <span>(completed by facilitator exception)</span>{% endif %}{% else %}{{ required_done }} of {{ required_total }} required parts done{% endif %}</p>
+  {% if not progress.completed_at and required_total %}<div class="progress" role="progressbar" aria-valuenow="{{ required_done }}" aria-valuemin="0" aria-valuemax="{{ required_total }}" aria-label="Required parts done"><span style="width:{{ required_done|pct:required_total }}%"></span></div>{% endif %}
 </header>
+
+{% if items|length > 2 %}
+<nav class="lesson-toc" aria-label="Parts of this lesson">
+  {% for it in items %}<a href="#c-{{ it.obj.component_key }}" {% if it.complete %}class="is-done"{% endif %}>{{ it.obj.title }}</a>{% endfor %}
+</nav>
+{% endif %}
+
 {% if error_message %}<div class="alert alert-error" role="alert">{{ error_message }} <a href="#c-{{ error_component }}">Go to the activity</a>.</div>{% endif %}
 
 {% for it in items %}
-<section class="card component {% if it.obj.component_type == 'truth' %}card-accent{% elif it.obj.component_type == 'life_work' %}card-teal{% endif %}" id="c-{{ it.obj.component_key }}" aria-labelledby="h-{{ it.obj.component_key }}">
+{% with t=it.obj.component_type %}
+<section class="card component {% if t == 'truth' %}card-accent{% elif t == 'life_work' or t == 'scripture' %}card-teal{% endif %}" id="c-{{ it.obj.component_key }}" aria-labelledby="h-{{ it.obj.component_key }}">
   <div class="component-head">
-    <h2 id="h-{{ it.obj.component_key }}" style="font-size:1.12rem;margin:0">{{ it.obj.title }}</h2>
+    <h2 id="h-{{ it.obj.component_key }}" style="font-size:1.15rem;margin:0">
+      <span class="kind-icon{% if t == 'scripture' or t == 'discussion' or t == 'life_work' %} kind-teal{% endif %}" aria-hidden="true"><svg class="i"><use href="#i-{% if t == 'truth' %}sun{% elif t == 'scripture' or t == 'vocabulary' or t == 'teaching' %}book{% elif t == 'discussion' %}chat{% elif t == 'assessment' %}star{% elif t == 'project_milestone' %}flag{% else %}pen{% endif %}"/></svg></span>
+      {{ it.obj.title }}
+    </h2>
     <span>
-      {% if it.obj.required %}{% if it.complete %}<span class="badge badge-done">Done</span>{% elif it.response %}<span class="badge badge-progress">Draft saved</span>{% else %}<span class="badge">Required</span>{% endif %}
-      {% elif it.complete %}<span class="badge badge-done">Done</span>{% endif %}
+      {% if it.obj.required %}{% if it.complete %}<span class="badge badge-done"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Done</span>{% elif it.response %}<span class="badge badge-progress">Draft saved</span>{% else %}<span class="badge">Required</span>{% endif %}
+      {% elif it.complete %}<span class="badge badge-done"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Done</span>{% endif %}
     </span>
   </div>
   {% include "partials/blocks.html" with blocks=it.c.content.blocks %}
 
   {% if it.obj.completion_method == "acknowledgment" %}
-    {% if it.complete %}<p class="small muted">You marked this as read.</p>
+    {% if it.complete %}<p class="note-muted"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> You marked this as read.</p>
     {% else %}
-    <form method="post" action="{% url 'participant:component_action' enrollment.pk it.obj.pk %}">{% csrf_token %}<input type="hidden" name="action" value="acknowledge">
-      <button class="btn btn-secondary btn-small">I have read this</button></form>
+    <form method="post" class="activity" action="{% url 'participant:component_action' enrollment.pk it.obj.pk %}">{% csrf_token %}<input type="hidden" name="action" value="acknowledge">
+      <button class="btn btn-secondary btn-small"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> I have read this</button></form>
     {% endif %}
 
   {% elif it.obj.completion_method == "facilitator_confirmation" %}
-    <p class="small muted">{% if it.complete %}Your facilitator confirmed you took part in this discussion.{% else %}Talk this through together in your session. Your facilitator confirms participation — nothing to write here.{% endif %}</p>
+    <p class="note-muted"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg> <span>{% if it.complete %}Your facilitator confirmed you took part in this discussion.{% else %}Talk this through together in your session. Your facilitator confirms participation — nothing to write here.{% endif %}</span></p>
 
   {% elif it.obj.completion_method == "assessment" %}
-    <a class="btn btn-teal" href="{% url 'participant:quiz' enrollment.pk %}">{% if it.complete %}See my quiz results{% else %}Take the quiz{% endif %}</a>
+    <div class="activity"><a class="btn btn-teal" href="{% url 'participant:quiz' enrollment.pk %}"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg> {% if it.complete %}See my quiz results{% else %}Take the quiz{% endif %}</a></div>
 
   {% elif it.obj.completion_method == "project_milestone" %}
-    <p class="small">{% if it.complete %}<span class="badge badge-done">Done</span> Recorded on your team's project page.{% else %}This is completed through your team's Project page.{% endif %}</p>
+    <p class="note-muted"><svg class="i" aria-hidden="true"><use href="#i-flag"/></svg> <span>{% if it.complete %}Done — recorded on your team's project page.{% else %}This is completed through your team's Project page.{% endif %}</span></p>
 
   {% elif it.obj.completion_method == "submission" %}
-    <p class="visibility">🔒 {{ it.c.visibility_statement }}</p>
+    <p class="visibility"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg> <span>{{ it.c.visibility_statement }}</span></p>
     {% if it.complete %}
       <div class="alert alert-success small">Submitted {{ it.response.submitted_at|date:"j M Y, g:i A" }}.</div>
       {% include "partials/schema_fields.html" with schema=it.obj.response_schema payload=it.payload errors=it.errors prefix=it.obj.component_key disabled=True %}
@@ -60,10 +73,13 @@
     {% endif %}
   {% endif %}
 </section>
+{% endwith %}
 {% endfor %}
 
-<nav class="row spread" aria-label="Lesson navigation" style="margin-top:1.5rem">
-  {% if prev_n %}<a class="btn btn-secondary" href="{% url 'participant:lesson' enrollment.pk prev_n %}">← Lesson {{ prev_n }}</a>{% else %}<span></span>{% endif %}
-  {% if next_n %}<a class="btn btn-secondary" href="{% url 'participant:lesson' enrollment.pk next_n %}">Lesson {{ next_n }} →</a>{% endif %}
+<nav class="lesson-nav" aria-label="Lesson navigation">
+  {% if prev_n %}<a href="{% url 'participant:lesson' enrollment.pk prev_n %}"><small><svg class="i" aria-hidden="true"><use href="#i-back"/></svg> Previous</small><b>Lesson {{ prev_n }}</b></a>{% endif %}
+  {% if next_n %}<a class="next" href="{% url 'participant:lesson' enrollment.pk next_n %}"><small>Next <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></small><b>Lesson {{ next_n }}</b></a>
+  {% else %}<a class="next" href="{% url 'participant:completion' enrollment.pk %}"><small>Finished <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></small><b>Programme checklist</b></a>{% endif %}
 </nav>
+</div>
 {% endblock %}
