@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Called to Thrive{% endblock %} · Called to Thrive</title>
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#104e8f">
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
-  <link rel="icon" href="{% static 'img/logo.svg' %}" type="image/svg+xml">
+  <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/png">
+  <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body class="{% block body_class %}{% if user.is_authenticated %}role-{{ active_role|default:'none' }}{% else %}signed-out{% endif %}{% endblock %}">
@@ -34,7 +35,7 @@
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="{% url 'core:home' %}">
-      <img class="brand-mark" src="{% static 'img/logo.svg' %}" alt="" width="40" height="40">
+      <img class="brand-mark" src="{% static 'img/onehope-logo.png' %}" alt="OneHope" width="42" height="42">
       <span class="brand-text">Called to Thrive<small>OneHope Uganda</small></span>
     </a>
     {% if user.is_authenticated %}
@@ -84,7 +85,7 @@
 </main>
 <footer class="footer">
   <div class="footer-inner">
-    <span class="footer-brand"><img src="{% static 'img/logo.svg' %}" alt="" width="22" height="22"> Called to Thrive · OneHope Uganda</span>
+    <span class="footer-brand"><img src="{% static 'img/onehope-logo.png' %}" alt="" width="22" height="22"> Called to Thrive · OneHope Uganda</span>
     <span>Times shown in Kampala time (EAT) · Saving needs an internet connection</span>
   </div>
 </footer>

@@ -9,11 +9,11 @@
       <h1 id="hello-h">Hello, {{ user.full_name }}</h1>
       {% if first and first.resume %}
         <p>You are on <b>Lesson {{ first.resume.lesson.lesson_number }}: {{ first.resume.lesson.title }}</b>. Pick up where you left off.</p>
-        <div class="row"><a class="btn" href="{% url 'participant:lesson' first.enrollment.pk first.resume.lesson.lesson_number %}">Continue lesson {{ first.resume.lesson.lesson_number }} <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <div class="row"><a class="btn btn-accent" href="{% url 'participant:lesson' first.enrollment.pk first.resume.lesson.lesson_number %}">Continue lesson {{ first.resume.lesson.lesson_number }} <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
           <a class="btn btn-secondary" href="{% url 'participant:journey' first.enrollment.pk %}">See all lessons</a></div>
       {% elif first %}
         <p>You have worked through every lesson. Well done! Check your programme checklist for anything left.</p>
-        <a class="btn" href="{% url 'participant:completion' first.enrollment.pk %}">Open my checklist</a>
+        <a class="btn btn-accent" href="{% url 'participant:completion' first.enrollment.pk %}">Open my checklist</a>
       {% else %}
         <p>Discover who God has called you to be, and plan a project that serves your community.</p>
       {% endif %}

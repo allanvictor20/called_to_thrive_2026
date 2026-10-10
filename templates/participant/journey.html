@@ -25,7 +25,7 @@
     <span class="cc-label">{% if resume.state == "in_progress" %}Continue where you left off{% else %}Up next{% endif %}</span>
     <b>Lesson {{ resume.lesson.lesson_number }}: {{ resume.lesson.title }}</b>
   </div>
-  <a class="btn" href="{% url 'participant:lesson' enrollment.pk resume.lesson.lesson_number %}">{% if resume.state == "in_progress" %}Continue{% else %}Start lesson{% endif %} <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  <a class="btn btn-accent" href="{% url 'participant:lesson' enrollment.pk resume.lesson.lesson_number %}">{% if resume.state == "in_progress" %}Continue{% else %}Start lesson{% endif %} <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
 </div>
 {% endif %}
 

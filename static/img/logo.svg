@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Called to Thrive">
-  <!-- Placeholder mark: replace this file with the OneHope Uganda logo (keep the file name, or update base.html). -->
-  <circle cx="24" cy="24" r="24" fill="#fff4ea"/>
-  <circle cx="24" cy="19" r="8" fill="#e8701f"/>
-  <path d="M24 37V22" stroke="#1f6f6b" stroke-width="2.6" stroke-linecap="round"/>
-  <path d="M24 28c0-4.6 3.4-7.6 8-7.6 0 4.6-3.4 7.6-8 7.6z" fill="#3fa6a0"/>
-  <path d="M24 31.5c0-4-2.9-6.6-6.8-6.6 0 4 2.9 6.6 6.8 6.6z" fill="#3fa6a0"/>
-  <path d="M9 34.5c5.2-1.6 10.2-.9 15 2.5 4.8-3.4 9.8-4.1 15-2.5v3.2c-5.2-1.4-10.2-.7-15 2.6-4.8-3.3-9.8-4-15-2.6z" fill="#1b2430"/>
-</svg>
