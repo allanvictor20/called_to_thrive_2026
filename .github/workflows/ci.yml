@@ -38,6 +38,7 @@ jobs:
           DJANGO_DEBUG=1 python manage.py migrate --noinput
           DJANGO_DEBUG=1 python manage.py import_curriculum content/uganda-workbook-v1.json --publish
       - name: Deployment checks
-        run: DJANGO_ALLOWED_HOSTS=example.org DJANGO_SECURE_SSL_REDIRECT=1 python manage.py check --deploy --fail-level WARNING
+        # A long throwaway key: the default ci-only key is too short and trips security.W009.
+        run: DJANGO_SECRET_KEY=ci-deploy-check-only-not-a-real-secret-0123456789abcdefghijklmnop DJANGO_ALLOWED_HOSTS=example.org DJANGO_SECURE_SSL_REDIRECT=1 python manage.py check --deploy --fail-level WARNING
       - name: Tests
         run: python -m pytest --create-db
