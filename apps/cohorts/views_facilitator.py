@@ -83,12 +83,17 @@ def cohort_detail(request, cohort_id):
         messages.success(request, "Current lesson updated.")
         return redirect("facilitator:cohort", cohort_id=cohort.pk)
     dash = cohort_dashboard(cohort)
+    sessions = list(cohort.sessions.select_related("lesson").order_by("starts_at"))
+    now = timezone.now()
     return render(request, "facilitator/cohort_detail.html", {
         "cohort": cohort,
         "dash": dash,
+        # What the facilitator should do next: the coming session, and past sessions still waiting for attendance.
+        "next_session": next((s for s in sessions if s.status == Session.SCHEDULED and s.starts_at >= now), None),
+        "needs_attendance": [s for s in sessions if s.status == Session.SCHEDULED and s.starts_at < now],
         "is_lead": is_lead(request.user, cohort),
         "lessons": Lesson.objects.filter(curriculum_version_id=cohort.curriculum_version_id).order_by("lesson_number"),
-        "sessions": cohort.sessions.select_related("lesson").order_by("starts_at"),
+        "sessions": sessions,
         "facilitators": cohort.facilitator_assignments.filter(ended_at__isnull=True).select_related("facilitator_user"),
         "projects": cohort.projects.all(),
         "status_events": cohort.status_events.select_related("changed_by"),

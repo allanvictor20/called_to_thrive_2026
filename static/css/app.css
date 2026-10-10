@@ -471,6 +471,51 @@ nav[aria-label="Cohort sections"] .btn { flex: none; background: transparent; bo
 nav[aria-label="Cohort sections"] .btn:hover { background: var(--paper-deep); color: var(--ink); }
 nav[aria-label="Cohort sections"] .btn[aria-current="page"] { background: var(--brand-blue-wash); color: var(--brand-blue); }
 
+/* ---------- Facilitator: roster, sessions, attendance ---------- */
+.fac-hero h2 { font-size: clamp(1.3rem, 1.1rem + .8vw, 1.7rem); margin-bottom: .4rem; }
+.fac-hero .row .i { color: #ffb36b; }
+.fac-hero .btn .i { color: inherit; }
+.roster { list-style: none; padding: 0; margin: 0; display: grid; gap: .55rem; }
+.roster li { margin: 0; }
+.roster a { display: flex; align-items: center; gap: .85rem; padding: .8rem 1rem; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; color: var(--ink); box-shadow: var(--shadow-sm); transition: border-color .15s ease, box-shadow .15s ease; }
+.roster a:hover { border-color: var(--brand-blue); box-shadow: var(--shadow); }
+.avatar { flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: grid; place-items: center; background: var(--brand-blue-wash); color: var(--brand-blue); font-weight: 800; font-size: 1.05rem; text-transform: uppercase; }
+.roster-main { flex: 1; min-width: 0; display: grid; gap: .35rem; }
+.roster-name { font-weight: 700; display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+.roster .progress { height: 7px; }
+.roster-meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-size: .85rem; color: var(--muted); align-items: center; }
+.roster-meta b { color: var(--ink); }
+.roster-go { color: var(--line-strong); }
+.roster a:hover .roster-go { color: var(--brand-blue); }
+.session-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .4rem; }
+.session-list li { margin: 0; }
+.session-list a { display: flex; align-items: center; gap: .7rem; padding: .45rem .5rem; margin: 0 -.5rem; border-radius: 10px; text-decoration: none; color: var(--ink); }
+.session-list a:hover { background: var(--paper); }
+.session-list .date-chip { width: 2.8rem; }
+.session-list .date-chip b { font-size: 1.05rem; padding: .15rem 0 .2rem; }
+.sl-main { flex: 1; min-width: 0; display: grid; line-height: 1.3; }
+.sl-main b { font-weight: 650; font-size: .93rem; }
+.plain-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .45rem; }
+.plain-list li { margin: 0; display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; justify-content: space-between; }
+.att-list { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: .5rem; }
+.att-row { margin: 0; border: 1px solid var(--line); border-left: 5px solid var(--line-strong); border-radius: 12px; background: #fff; padding: .7rem .85rem; transition: border-color .15s ease; }
+.att-row[data-state="present"] { border-left-color: var(--green); }
+.att-row[data-state="absent"] { border-left-color: var(--red); }
+.att-row[data-state="excused"] { border-left-color: #c99400; }
+.att-row fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; justify-content: space-between; }
+.att-name { float: left; padding: 0; font-weight: 700; display: flex; gap: .4rem; align-items: center; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: .3rem; }
+.seg label { margin: 0; font-weight: 600; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg span { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 .85rem; border-radius: 999px; border: 1.5px solid var(--line-strong); background: #fff; cursor: pointer; font-size: .9rem; color: var(--ink-soft); }
+.seg span:hover { border-color: var(--ink-soft); }
+.seg input:focus-visible + span { box-shadow: var(--focus); }
+.seg-present input:checked + span { background: var(--green); border-color: var(--green); color: #fff; }
+.seg-absent input:checked + span { background: var(--red); border-color: var(--red); color: #fff; }
+.seg-excused input:checked + span { background: #fff4cc; border-color: #c99400; color: #5e4300; }
+.seg-none input:checked + span { background: var(--paper-deep); border-color: var(--line-strong); color: var(--ink); }
+.att-totals { display: flex; flex-wrap: wrap; gap: .3rem 1.25rem; font-size: .92rem; padding: .7rem .9rem; border-radius: 10px; background: var(--paper); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
   .split { grid-template-columns: 1fr; }
@@ -507,7 +552,7 @@ nav[aria-label="Cohort sections"] .btn[aria-current="page"] { background: var(--
   .ring > span { font-size: 1.15rem; }
   .page-head { align-items: stretch; }
   .page-head > .btn, .page-head > .row { width: 100%; }
-  .page-head > .row .btn { flex: 1; }
+  .page-head > .row .btn { flex: 1 1 auto; white-space: nowrap; }
   .cohort-card .cc-body { grid-template-columns: 1fr; }
   .cohort-card .ring { display: none; }
   .continue-card .btn { width: 100%; }
@@ -524,6 +569,13 @@ nav[aria-label="Cohort sections"] .btn[aria-current="page"] { background: var(--
   .sticky-actions .answered { width: 100%; order: -1; margin: 0; }
   .save-bar .btn { flex: 1; }
   .lesson-nav b { font-size: .92rem; }
+  .att-row fieldset { display: block; }
+  .att-name { float: none; margin-bottom: .55rem; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; }
+  .seg-none { grid-column: 1 / -1; }
+  .seg span { width: 100%; padding: 0 .4rem; }
+  .roster a { padding: .75rem .8rem; gap: .7rem; }
+  .avatar { width: 2.2rem; height: 2.2rem; }
   .auth-main { padding: 1.5rem 1.25rem; }
   .auth { border-radius: var(--radius); }
   table.data.stack-mobile thead { display: none; }

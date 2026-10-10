@@ -149,10 +149,18 @@
 
   // Attendance review: live totals before saving.
   var att = document.querySelector("form[data-attendance]");
+  // A participant's status: a <select data-att> or a group of radios marked data-att.
+  function attValue(g) {
+    if (g.tagName === "SELECT") return g.value;
+    var c = g.querySelector("input:checked"); return c ? c.value : "";
+  }
   if (att) {
     var update = function () {
       var counts = { present: 0, absent: 0, excused: 0, "": 0 };
-      att.querySelectorAll("select[data-att]").forEach(function (s) { counts[s.value] = (counts[s.value] || 0) + 1; });
+      att.querySelectorAll("[data-att]").forEach(function (g) {
+        var v = attValue(g); counts[v] = (counts[v] || 0) + 1;
+        var row = g.closest(".att-row"); if (row) row.setAttribute("data-state", v || "none");
+      });
       ["present", "absent", "excused"].forEach(function (k) {
         var el = att.querySelector("[data-count='" + k + "']");
         if (el) el.textContent = counts[k];
@@ -163,7 +171,11 @@
     att.addEventListener("change", update);
     var all = att.querySelector("[data-mark-all]");
     if (all) all.addEventListener("click", function () {
-      att.querySelectorAll("select[data-att]").forEach(function (s) { if (!s.value) s.value = "present"; });
+      att.querySelectorAll("[data-att]").forEach(function (g) {
+        if (attValue(g)) return;
+        if (g.tagName === "SELECT") { g.value = "present"; return; }
+        var r = g.querySelector("input[value='present']"); if (r) r.checked = true;
+      });
       update();
     });
     update();

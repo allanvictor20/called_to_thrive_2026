@@ -1,11 +1,43 @@
 {% extends "base.html" %}
+{% load ctt %}
 {% block title %}{{ cohort.name }}{% endblock %}
 {% block content %}
+<a class="crumb" href="{% url 'facilitator:cohorts' %}"><svg class="i" aria-hidden="true"><use href="#i-back"/></svg> My cohorts</a>
 <div class="page-head">
   <div><p class="eyebrow">{{ cohort.partner.name }} · {{ cohort.district.name }}</p><h1>{{ cohort.name }}</h1>
   <p class="muted small">{{ cohort.get_status_display }} · {{ cohort.curriculum_version.code }} · starts {{ cohort.start_date|date:"j M Y" }}{% if is_lead %} · you are the lead{% endif %}</p></div>
 </div>
 {% include "facilitator/_cohort_nav.html" %}
+
+{% for s in needs_attendance %}
+<div class="alert alert-warning row spread" style="gap:.5rem 1rem">
+  <span><b>Attendance to record:</b> {{ s.title }} — {{ s.starts_at|date:"D j M, g:i A" }}</span>
+  <a class="btn btn-small" href="{% url 'facilitator:attendance' s.pk %}">Take attendance</a>
+</div>
+{% endfor %}
+
+<section class="hero fac-hero" aria-labelledby="next-h">
+  <div class="hero-grid">
+    <div class="hero-body">
+      <p class="eyebrow">{% if next_session %}Next session{% else %}Up next{% endif %}</p>
+      {% if next_session %}
+        <h2 id="next-h">{{ next_session.title }}</h2>
+        <p class="row" style="gap:.35rem 1rem"><span class="row" style="gap:.4rem"><svg class="i" aria-hidden="true"><use href="#i-cal"/></svg> {{ next_session.starts_at|date:"l j F, g:i A" }}</span>{% if next_session.venue %}<span class="row" style="gap:.4rem"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg> {{ next_session.venue }}</span>{% endif %}</p>
+        <div class="row">
+          {% if next_session.lesson %}<a class="btn btn-accent" href="{% url 'facilitator:lesson_guide' cohort.pk next_session.lesson.lesson_number %}"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Prepare Lesson {{ next_session.lesson.lesson_number }}</a>{% endif %}
+          <a class="btn btn-secondary" href="{% url 'facilitator:attendance' next_session.pk %}"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Attendance</a>
+          {% if next_session.meet_url %}<a class="btn btn-secondary" href="{{ next_session.meet_url }}" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg> Google Meet</a>{% endif %}
+        </div>
+      {% else %}
+        <h2 id="next-h">No session scheduled</h2>
+        <p>Schedule the next gathering so participants see it on their journey page.</p>
+        <a class="btn btn-accent" href="{% url 'facilitator:session_create' cohort.pk %}">+ Schedule a session</a>
+      {% endif %}
+    </div>
+    <div class="ring" style="--p:{{ dash.summary.lesson_completion_rate|default:0 }}" role="img" aria-label="{{ dash.summary.lesson_completion_rate|default:0 }}% of lessons completed across the group"><span>{{ dash.summary.lesson_completion_rate|default:0|floatformat:0 }}%<small>lessons</small></span></div>
+  </div>
+</section>
+
 <div class="stats">
   <div class="stat"><b>{{ dash.summary.enrollments }}</b><span>Enrolled</span></div>
   <div class="stat"><b>{{ dash.summary.lesson_completion_rate|default_if_none:"—" }}{% if dash.summary.lesson_completion_rate is not None %}%{% endif %}</b><span>Lessons completed</span></div>
@@ -13,50 +45,77 @@
   <div class="stat"><b>{{ dash.summary.programme_completed }}</b><span>Programme complete</span></div>
 </div>
 
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));align-items:start">
-<section class="card">
-  <h2>Current lesson</h2>
-  <form method="post" class="row">{% csrf_token %}<input type="hidden" name="action" value="current_lesson">
-    <label for="cl" style="position:absolute;left:-999px">Current lesson</label>
-    <select id="cl" name="lesson" style="flex:1;min-width:12rem"><option value="">— Not set —</option>{% for l in lessons %}<option value="{{ l.pk }}" {% if cohort.current_lesson_id == l.pk %}selected{% endif %}>{{ l.lesson_number }}. {{ l.title }}</option>{% endfor %}</select>
-    <button class="btn btn-secondary">Set</button>
-  </form>
-  <p class="small muted" style="margin-top:.4rem">The group's position. It does not complete anyone's work.</p>
-</section>
-<section class="card">
-  <div class="row spread"><h2 style="margin:0">Sessions</h2><a class="btn btn-small" href="{% url 'facilitator:session_create' cohort.pk %}">+ Schedule</a></div>
-  <ul style="padding-left:1.1rem;margin-top:.6rem">
-  {% for s in sessions %}
-    <li><a href="{% url 'facilitator:attendance' s.pk %}">{{ s.starts_at|date:"D j M, g:i A" }} — {{ s.title }}</a>
-      <span class="badge {% if s.status == 'completed' %}badge-done{% elif s.status == 'cancelled' %}badge-red{% endif %}">{{ s.get_status_display }}</span></li>
-  {% empty %}<li class="muted" style="list-style:none;margin-left:-1.1rem">No sessions yet.</li>{% endfor %}
-  </ul>
-</section>
-</div>
-
-<h2>Roster and progress</h2>
-<div class="table-wrap">
-<table class="data stack-mobile">
-  <thead><tr><th scope="col">Participant</th><th scope="col">Status</th><th scope="col" class="num-cell">Lessons</th><th scope="col" class="num-cell">Present</th><th scope="col" class="num-cell">Unrecorded</th><th scope="col">Project</th></tr></thead>
-  <tbody>
+<div class="split">
+<section aria-labelledby="roster-h">
+  <h2 id="roster-h" class="section-title"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg> Roster and progress</h2>
+  <ul class="roster">
   {% for r in dash.rows %}
-    <tr>
-      <td data-label="Participant"><a href="{% url 'facilitator:participant' cohort.pk r.enrollment_id %}">{{ r.participant_name }}</a></td>
-      <td data-label="Status">{{ r.enrollment_status|capfirst }}{% if r.programme_override %} <span class="badge badge-progress">override</span>{% endif %}</td>
-      <td data-label="Lessons" class="num-cell">{{ r.lessons_completed }}/{{ r.lessons_total }}{% if r.lesson_overrides %} <span class="small muted">({{ r.lesson_overrides }} by exception)</span>{% endif %}</td>
-      <td data-label="Present" class="num-cell">{{ r.attendance_present }}/{{ r.finalized_sessions_eligible }}</td>
-      <td data-label="Unrecorded" class="num-cell">{{ r.attendance_unrecorded }}</td>
-      <td data-label="Project">{% if r.project_completed %}<span class="badge badge-done">Confirmed</span>{% elif r.in_project %}<span class="badge badge-teal">In a team</span>{% else %}<span class="muted">—</span>{% endif %}</td>
-    </tr>
-  {% empty %}<tr><td colspan="6" class="empty">No participants yet. <a href="{% url 'facilitator:invites' cohort.pk %}">Create a join code</a> and share it.</td></tr>{% endfor %}
-  </tbody>
-</table>
-</div>
-<p class="small muted">Lesson counts come from completed lesson records; attendance counts finalized sessions only. Unrecorded attendance is not counted as absence.</p>
+    <li><a href="{% url 'facilitator:participant' cohort.pk r.enrollment_id %}">
+      <span class="avatar" aria-hidden="true">{{ r.participant_name|slice:":1" }}</span>
+      <span class="roster-main">
+        <span class="roster-name">{{ r.participant_name }}
+          {% if r.enrollment_status != "active" %}<span class="badge {% if r.enrollment_status == 'completed' %}badge-done{% else %}badge-red{% endif %}">{{ r.enrollment_status|capfirst }}</span>{% endif %}
+          {% if r.programme_override %}<span class="badge badge-progress">override</span>{% endif %}
+        </span>
+        <span class="progress" aria-hidden="true"><span style="width:{{ r.lessons_completed|pct:r.lessons_total }}%"></span></span>
+        <span class="roster-meta">
+          <span><b>{{ r.lessons_completed }}/{{ r.lessons_total }}</b> lessons{% if r.lesson_overrides %} ({{ r.lesson_overrides }} by exception){% endif %}</span>
+          <span><b>{{ r.attendance_present }}/{{ r.finalized_sessions_eligible }}</b> present{% if r.attendance_unrecorded %} · {{ r.attendance_unrecorded }} unrecorded{% endif %}</span>
+          {% if r.project_completed %}<span class="badge badge-done">Project confirmed</span>{% elif r.in_project %}<span class="badge badge-teal">In a team</span>{% endif %}
+        </span>
+      </span>
+      <svg class="i roster-go" aria-hidden="true"><use href="#i-arrow"/></svg>
+    </a></li>
+  {% empty %}
+    <li class="card empty-state" style="margin:0">
+      <div class="empty-icon"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></div>
+      <h3>No participants yet</h3>
+      <p>Create a join code and share it with your group.</p>
+      <a class="btn" href="{% url 'facilitator:invites' cohort.pk %}">Create a join code</a>
+    </li>
+  {% endfor %}
+  </ul>
+  <p class="small muted" style="margin-top:.75rem">Lesson counts come from completed lesson records; attendance counts finalized sessions only. Unrecorded attendance is not counted as absence.</p>
+</section>
 
-<div class="grid">
-  <section class="card"><h2>Facilitators</h2><ul>{% for a in facilitators %}<li>{{ a.facilitator_user.full_name }} — {{ a.assignment_role|capfirst }}</li>{% endfor %}</ul></section>
-  <section class="card"><h2>Projects</h2><ul>{% for p in projects %}<li><a href="{% url 'projects:detail' p.pk %}">{{ p.name }}</a> <span class="badge">{{ p.get_stage_display }}</span></li>{% empty %}<li class="muted">None yet.</li>{% endfor %}</ul></section>
-  <section class="card"><h2>Status history</h2><ul class="small">{% for ev in status_events %}<li>{{ ev.created_at|date:"j M Y" }}: {{ ev.from_status|default:"—" }} → <b>{{ ev.to_status }}</b> by {{ ev.changed_by.full_name }}{% if ev.reason %} — {{ ev.reason }}{% endif %}</li>{% endfor %}</ul></section>
+<aside>
+  <section class="card">
+    <h2 class="section-title"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg> Current lesson</h2>
+    <form method="post" class="row" style="flex-wrap:nowrap">{% csrf_token %}<input type="hidden" name="action" value="current_lesson">
+      <label for="cl" class="visually-hidden">Current lesson</label>
+      <select id="cl" name="lesson" style="flex:1;min-width:0"><option value="">— Not set —</option>{% for l in lessons %}<option value="{{ l.pk }}" {% if cohort.current_lesson_id == l.pk %}selected{% endif %}>{{ l.lesson_number }}. {{ l.title }}</option>{% endfor %}</select>
+      <button class="btn btn-secondary">Set</button>
+    </form>
+    <p class="small muted" style="margin-top:.5rem">Shows as "This week" for participants. It does not complete anyone's work.</p>
+  </section>
+
+  <section class="card">
+    <div class="row spread" style="margin-bottom:.75rem"><h2 class="section-title" style="margin:0"><svg class="i" aria-hidden="true"><use href="#i-cal"/></svg> Sessions</h2><a class="btn btn-small" href="{% url 'facilitator:session_create' cohort.pk %}">+ Schedule</a></div>
+    <ul class="session-list">
+    {% for s in sessions %}
+      <li><a href="{% url 'facilitator:attendance' s.pk %}">
+        <span class="date-chip" aria-hidden="true"><small>{{ s.starts_at|date:"M" }}</small><b>{{ s.starts_at|date:"j" }}</b></span>
+        <span class="sl-main"><b>{{ s.title }}</b><span class="small muted">{{ s.starts_at|date:"D, g:i A" }}{% if s.lesson %} · Lesson {{ s.lesson.lesson_number }}{% endif %}</span></span>
+        <span class="badge {% if s.status == 'completed' %}badge-done{% elif s.status == 'cancelled' %}badge-red{% elif s in needs_attendance %}badge-progress{% else %}badge-teal{% endif %}">{% if s in needs_attendance %}Needs attendance{% else %}{{ s.get_status_display }}{% endif %}</span>
+      </a></li>
+    {% empty %}<li class="muted small">No sessions yet.</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><svg class="i" aria-hidden="true"><use href="#i-flag"/></svg> Projects</h2>
+    <ul class="plain-list">{% for p in projects %}<li><a href="{% url 'projects:detail' p.pk %}">{{ p.name }}</a> <span class="badge">{{ p.get_stage_display }}</span></li>{% empty %}<li class="muted small">No teams yet. <a href="{% url 'facilitator:projects' cohort.pk %}">Set up project teams</a></li>{% endfor %}</ul>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg> Facilitators</h2>
+    <ul class="plain-list">{% for a in facilitators %}<li>{{ a.facilitator_user.full_name }} <span class="badge {% if a.assignment_role == 'lead' %}badge-teal{% endif %}">{{ a.assignment_role|capfirst }}</span></li>{% endfor %}</ul>
+  </section>
+
+  <details class="card">
+    <summary>Status history</summary>
+    <ul class="small" style="margin-top:.6rem">{% for ev in status_events %}<li>{{ ev.created_at|date:"j M Y" }}: {{ ev.from_status|default:"—" }} → <b>{{ ev.to_status }}</b> by {{ ev.changed_by.full_name }}{% if ev.reason %} — {{ ev.reason }}{% endif %}</li>{% endfor %}</ul>
+  </details>
+</aside>
 </div>
 {% endblock %}

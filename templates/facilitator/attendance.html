@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Attendance · {{ session.title }}{% endblock %}
 {% block content %}
-<div class="page-head"><div><p class="eyebrow">{{ cohort.name }}</p><h1>{{ session.title }}</h1>
+<a class="crumb" href="{% url 'facilitator:cohort' cohort.pk %}"><svg class="i" aria-hidden="true"><use href="#i-back"/></svg> {{ cohort.name }}</a>
+<div class="page-head"><div><p class="eyebrow">Session attendance</p><h1>{{ session.title }}</h1>
   <p class="muted small">{{ session.starts_at|date:"l j F Y, g:i A" }}{% if session.lesson %} · Lesson {{ session.lesson.lesson_number }}{% endif %} · {{ session.get_meeting_type_display }} · <b>{{ session.get_status_display }}</b>{% if session.attendance_finalized_at %} (finalized {{ session.attendance_finalized_at|date:"j M, g:i A" }}){% endif %}</p></div>
   <div class="row">{% if session.status == "scheduled" %}<a class="btn btn-secondary btn-small" href="{% url 'facilitator:session_edit' cohort.pk session.pk %}">Edit</a>{% endif %}
-  {% if session.meet_url %}<a class="btn btn-teal btn-small" href="{{ session.meet_url }}" target="_blank" rel="noopener noreferrer">Open Google Meet ↗</a>{% endif %}
+  {% if session.meet_url %}<a class="btn btn-teal btn-small" href="{{ session.meet_url }}" target="_blank" rel="noopener noreferrer"><svg class="i" aria-hidden="true"><use href="#i-video"/></svg> Open Google Meet</a>{% endif %}
   {% if session.lesson %}<a class="btn btn-secondary btn-small" href="{% url 'facilitator:lesson_guide' cohort.pk session.lesson.lesson_number %}">Lesson guide</a>{% endif %}</div>
 </div>
-{% if session.venue %}<p>📍 {{ session.venue }}</p>{% endif %}
+{% if session.venue %}<p class="row muted" style="gap:.4rem;margin-top:-.75rem"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg> {{ session.venue }}</p>{% endif %}
 
 {% if stage == "review" %}
   <div class="card card-accent">
@@ -27,17 +28,22 @@
   <form method="post" class="card" data-attendance>{% csrf_token %}<input type="hidden" name="revision" value="{{ session.revision }}">
     <div class="row spread"><h2 style="margin:0">Attendance</h2><button type="button" class="btn btn-small btn-secondary" data-mark-all>Mark unrecorded as present</button></div>
     <p class="small muted">Leave a participant as “Not recorded” if you do not know. Not recorded is never treated as absent.</p>
-    <div class="table-wrap"><table class="data stack-mobile"><thead><tr><th>Participant</th><th>Status</th></tr></thead><tbody>
+    <ul class="att-list">
     {% for r in rows %}
-      <tr><td data-label="Participant"><label for="att_{{ r.e.pk }}">{{ r.e.participant_user.full_name }}</label>{% if r.e.status == "withdrawn" %} <span class="badge">withdrawn</span>{% endif %}</td>
-        <td data-label="Status"><select id="att_{{ r.e.pk }}" name="att_{{ r.e.pk }}" data-att>
-          <option value="" {% if not r.status %}selected{% endif %}>Not recorded</option>
-          <option value="present" {% if r.status == "present" %}selected{% endif %}>Present</option>
-          <option value="absent" {% if r.status == "absent" %}selected{% endif %}>Absent</option>
-          <option value="excused" {% if r.status == "excused" %}selected{% endif %}>Excused</option></select></td></tr>
-    {% empty %}<tr><td colspan="2" class="empty">No enrolled participants.</td></tr>{% endfor %}
-    </tbody></table></div>
-    <p class="small" aria-live="polite">Present <b data-count="present">{{ summary.present }}</b> · Absent <b data-count="absent">{{ summary.absent }}</b> · Excused <b data-count="excused">{{ summary.excused }}</b> · Not recorded <b data-count="unrecorded">{{ summary.unrecorded }}</b></p>
+      <li class="att-row" data-state="{{ r.status|default:'none' }}">
+        <fieldset data-att>
+          <legend class="att-name">{{ r.e.participant_user.full_name }}{% if r.e.status == "withdrawn" %} <span class="badge">withdrawn</span>{% endif %}</legend>
+          <div class="seg" role="presentation">
+            <label class="seg-present"><input type="radio" name="att_{{ r.e.pk }}" value="present" {% if r.status == "present" %}checked{% endif %}><span>Present</span></label>
+            <label class="seg-absent"><input type="radio" name="att_{{ r.e.pk }}" value="absent" {% if r.status == "absent" %}checked{% endif %}><span>Absent</span></label>
+            <label class="seg-excused"><input type="radio" name="att_{{ r.e.pk }}" value="excused" {% if r.status == "excused" %}checked{% endif %}><span>Excused</span></label>
+            <label class="seg-none"><input type="radio" name="att_{{ r.e.pk }}" value="" {% if not r.status %}checked{% endif %}><span>Not recorded</span></label>
+          </div>
+        </fieldset>
+      </li>
+    {% empty %}<li class="empty">No enrolled participants.</li>{% endfor %}
+    </ul>
+    <p class="att-totals" aria-live="polite"><span>Present <b data-count="present">{{ summary.present }}</b></span><span>Absent <b data-count="absent">{{ summary.absent }}</b></span><span>Excused <b data-count="excused">{{ summary.excused }}</b></span><span>Not recorded <b data-count="unrecorded">{{ summary.unrecorded }}</b></span></p>
     <button class="btn" name="action" value="review">Review changes</button>
   </form>
   <div class="card">
